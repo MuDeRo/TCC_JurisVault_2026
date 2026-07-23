@@ -9,6 +9,7 @@ const authController = {
 
     loginAdvogado: async (req, res) => {
 
+        
         try {
             const { email, senha } = req.body;
             const advogado = await advogadoRepository.buscarPorEmail(email);
