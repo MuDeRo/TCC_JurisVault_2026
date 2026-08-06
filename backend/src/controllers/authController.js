@@ -20,7 +20,7 @@ const authController = {
                 });
             }
 
-            const senhaValida = await bcrypt.compare(senha, advogado.senha);
+            const senhaValida = await bcrypt.compare(senha, advogado.senha_advogado);
 
             if (!senhaValida) {
                 return res.status(401).json({
