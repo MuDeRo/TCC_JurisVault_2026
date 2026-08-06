@@ -24,6 +24,19 @@ const adminController = {
         }
     },
 
+    // LISTAR ADVOGADOS APROVADOS
+    selecionarAprovados: async (req, res) => {
+        try {
+            const resultado = await advogadoRepository.selecionarAprovados();
+
+            return res.status(200).json({ resultado });
+
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json({ message: 'Erro no server', error: error.message });
+        }
+    },
+
 
     // APROVAR ADVOGADO
     aprovarAdvogado: async (req, res) => {
