@@ -1,122 +1,163 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 
-function App() {
-  const [count, setCount] = useState(0)
+import CadastroAdvogados from "./pages/CadastroAdvogados/CadastroAdvogados";
+import LoginAdvogados from "./pages/LoginAdvogados/LoginAdvogados";
+import Administradores from "./pages/Administradores/Administradores";
 
+import "./App.css";
+function Inicio() {
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <div className="pagina-inicial">
 
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
+      {/* CABEÇALHO */}
+      <header className="header">
+        <div className="logo">
+          <span className="logo-icone">⚖</span>
+          <span>SISTEMA <strong>JURÍDICO</strong></span>
         </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+      </header>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+      {/* CONTEÚDO PRINCIPAL */}
+      <main className="conteudo">
+
+        <section className="titulo-area">
+          <div className="linha-decorativa">
+            <span></span>
+            <div className="simbolo">⚖</div>
+            <span></span>
+          </div>
+
+          <h1>
+            Sistema <strong>Jurídico</strong>
+          </h1>
+
+          <div className="linha-pequena"></div>
+
+          <p>Selecione uma opção no menu ao lado</p>
+        </section>
+
+        {/* CARDS */}
+        <section className="cards">
+
+          {/* CADASTRO */}
+          <div className="card">
+
+            <div className="icone-card">
+              👤
+              <span className="icone-plus">+</span>
+            </div>
+
+            <h2>Cadastro de Advogado</h2>
+
+            <div className="separador">
+              <span></span>
+            </div>
+
+            <p>
+              Cadastre novos advogados
+              <br />
+              no sistema
+            </p>
+
+            <Link to="/cadastro" className="botao">
+              ACESSAR
+              <span>›</span>
+            </Link>
+
+          </div>
+
+          {/* LOGIN */}
+          <div className="card">
+
+            <div className="icone-card">
+              🔒
+            </div>
+
+            <h2>Login de Advogado</h2>
+
+            <div className="separador">
+              <span></span>
+            </div>
+
+            <p>
+              Acesse sua conta
+              <br />
+              de advogado
+            </p>
+
+            <Link to="/login" className="botao">
+              ACESSAR
+              <span>›</span>
+            </Link>
+
+          </div>
+
+          {/* ADMINISTRADOR */}
+          <div className="card">
+
+            <div className="icone-card">
+              🛡
+            </div>
+
+            <h2>Área do Administrador</h2>
+
+            <div className="separador">
+              <span></span>
+            </div>
+
+            <p>
+              Acesse o painel administrativo
+              <br />
+              do sistema
+            </p>
+
+            <Link to="/administrador" className="botao">
+              ACESSAR
+              <span>›</span>
+            </Link>
+
+          </div>
+
+        </section>
+
+      </main>
+
+      {/* RODAPÉ */}
+      <footer className="footer">
+        © 2026 Sistema Jurídico. Todos os direitos reservados.
+      </footer>
+
+    </div>
+  );
 }
 
-export default App
+function App() {
+  return (
+    <BrowserRouter>
+
+      <Routes>
+
+        <Route path="/" element={<Inicio />} />
+
+        <Route
+          path="/cadastro"
+          element={<CadastroAdvogados />}
+        />
+
+        <Route
+          path="/login"
+          element={<LoginAdvogados />}
+        />
+
+        <Route
+          path="/administrador"
+          element={<Administradores />}
+        />
+
+      </Routes>
+
+    </BrowserRouter>
+  );
+}
+
+export default App;

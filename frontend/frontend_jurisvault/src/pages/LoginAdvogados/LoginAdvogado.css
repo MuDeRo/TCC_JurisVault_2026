@@ -1,0 +1,269 @@
+:root {
+  --principal: #855E4A;
+  --fundo: #F6F7EB;
+  --card: #F6E3D2;
+  --detalhe: #E8D2BE;
+  --branco: #FFFFFF;
+}
+
+/* PÁGINA */
+.pagina-login-advogados {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--fundo);
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--principal);
+}
+
+/* CABEÇALHO */
+.cabecalho-login {
+  height: 70px;
+  background: var(--principal);
+  border-bottom: 3px solid var(--detalhe);
+  display: flex;
+  align-items: center;
+  padding: 0 40px;
+}
+
+.logo-login {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--branco);
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.logo-login strong,
+.icone-logo {
+  color: var(--detalhe);
+}
+
+.icone-logo {
+  font-size: 32px;
+}
+
+/* CONTEÚDO */
+.conteudo-login {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+/* CARD */
+.card-login {
+  width: 100%;
+  max-width: 420px;
+  background: var(--card);
+  border: 1px solid var(--detalhe);
+  border-radius: 12px;
+  padding: 32px;
+  box-shadow: 0 5px 18px rgba(133, 94, 74, 0.15);
+  text-align: center;
+}
+
+/* ÍCONE */
+.icone-login {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 18px;
+  border-radius: 50%;
+  background: var(--principal);
+  color: var(--fundo);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+}
+
+/* TÍTULO */
+.card-login h1 {
+  color: var(--principal);
+  font-size: 26px;
+  margin-bottom: 8px;
+}
+
+.descricao-login {
+  color: var(--principal);
+  opacity: 0.75;
+  font-size: 14px;
+  margin-bottom: 25px;
+}
+
+/* CAMPOS */
+.card-login form {
+  text-align: left;
+}
+
+.campo-login {
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+}
+
+.campo-login label {
+  color: var(--principal);
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.campo-login input {
+  width: 100%;
+  height: 44px;
+  padding: 0 12px;
+  background: var(--fundo);
+  border: 1px solid var(--detalhe);
+  border-radius: 7px;
+  color: var(--principal);
+  outline: none;
+}
+
+.campo-login input:focus {
+  border-color: var(--principal);
+  box-shadow: 0 0 0 3px rgba(133, 94, 74, 0.12);
+}
+
+/* ERRO */
+.mensagem-erro {
+  padding: 10px;
+  margin-bottom: 15px;
+  background: var(--fundo);
+  border: 1px solid var(--detalhe);
+  border-left: 4px solid var(--principal);
+  border-radius: 6px;
+  color: var(--principal);
+  font-size: 13px;
+}
+
+/* BOTÃO */
+.botao-login {
+  width: 100%;
+  height: 46px;
+  border: none;
+  border-radius: 7px;
+  background: var(--principal);
+  color: var(--fundo);
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.botao-login:hover {
+  background: #704C3C;
+}
+
+/* SEPARADOR */
+.separador {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 22px 0;
+}
+
+.separador span {
+  flex: 1;
+  height: 1px;
+  background: var(--detalhe);
+}
+
+.separador p {
+  margin: 0;
+  color: var(--principal);
+  opacity: 0.6;
+  font-size: 11px;
+}
+
+/* SEGURANÇA */
+.informacao-seguranca {
+  padding: 11px;
+  background: var(--fundo);
+  border: 1px solid var(--detalhe);
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.informacao-seguranca p {
+  margin: 0;
+  color: var(--principal);
+  opacity: 0.7;
+  font-size: 11px;
+}
+
+/* SUCESSO */
+.sucesso-login {
+  text-align: center;
+}
+
+.icone-sucesso {
+  width: 75px;
+  height: 75px;
+  margin: 0 auto 18px;
+  border-radius: 50%;
+  background: var(--fundo);
+  border: 2px solid var(--principal);
+  color: var(--principal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 35px;
+}
+
+.sucesso-login h1 {
+  color: var(--principal);
+  margin-bottom: 8px;
+}
+
+.sucesso-login h2 {
+  color: var(--principal);
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.sucesso-login > p {
+  color: var(--principal);
+  opacity: 0.7;
+  margin-bottom: 20px;
+}
+
+.botao-continuar {
+  width: 100%;
+  height: 45px;
+  background: var(--principal);
+  color: var(--fundo);
+  border: none;
+  border-radius: 7px;
+  font-weight: bold;
+}
+
+/* RODAPÉ */
+.rodape-login {
+  height: 55px;
+  background: var(--principal);
+  color: var(--fundo);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+
+/* RESPONSIVO */
+@media (max-width: 600px) {
+  .cabecalho-login {
+    padding: 0 20px;
+  }
+
+  .card-login {
+    padding: 25px 20px;
+  }
+
+  .card-login h1 {
+    font-size: 23px;
+  }
+}
