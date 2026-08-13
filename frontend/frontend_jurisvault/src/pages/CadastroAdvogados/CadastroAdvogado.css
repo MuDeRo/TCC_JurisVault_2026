@@ -1,0 +1,185 @@
+:root {
+  --principal: #855E4A;
+  --fundo: #F6F7EB;
+  --card: #F6E3D2;
+  --detalhe: #E8D2BE;
+  --branco: #FFFFFF;
+}
+
+/* PÁGINA */
+.pagina-cadastro-advogados {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--fundo);
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--principal);
+}
+
+/* CABEÇALHO */
+.cabecalho {
+  height: 70px;
+  background: var(--principal);
+  border-bottom: 3px solid var(--detalhe);
+  display: flex;
+  align-items: center;
+  padding: 0 40px;
+}
+
+.cabecalho h2 {
+  color: var(--branco);
+  font-size: 20px;
+}
+
+.cabecalho span {
+  color: var(--detalhe);
+}
+
+/* CONTEÚDO */
+.conteudo {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+/* CARD */
+.card-cadastro {
+  width: 100%;
+  max-width: 500px;
+  background: var(--card);
+  border: 1px solid var(--detalhe);
+  border-radius: 12px;
+  padding: 32px;
+  box-shadow: 0 5px 18px rgba(133, 94, 74, 0.15);
+}
+
+/* TÍTULO */
+.card-cadastro h1 {
+  text-align: center;
+  color: var(--principal);
+  font-size: 26px;
+  margin-bottom: 8px;
+}
+
+.descricao {
+  text-align: center;
+  color: var(--principal);
+  opacity: 0.7;
+  font-size: 14px;
+  margin-bottom: 25px;
+}
+
+/* CAMPOS */
+.campo-cadastro {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.campo-cadastro label {
+  color: var(--principal);
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.campo-cadastro input {
+  width: 100%;
+  height: 42px;
+  padding: 0 12px;
+  background: var(--fundo);
+  border: 1px solid var(--detalhe);
+  border-radius: 7px;
+  color: var(--principal);
+  outline: none;
+}
+
+.campo-cadastro input:focus {
+  border-color: var(--principal);
+  box-shadow: 0 0 0 3px rgba(133, 94, 74, 0.12);
+}
+
+/* BOTÃO */
+.card-cadastro button {
+  width: 100%;
+  height: 45px;
+  margin-top: 8px;
+  background: var(--principal);
+  color: var(--fundo);
+  border: none;
+  border-radius: 7px;
+  font-weight: bold;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.card-cadastro button:hover {
+  background: #704C3C;
+}
+
+/* MENSAGEM */
+.mensagem {
+  padding: 10px;
+  margin-top: 12px;
+  background: var(--fundo);
+  border: 1px solid var(--detalhe);
+  border-left: 4px solid var(--principal);
+  border-radius: 6px;
+  color: var(--principal);
+  font-size: 13px;
+}
+
+/* PRÉ-VISUALIZAÇÃO */
+.pre-visualizacao {
+  width: 100%;
+  max-width: 500px;
+  margin-top: 20px;
+  padding: 22px;
+  background: var(--card);
+  border: 1px solid var(--detalhe);
+  border-radius: 12px;
+}
+
+.pre-visualizacao h2 {
+  color: var(--principal);
+  font-size: 19px;
+  margin-bottom: 12px;
+}
+
+.pre-visualizacao p {
+  color: var(--principal);
+  font-size: 13px;
+  margin: 7px 0;
+}
+
+/* RODAPÉ */
+.rodape {
+  height: 55px;
+  background: var(--principal);
+  color: var(--fundo);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+
+/* RESPONSIVO */
+@media (max-width: 600px) {
+  .cabecalho {
+    padding: 0 20px;
+  }
+
+  .card-cadastro {
+    padding: 25px 20px;
+  }
+
+  .card-cadastro h1 {
+    font-size: 23px;
+  }
+
+  .pre-visualizacao {
+    padding: 18px;
+  }
+}

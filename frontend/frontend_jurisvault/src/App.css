@@ -1,0 +1,374 @@
+/* =========================
+   CONFIGURAÇÕES GERAIS
+========================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #F6F7EB;
+  color: #855E4A;
+}
+
+a {
+  text-decoration: none;
+}
+
+
+/* =========================
+   PÁGINA PRINCIPAL
+========================= */
+
+.pagina-inicial {
+  min-height: 100vh;
+  background-color: #F6F7EB;
+}
+
+
+/* =========================
+   CABEÇALHO
+========================= */
+
+.header {
+  height: 75px;
+  background-color: #855E4A;
+  display: flex;
+  align-items: center;
+  padding: 0 35px;
+  border-bottom: 3px solid #E8D2BE;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #F6F7EB;
+  font-size: 23px;
+  font-weight: bold;
+}
+
+.logo strong {
+  color: #F6E3D2;
+}
+
+.logo-icone {
+  color: #F6E3D2;
+  font-size: 35px;
+}
+
+
+/* =========================
+   CONTEÚDO
+========================= */
+
+.conteudo {
+  padding: 50px 6%;
+  background-color: #F6F7EB;
+}
+
+
+/* =========================
+   TÍTULO
+========================= */
+
+.titulo-area {
+  text-align: center;
+  margin-bottom: 45px;
+}
+
+.titulo-area h1 {
+  font-size: 50px;
+  color: #855E4A;
+  margin-top: 10px;
+}
+
+.titulo-area h1 strong {
+  color: #E8D2BE;
+}
+
+.titulo-area p {
+  margin-top: 15px;
+  font-size: 18px;
+  color: #855E4A;
+}
+
+
+/* =========================
+   DECORAÇÃO
+========================= */
+
+.linha-decorativa {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.linha-decorativa span {
+  width: 80px;
+  height: 2px;
+  background-color: #E8D2BE;
+}
+
+.simbolo {
+  color: #855E4A;
+  font-size: 32px;
+}
+
+.linha-pequena {
+  width: 40px;
+  height: 3px;
+  background-color: #E8D2BE;
+  margin: 7px 10px auto 0;
+
+  
+}
+
+
+/* =========================
+   CARDS
+========================= */
+
+.cards {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 20px;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+
+/* =========================
+   CARD
+========================= */
+
+.card {
+  min-height: 380px;
+
+  background-color: #F6E3D2;
+
+  border: 1px solid #E8D2BE;
+  border-radius: 12px;
+
+  padding: 30px 25px;
+
+  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  box-shadow: 0 4px 10px rgba(133, 94, 74, 0.12);
+}
+
+
+/* =========================
+   ÍCONE
+========================= */
+
+.icone-card {
+  width: 80px;
+  height: 80px;
+
+  border-radius: 50%;
+
+  background-color: #a07964;
+  color: #F6F7EB;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 32px;
+
+  margin-bottom: 20px;
+}
+
+.icone-plus {
+  position: absolute;
+
+  right: 8px;
+  top: 8px;
+
+  color: #E8D2BE;
+
+  font-size: 22px;
+  font-weight: bold;
+}
+
+
+/* =========================
+   TÍTULO DO CARD
+========================= */
+
+.card h2 {
+  color: #855E4A;
+
+  font-size: 21px;
+  font-weight: bold;
+
+  margin-bottom: 18px;
+}
+
+
+/* =========================
+   SEPARADOR
+========================= */
+
+.separador {
+  width: 90px;
+  height: 2px;
+
+  background-color: #855E4A;
+
+  position: relative;
+
+  margin-bottom: 20px;
+}
+
+.separador span {
+  position: absolute;
+
+  width: 8px;
+  height: 8px;
+
+  border-radius: 50%;
+
+  background-color: #855E4A;
+
+  top: 50%;
+  left: 50%;
+
+  transform: translate(-50%, -50%);
+}
+
+
+/* =========================
+   DESCRIÇÃO
+========================= */
+
+.card p {
+  color: #855E4A;
+
+  font-size: 15px;
+  line-height: 1.5;
+
+  margin-bottom: 25px;
+}
+
+
+/* =========================
+   BOTÃO
+========================= */
+
+.botao {
+  width: 160px;
+  height: 45px;
+
+  margin-top: auto;
+
+  border: 2px solid #855E4A;
+  border-radius: 7px;
+
+  background-color: #F6F7EB;
+  color: #855E4A;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 12px;
+
+  font-size: 15px;
+  font-weight: bold;
+
+  cursor: pointer;
+}
+
+.botao span {
+  font-size: 20px;
+}
+
+.botao:hover {
+  background-color: #855E4A;
+  color: #F6F7EB;
+}
+
+
+/* =========================
+   RODAPÉ
+========================= */
+
+.footer {
+  height: 60px;
+
+  background-color: #855E4A;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #F6E3D2;
+
+  font-size: 13px;
+}
+
+
+/* =========================
+   RESPONSIVIDADE
+========================= */
+
+@media (max-width: 900px) {
+
+  .cards {
+    grid-template-columns: 1fr;
+    max-width: 450px;
+  }
+
+  .titulo-area h1 {
+    font-size: 40px;
+  }
+}
+
+
+@media (max-width: 600px) {
+
+  .header {
+    padding: 0 20px;
+  }
+
+  .logo {
+    font-size: 18px;
+  }
+
+  .logo-icone {
+    font-size: 28px;
+  }
+
+  .conteudo {
+    padding: 35px 20px;
+  }
+
+  .titulo-area h1 {
+    font-size: 32px;
+  }
+
+  .titulo-area p {
+    font-size: 15px;
+  }
+
+  .linha-decorativa span {
+    width: 50px;
+  }
+
+  .card {
+    min-height: 360px;
+    
+  }
+}
