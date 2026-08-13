@@ -11,7 +11,7 @@ router.use('/auth', authRoutes);
 router.use('/advogado', advogadoRoutes);
 router.use('/administrador', administradorRoutes);
 router.use('/advogadosCasos', advogadosCasosRoutes);
-router.use('/caso', casoRoutes);
+router.use('/casos', casoRoutes);
 
 
 export default router;

@@ -24,8 +24,8 @@ export class Casos{
     }
 
     #validarDescricao_caso(value) {
-        if (value && value.trim().length < 5 || value.trim().length > 100) {
-            throw new Error('O campo descrição deve ter entre 5 e 100 caracteres')
+        if (value && value.trim().length < 5 || value.trim().length > 250) {
+            throw new Error('O campo descrição deve ter entre 5 e 250 caracteres')
         }
     }
 

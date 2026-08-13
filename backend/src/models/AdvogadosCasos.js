@@ -1,3 +1,4 @@
+import { limparNumeros } from "../utils/limparNumeros.js";
 export class AdvogadosCasos {
     #id;
     #id_advogado_fk;
@@ -38,7 +39,9 @@ export class AdvogadosCasos {
     get cep_caso() {
         return this.#cep_caso;
     }
+
     set cep_caso(value) {
+        value = this.#validarCep(value)
         this.#cep_caso = value;
     }
 
@@ -53,6 +56,15 @@ export class AdvogadosCasos {
         if (value && value < 0) {
             throw new Error('O valor do ID não corresponde ao esperado');
         }
+    }
+
+    #validarCep(value) {
+        const cepLimpo = limparNumeros(value);
+        if (cepLimpo.length !== 8) {
+            throw new Error('O CEP deve conter exatamente 8 dígitos');
+        }
+
+        return cepLimpo;
     }
 
     static criarAdvogadoCaso(dados) {
