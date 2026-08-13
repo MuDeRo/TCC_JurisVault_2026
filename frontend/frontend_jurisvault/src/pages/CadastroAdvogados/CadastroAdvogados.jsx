@@ -2,6 +2,9 @@ import { useState } from 'react';
 import CampoCadastro from '../../components/Advogados/CampoCadastro';
 import './CadastroAdvogado.css';
 
+
+import api from '../../services/api.js'; 
+
 function CadastroAdvogados() {
   const [nomeAdvogado, setNomeAdvogado] = useState('');
   const [emailAdvogado, setEmailAdvogado] = useState('');
@@ -12,34 +15,56 @@ function CadastroAdvogados() {
   const [ufOab, setUfOab] = useState('');
 
   const [mensagem, setMensagem] = useState('');
+  const [carregando, setCarregando] = useState(false); // Estado para controlar o botão durante a requisição
 
-  function cadastrarAdvogado(e) {
+  // 2. A FUNÇÃO DE CADASTRAR COM O AXIOS 
+  async function cadastrarAdvogado(e) {
     e.preventDefault();
 
-    if (
-      !nomeAdvogado ||
-      !emailAdvogado ||
-      !senhaAdvogado ||
-      !cpfAdvogado ||
-      !registroOab ||
-      !telefoneAdvogado ||
-      !ufOab
-    ) {
+    if (!nomeAdvogado || !emailAdvogado || !senhaAdvogado || !cpfAdvogado || !registroOab || !telefoneAdvogado || !ufOab) {
       setMensagem('Preencha todos os campos.');
       return;
     }
 
-    setMensagem('Advogado cadastrado com sucesso!');
+    try {
+      setCarregando(true);
+      setMensagem('');
 
-    console.log({
-      nome: nomeAdvogado,
-      email: emailAdvogado,
-      senha: senhaAdvogado,
-      cpf: cpfAdvogado,
-      oab: registroOab,
-      telefone: telefoneAdvogado,
-      ufOab: ufOab
-    });
+      // Envia os dados para a rota do backend usando o Axios
+      const resposta = await api.post('/advogado/cadastro', {
+        nome_advogado: nomeAdvogado,
+        email_advogado: emailAdvogado,
+        senha_advogado: senhaAdvogado,
+        cpf_advogado: cpfAdvogado,
+        registro_oab: registroOab,
+        telefone_advogado: telefoneAdvogado,
+        uf_oab: ufOab
+      });
+
+      // Exibe a mensagem de sucesso que veio do controller
+      setMensagem(resposta.data.message || 'Cadastro solicitado com sucesso!');
+
+      // Limpa os campos do formulário
+      setNomeAdvogado('');
+      setEmailAdvogado('');
+      setSenhaAdvogado('');
+      setCpfAdvogado('');
+      setRegistroOab('');
+      setTelefoneAdvogado('');
+      setUfOab('');
+
+    } catch (error) {
+      console.error('Erro na requisição:', error);
+      
+      // Se o backend respondeu com erro de validação (ex: CPF inválido, senha incorreta, etc)
+      if (error.response) {
+        setMensagem(error.response.data.message || error.response.data.error || 'Erro ao realizar cadastro.');
+      } else {
+        setMensagem('Não foi possível conectar ao servidor.');
+      }
+    } finally {
+      setCarregando(false);
+    }
   }
 
   return (
@@ -117,8 +142,8 @@ function CadastroAdvogados() {
             </p>
           )}
 
-          <button type="submit">
-            Cadastrar
+          <button type="submit" disabled={carregando}>
+            {carregando ? 'Cadastrando...' : 'Cadastrar'}
           </button>
 
         </form>
