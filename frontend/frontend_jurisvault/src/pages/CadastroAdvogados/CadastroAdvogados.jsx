@@ -19,7 +19,7 @@ function CadastroAdvogados() {
 
   // 2. A FUNÇÃO DE CADASTRAR COM O AXIOS 
   async function cadastrarAdvogado(e) {
-    e.preventDefault();
+    e.preventDefault(); // Evita o comportamento padrão do formulário (recarregar a página)
 
     if (!nomeAdvogado || !emailAdvogado || !senhaAdvogado || !cpfAdvogado || !registroOab || !telefoneAdvogado || !ufOab) {
       setMensagem('Preencha todos os campos.');
