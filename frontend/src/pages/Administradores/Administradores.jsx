@@ -2,14 +2,14 @@ import { useState } from 'react';
 import CampoFormulario from '../../components/Administradores/CampoFormulario';
 import './Administradores.css';
 
-import api from '../../services/api.js';
-
 function Administradores() {
   const [login, setLogin] = useState('');
   const [senha, setSenha] = useState('');
   const [erro, setErro] = useState('');
   const [autenticado, setAutenticado] = useState(false);
-  const [carregando, setCarregando] = useState(false);
+
+  const LOGIN_CORRETO = 'admin.global38721@gmail.com';
+  const SENHA_CORRETA = 'admin123';
 
   function quandoDigitarLogin(e) {
     setLogin(e.target.value);
@@ -21,8 +21,7 @@ function Administradores() {
     setErro('');
   }
 
-  // FUNÇÃO DE LOGIN CONECTADA AO BACKEND
-  async function entrar(e) {
+  function entrar(e) {
     e.preventDefault();
 
     if (login === '' || senha === '') {
@@ -30,40 +29,17 @@ function Administradores() {
       return;
     }
 
-    try {
-      setCarregando(true);
-      setErro('');
-
-      // 1. Faz o POST para a rota /auth/login/admin
-      // Enviamos a chave "email", pois é como seu req.body espera no controller!
-      const resposta = await api.post('/auth/login/admin', {
-        email: login,
-        senha: senha
-      });
-
-      // 2. Guarda o Token JWT retornado no localStorage do navegador
-      localStorage.setItem('token', resposta.data.token);
-
-      // 3. Atualiza o estado para exibir a tela de "Acesso Autorizado"
+    if (login === LOGIN_CORRETO && senha === SENHA_CORRETA) {
       setAutenticado(true);
-
-    } catch (error) {
-      console.error('Erro no login admin:', error);
-
-      // Trata as mensagens vindas do backend (ex: 'Administrador não encontrado' ou 'Senha inválida')
-      if (error.response) {
-        setErro(error.response.data.message || 'Credenciais inválidas.');
-      } else {
-        setErro('Não foi possível conectar ao servidor.');
-      }
-    } finally {
-      setCarregando(false);
+      setErro('');
+    } else {
+      setErro('Login ou senha incorretos.');
     }
   }
 
-  /* 
+  /* =========================
      ACESSO LIBERADO
-  */
+  ========================= */
 
   if (autenticado) {
     return (
@@ -121,9 +97,9 @@ function Administradores() {
     );
   }
 
-  /* 
+  /* =========================
      LOGIN ADMINISTRATIVO
-  */
+  ========================= */
 
   return (
     <div className="pagina-administradores">
@@ -203,9 +179,8 @@ function Administradores() {
             <button
               type="submit"
               className="botao-entrar-admin"
-              disabled={carregando}
             >
-              {carregando ? 'Autenticando...' : 'Entrar'}
+              Entrar
               <span>→</span>
             </button>
 
