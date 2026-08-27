@@ -1,4 +1,5 @@
-import express from 'express'
+import express from 'express';
+import path from 'path';
 import router from './routes/routes.js';
 import 'dotenv/config';
 import cors from 'cors';
@@ -6,11 +7,14 @@ import cors from 'cors';
 const app = express();
 app.use(cors());
 
-app.use(express.json())
+app.use(express.json());
+
+app.use(express.static(path.join(process.cwd(), 'files')));
 
 app.use('/', router);
 
+const PORT = process.env.SERVER_PORT || 8080;
 
-app.listen(process.env.SERVER_PORT || 8080,() =>{
-    console.log(`Servidor rodando em https://localhost:${process.env.SERVER_PORT}`)
-})  
+app.listen(PORT, () => {
+    console.log(`Servidor rodando em http://localhost:${PORT}`);
+});

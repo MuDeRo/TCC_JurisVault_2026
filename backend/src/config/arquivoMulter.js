@@ -3,7 +3,7 @@ import path from 'path';                   // cuida dos diretórios
 import crypto from 'crypto';               // cria um número hexadecimal para o nome do arquivo
 import fs from 'fs';    
 
-const baseUploadDir = path.resolve(process.cwd(),'arquivos'); // pega o diretório atual do projeto e cria a pasta arquivos
+const baseUploadDir = path.resolve(process.cwd(),'files'); // pega o diretório atual do projeto e cria a pasta files
 
 const verificaDir = (dir) =>{  
     if(!fs.existsSync(dir)){
