@@ -85,6 +85,37 @@ const advogadoRepository = {
         return rows;
     },
 
+    selecionarAprovados: async () => {
+        const conn = await db.getConnection();
+
+        const sql = 'SELECT * FROM advogados WHERE status_advogado = "aprovado";';
+        const [rows] = await conn.execute(sql);
+        return rows;
+    },
+
+    buscarPorId: async (id) => {
+        const conn = await db.getConnection();
+
+        const sql = 'SELECT * FROM advogados WHERE id=?;';
+        const [rows] = await conn.execute(sql, [id]);
+        return rows[0];
+    },
+
+    buscarPorEmail: async (email) => {
+        const conn = await db.getConnection();
+        const sql = 'SELECT * FROM advogados WHERE email_advogado=?;';
+        const [rows] = await conn.execute(sql, [email]);
+        return rows[0];
+    },
+
+    atualizarStatus: async (id, status) => {
+        const conn = await db.getConnection();
+
+        const sql = 'UPDATE advogados SET status_advogado=? WHERE id=?;';
+        const [rows] = await conn.execute(sql, [status, id]);
+        return rows;
+    },
+
     aprovar: async (id) => {
         const conn = await db.getConnection();
         

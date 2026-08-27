@@ -119,6 +119,7 @@ const advogadoController = {
         }
     },
 
+
     aprovar: async (req, res) => {
         try {
             const id = Number(req.params.id);

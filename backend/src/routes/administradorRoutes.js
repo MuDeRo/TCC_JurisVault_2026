@@ -10,6 +10,8 @@ const adminRoutes = Router();
 
 // listar advogados pendentes
 adminRoutes.get('/pendentes', authMiddleware, authAdmin, adminController.listarPendentes);
+//listar advogados aprovados
+adminRoutes.get('/aprovados', authMiddleware, authAdmin, adminController.selecionarAprovados);
 // aprovar advogado
 adminRoutes.patch('/aprovar/:id', authMiddleware, authAdmin, adminController.aprovarAdvogado);
 // negar advogado
