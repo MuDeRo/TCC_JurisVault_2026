@@ -16,15 +16,7 @@ function CadastroAdvogados() {
   function cadastrarAdvogado(e) {
     e.preventDefault();
 
-    if (
-      !nomeAdvogado ||
-      !emailAdvogado ||
-      !senhaAdvogado ||
-      !cpfAdvogado ||
-      !registroOab ||
-      !telefoneAdvogado ||
-      !ufOab
-    ) {
+    if (!nomeAdvogado || !emailAdvogado || !senhaAdvogado || !cpfAdvogado || !registroOab || !telefoneAdvogado || !ufOab) {
       setMensagem('Preencha todos os campos.');
       return;
     }
