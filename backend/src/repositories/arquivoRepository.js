@@ -9,9 +9,9 @@ const arquivoRepository = {
         return rows;
     },
 
-    editar: async (arquivo, id) => {
+    editar: async (arquivo) => {
         const sql = 'UPDATE arquivos SET vinculo_arquivo = ?, descricao_arquivo = ? WHERE id = ?';
-        const values = [arquivo.vinculo_arquivo, arquivo.descricao_arquivo, id];
+        const values = [arquivo.vinculo_arquivo, arquivo.descricao_arquivo, arquivo.id];  
         const [rows] = await db.execute(sql, values);
         return rows;
     },
