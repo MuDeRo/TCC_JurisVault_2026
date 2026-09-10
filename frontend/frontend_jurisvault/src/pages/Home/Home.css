@@ -1,0 +1,211 @@
+.home {
+
+  min-height: 100vh;
+
+  display: flex;
+
+  flex-direction: column;
+
+  background-color: #F7F5F0;
+
+}
+
+
+
+/* =========================
+   CABEÇALHO
+========================= */
+
+.home-header {
+
+  height: 68px;
+
+  background-color: #172536;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  padding: 0 40px;
+
+}
+
+
+
+/* LOGO */
+
+.home-logo {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  color: #FFFFFF;
+
+  font-size: 25px;
+
+  font-weight: 400;
+
+}
+
+.home-logo strong {
+
+  font-weight: 700;
+
+  color: #C6A15B;
+
+}
+
+.home-icone-logo {
+
+  font-size: 30px;
+
+  color: #C6A15B;
+
+}
+
+
+
+/* =========================
+   MENU
+========================= */
+
+.home-menu {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+}
+
+.home-menu button {
+
+  border: none;
+
+  background-color: #FFFFFF;
+
+  color: #172536;
+
+  border-radius: 10px;
+
+  padding: 9px 25px;
+
+  font-size: 18px;
+
+  cursor: pointer;
+
+  box-shadow: 0 3px 0 #D8D3CA;
+
+  transition: 0.2s;
+
+}
+
+.home-menu button:hover {
+
+  transform: translateY(-2px);
+
+}
+
+
+
+/* BOTÃO DE PERFIL */
+
+.home-menu .botao-perfil {
+
+  width: 48px;
+
+  height: 48px;
+
+  padding: 0;
+
+  border-radius: 50%;
+
+  font-size: 23px;
+
+}
+
+
+
+/* =========================
+   CONTEÚDO
+========================= */
+
+.home-content {
+
+  flex: 1;
+
+  padding: 70px 60px;
+
+}
+
+
+
+/* TÍTULO */
+
+.home-titulo {
+
+  margin-left: 20px;
+
+  color: #172536;
+
+}
+
+.balanca {
+
+  margin-left: 80px;
+
+  font-size: 30px;
+
+  margin-bottom: 5px;
+
+  color: #C6A15B;
+
+}
+
+.home-titulo h1 {
+
+  margin: 0;
+
+  font-size: 55px;
+
+  line-height: 0.9;
+
+  font-weight: 500;
+
+}
+
+.home-titulo h1 span {
+
+  color: #C6A15B;
+
+}
+
+
+
+/* =========================
+   RODAPÉ
+========================= */
+
+.home-footer {
+
+  height: 44px;
+
+  background-color: #172536;
+
+  color: #FFFFFF;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  font-size: 14px;
+
+}

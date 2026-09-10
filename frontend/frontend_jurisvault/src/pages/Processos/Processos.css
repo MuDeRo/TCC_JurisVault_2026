@@ -13,10 +13,7 @@
 }
 
 
-
-/* PÁGINA */
-
-.pagina-cadastro-advogados {
+.pagina-processos {
 
   min-height: 100vh;
 
@@ -32,9 +29,6 @@
 
 }
 
-
-
-/* CABEÇALHO */
 
 .cabecalho {
 
@@ -52,6 +46,7 @@
 
 }
 
+
 .cabecalho h2 {
 
   color: var(--branco);
@@ -60,15 +55,13 @@
 
 }
 
+
 .cabecalho span {
 
   color: #C6A15B;
 
 }
 
-
-
-/* CONTEÚDO */
 
 .conteudo {
 
@@ -84,9 +77,6 @@
 
 }
 
-
-
-/* CARD */
 
 .card-cadastro {
 
@@ -107,9 +97,6 @@
 }
 
 
-
-/* TÍTULO */
-
 .card-cadastro h1 {
 
   text-align: center;
@@ -122,11 +109,12 @@
 
 }
 
+
 .descricao {
 
   text-align: center;
 
-  color: #30343B;
+  color: var(--principal);
 
   opacity: 0.7;
 
@@ -137,20 +125,18 @@
 }
 
 
-
-/* CAMPOS */
-
-.campo-cadastro {
-
-  margin-bottom: 15px;
+.campo-processo {
 
   display: flex;
 
   flex-direction: column;
 
+  margin-bottom: 15px;
+
 }
 
-.campo-cadastro label {
+
+.campo-processo label {
 
   color: var(--principal);
 
@@ -162,13 +148,14 @@
 
 }
 
-.campo-cadastro input {
+
+.campo-processo textarea {
 
   width: 100%;
 
-  height: 42px;
+  height: 150px;
 
-  padding: 0 12px;
+  padding: 12px;
 
   background: var(--fundo);
 
@@ -178,11 +165,16 @@
 
   color: var(--principal);
 
+  resize: vertical;
+
   outline: none;
+
+  box-sizing: border-box;
 
 }
 
-.campo-cadastro input:focus {
+
+.campo-processo textarea:focus {
 
   border-color: #C6A15B;
 
@@ -190,9 +182,6 @@
 
 }
 
-
-
-/* BOTÃO */
 
 .card-cadastro button {
 
@@ -218,6 +207,7 @@
 
 }
 
+
 .card-cadastro button:hover {
 
   background: #0F1A27;
@@ -225,74 +215,14 @@
 }
 
 
+.card-cadastro .btn-cancelar {
 
-/* MENSAGEM */
-
-.mensagem {
-
-  padding: 10px;
-
-  margin-top: 12px;
-
-  background: var(--fundo);
-
-  border: 1px solid var(--detalhe);
-
-  border-left: 4px solid #C6A15B;
-
-  border-radius: 6px;
+  background: var(--detalhe);
 
   color: var(--principal);
 
-  font-size: 13px;
-
 }
 
-
-
-/* PRÉ-VISUALIZAÇÃO */
-
-.pre-visualizacao {
-
-  width: 100%;
-
-  max-width: 500px;
-
-  margin-top: 20px;
-
-  padding: 22px;
-
-  background: var(--card);
-
-  border: 1px solid var(--detalhe);
-
-  border-radius: 12px;
-
-}
-
-.pre-visualizacao h2 {
-
-  color: var(--principal);
-
-  font-size: 19px;
-
-  margin-bottom: 12px;
-
-}
-
-.pre-visualizacao p {
-
-  color: #30343B;
-
-  font-size: 13px;
-
-  margin: 7px 0;
-
-}
-
-
-
-/* RODAPÉ */
 
 .rodape {
 
@@ -313,9 +243,6 @@
 }
 
 
-
-/* RESPONSIVO */
-
 @media (max-width: 600px) {
 
   .cabecalho {
@@ -333,12 +260,6 @@
   .card-cadastro h1 {
 
     font-size: 23px;
-
-  }
-
-  .pre-visualizacao {
-
-    padding: 18px;
 
   }
 

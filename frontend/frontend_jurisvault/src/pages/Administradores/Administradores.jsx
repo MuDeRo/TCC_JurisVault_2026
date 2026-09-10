@@ -1,45 +1,50 @@
-import { useState } from 'react';
-import CampoFormulario from '../../components/Administradores/CampoFormulario';
-import './Administradores.css';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+import CampoFormulario from "../../components/Administradores/CampoFormulario";
+
+import "./Administradores.css";
 
 function Administradores() {
-  const [login, setLogin] = useState('');
-  const [senha, setSenha] = useState('');
-  const [erro, setErro] = useState('');
+  const navigate = useNavigate();
+
+  const [login, setLogin] = useState("");
+  const [senha, setSenha] = useState("");
+  const [erro, setErro] = useState("");
   const [autenticado, setAutenticado] = useState(false);
 
-  const LOGIN_CORRETO = 'admin.global38721@gmail.com';
-  const SENHA_CORRETA = 'admin123';
+  const LOGIN_CORRETO = "admin.global38721@gmail.com";
+  const SENHA_CORRETA = "admin123";
 
   function quandoDigitarLogin(e) {
     setLogin(e.target.value);
-    setErro('');
+    setErro("");
   }
 
   function quandoDigitarSenha(e) {
     setSenha(e.target.value);
-    setErro('');
+    setErro("");
   }
 
   function entrar(e) {
     e.preventDefault();
 
-    if (login === '' || senha === '') {
-      setErro('Preencha o login e a senha.');
+    if (login === "" || senha === "") {
+      setErro("Preencha o login e a senha.");
       return;
     }
 
     if (login === LOGIN_CORRETO && senha === SENHA_CORRETA) {
       setAutenticado(true);
-      setErro('');
+      setErro("");
     } else {
-      setErro('Login ou senha incorretos.');
+      setErro("Login ou senha incorretos.");
     }
   }
 
-  /* =========================
-     ACESSO LIBERADO
-  ========================= */
+  // =========================
+  // ACESSO LIBERADO
+  // =========================
 
   if (autenticado) {
     return (
@@ -47,7 +52,9 @@ function Administradores() {
 
         <header className="cabecalho-admin">
           <div className="logo-admin">
-            <span className="icone-logo">⚖</span>
+            <span className="icone-logo">
+              ⚖
+            </span>
 
             <span>
               SISTEMA <strong>JURÍDICO</strong>
@@ -71,7 +78,9 @@ function Administradores() {
               ACESSO AUTORIZADO
             </span>
 
-            <h1>Bem-vindo, administrador</h1>
+            <h1>
+              Bem-vindo, administrador
+            </h1>
 
             <p>
               Seu acesso foi validado com sucesso.
@@ -79,7 +88,7 @@ function Administradores() {
 
             <button
               className="botao-painel"
-              onClick={() => window.location.href = '/'}
+              onClick={() => navigate("/painel-administrativo")}
             >
               Acessar Painel
               <span>→</span>
@@ -97,9 +106,9 @@ function Administradores() {
     );
   }
 
-  /* =========================
-     LOGIN ADMINISTRATIVO
-  ========================= */
+  // =========================
+  // LOGIN ADMINISTRATIVO
+  // =========================
 
   return (
     <div className="pagina-administradores">
@@ -126,6 +135,7 @@ function Administradores() {
 
       </header>
 
+
       {/* CONTEÚDO */}
 
       <main className="conteudo-admin">
@@ -135,17 +145,21 @@ function Administradores() {
           {/* ÍCONE */}
 
           <div className="icone-admin">
-            🔐
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-lock-keyhole"><circle cx="12" cy="16" r="1" /><rect x="3" y="10" width="18" height="12" rx="2" /><path d="M7 10V7a5 5 0 0 1 10 0v3" /></svg>
           </div>
+
 
           {/* TÍTULO */}
 
-          <h1>Acesso Administrativo</h1>
+          <h1>
+            Acesso Administrativo
+          </h1>
 
           <p className="descricao-admin">
             Entre com suas credenciais para acessar
             o painel administrativo.
           </p>
+
 
           {/* FORMULÁRIO */}
 
@@ -165,40 +179,50 @@ function Administradores() {
               aoMudar={quandoDigitarSenha}
             />
 
+
             {/* ERRO */}
 
-            {erro !== '' && (
+            {erro !== "" && (
               <div className="mensagem-erro-admin">
+
                 <span>!</span>
+
                 {erro}
+
               </div>
             )}
 
-            {/* BOTÃO */}
 
+            {/* BOTÃO */}
             <button
               type="submit"
               className="botao-entrar-admin"
             >
-              Entrar
-              <span>→</span>
+              <span className="texto-entrar">Entrar</span>
+
             </button>
 
+
           </form>
+
 
           {/* SEGURANÇA */}
 
           <div className="seguranca-admin">
 
-            <span>🔒</span>
+            <span> <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-lock-keyhole"><circle cx="12" cy="16" r="1" /><rect x="3" y="10" width="18" height="12" rx="2" /><path d="M7 10V7a5 5 0 0 1 10 0v3" /></svg></span>
 
             <div>
-              <strong>Acesso restrito</strong>
+
+              <strong>
+                Acesso restrito
+              </strong>
 
               <p>
                 Esta área é destinada exclusivamente
                 aos administradores do sistema.
               </p>
+
             </div>
 
           </div>
@@ -206,6 +230,7 @@ function Administradores() {
         </div>
 
       </main>
+
 
       {/* RODAPÉ */}
 

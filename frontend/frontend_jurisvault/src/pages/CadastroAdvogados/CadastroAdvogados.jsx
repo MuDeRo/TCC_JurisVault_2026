@@ -1,51 +1,89 @@
-import { useState } from 'react';
-import CampoCadastro from '../../components/Advogados/CampoCadastro';
-import './CadastroAdvogado.css';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import CampoCadastro from "../../components/Advogados/CampoCadastro";
 
-function CadastroAdvogados() {
-  const [nomeAdvogado, setNomeAdvogado] = useState('');
-  const [emailAdvogado, setEmailAdvogado] = useState('');
-  const [senhaAdvogado, setSenhaAdvogado] = useState('');
-  const [cpfAdvogado, setCpfAdvogado] = useState('');
-  const [registroOab, setRegistroOab] = useState('');
-  const [telefoneAdvogado, setTelefoneAdvogado] = useState('');
-  const [ufOab, setUfOab] = useState('');
+import "./CadastroAdvogado.css";
 
-  const [mensagem, setMensagem] = useState('');
+export default function CadastroAdvogados() {
+  const [nomeAdvogado, setNomeAdvogado] = useState("");
+  const [emailAdvogado, setEmailAdvogado] = useState("");
+  const [senhaAdvogado, setSenhaAdvogado] = useState("");
+  const [cpfAdvogado, setCpfAdvogado] = useState("");
+  const [registroOab, setRegistroOab] = useState("");
+  const [telefoneAdvogado, setTelefoneAdvogado] = useState("");
+  const [ufOab, setUfOab] = useState("");
 
-  function cadastrarAdvogado(e) {
+  const [mensagem, setMensagem] = useState("");
+  const [carregando, setCarregando] = useState(false);
+  const navigate = useNavigate();
+
+  async function handleSubmit(e) {
     e.preventDefault();
+    setMensagem("");
 
-    if (!nomeAdvogado || !emailAdvogado || !senhaAdvogado || !cpfAdvogado || !registroOab || !telefoneAdvogado || !ufOab) {
-      setMensagem('Preencha todos os campos.');
+    // Validação dos campos
+    if ( !nomeAdvogado || !emailAdvogado || !senhaAdvogado || !cpfAdvogado || !registroOab || !telefoneAdvogado || !ufOab ) {
+      setMensagem("Preencha todos os campos.");
       return;
     }
 
-    setMensagem('Advogado cadastrado com sucesso!');
+    try {
+      setCarregando(true);
 
-    console.log({
-      nome: nomeAdvogado,
-      email: emailAdvogado,
-      senha: senhaAdvogado,
-      cpf: cpfAdvogado,
-      oab: registroOab,
-      telefone: telefoneAdvogado,
-      ufOab: ufOab
-    });
+      // Envia os dados para a API
+      const resposta = await api.post("/advogado/cadastro", {
+        nome_advogado: nomeAdvogado,
+        email_advogado: emailAdvogado,
+        senha_advogado: senhaAdvogado,
+        cpf_advogado: cpfAdvogado,
+        registro_oab: registroOab,
+        telefone_advogado: telefoneAdvogado,
+        uf_oab: ufOab,
+      });
+
+      setMensagem(
+        resposta.data.message || "Advogado cadastrado com sucesso!"
+      );
+
+      // Limpa os campos
+      setNomeAdvogado("");
+      setEmailAdvogado("");
+      setSenhaAdvogado("");
+      setCpfAdvogado("");
+      setRegistroOab("");
+      setTelefoneAdvogado("");
+      setUfOab("");
+
+      // Se quiser mandar para outra página depois do cadastro:
+      // navigate("/login");
+
+    } catch (error) {
+      console.error("Erro na requisição:", error);
+
+      setMensagem(
+        error.response?.data?.message ||
+        error.response?.data?.error ||
+        "Erro ao realizar cadastro."
+      );
+    } finally {
+      setCarregando(false);
+    }
   }
 
   return (
     <div className="pagina-cadastro-advogados">
 
       <header className="cabecalho">
-        <h2>SISTEMA <span>JURÍDICO</span></h2>
+        <h2>
+          SISTEMA <span>JURÍDICO</span>
+        </h2>
       </header>
 
       <main className="conteudo">
 
         <form
           className="card-cadastro"
-          onSubmit={cadastrarAdvogado}
+          onSubmit={handleSubmit}
         >
 
           <h1>Cadastro de Advogado</h1>
@@ -99,7 +137,7 @@ function CadastroAdvogados() {
           <CampoCadastro
             label="UF da OAB"
             tipo="text"
-            valor={ufOab}
+            valor={ufOab} 
             aoMudar={setUfOab}
           />
 
@@ -109,8 +147,11 @@ function CadastroAdvogados() {
             </p>
           )}
 
-          <button type="submit">
-            Cadastrar
+          <button
+            type="submit"
+            disabled={carregando}
+          >
+            {carregando ? "Cadastrando..." : "Cadastrar"}
           </button>
 
         </form>
@@ -124,5 +165,3 @@ function CadastroAdvogados() {
     </div>
   );
 }
-
-export default CadastroAdvogados;

@@ -1,0 +1,339 @@
+/* =========================================
+   PÁGINA PRINCIPAL
+========================================= */
+
+.pagina-painel-advogado {
+
+  min-height: 100vh;
+
+  background-color: #F7F5F0;
+
+  display: flex;
+
+  flex-direction: column;
+
+}
+
+
+/* =========================================
+   CABEÇALHO
+========================================= */
+
+.cabecalho-painel-advogado {
+
+  height: 90px;
+
+  background-color: #172536;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  padding: 0 55px;
+
+  box-sizing: border-box;
+
+}
+
+
+/* LOGO */
+
+.logo-painel-advogado {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 18px;
+
+  color: #FFFFFF;
+
+  font-size: 38px;
+
+  font-weight: 700;
+
+}
+
+.logo-painel-advogado strong {
+
+  font-weight: 800;
+
+}
+
+.icone-logo-advogado {
+
+  font-size: 42px;
+
+  color: #C6A15B;
+
+}
+
+
+/* =========================================
+   MENU
+========================================= */
+
+.menu-painel-advogado {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 13px;
+
+}
+
+.menu-painel-advogado a {
+
+  height: 48px;
+
+  padding: 0 28px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  background-color: #FFFFFF;
+
+  color: #172536;
+
+  border-radius: 14px;
+
+  text-decoration: none;
+
+  font-size: 24px;
+
+  box-sizing: border-box;
+
+}
+
+.menu-painel-advogado a:hover {
+
+  background-color: #F7F5F0;
+
+}
+
+
+/* BOTÃO DO USUÁRIO */
+
+.botao-usuario-advogado {
+
+  width: 65px;
+
+  height: 65px;
+
+  margin-left: 2px;
+
+  border: none;
+
+  border-radius: 50%;
+
+  background-color: #FFFFFF;
+
+  color: #172536;
+
+  font-size: 38px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  cursor: pointer;
+
+}
+
+.botao-usuario-advogado:hover {
+
+  background-color: #F7F5F0;
+
+}
+
+
+/* =========================================
+   CONTEÚDO
+========================================= */
+
+.conteudo-painel-advogado {
+
+  flex: 1;
+
+  display: flex;
+
+  align-items: flex-start;
+
+  justify-content: flex-start;
+
+  padding-top: 95px;
+
+  padding-left: 110px;
+
+  box-sizing: border-box;
+
+}
+
+
+/* =========================================
+   LOGO CENTRAL
+========================================= */
+
+.logo-central-advogado {
+
+  width: 290px;
+
+  text-align: center;
+
+  color: #172536;
+
+}
+
+
+/* LINHAS */
+
+.linha-logo-advogado {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 25px;
+
+  margin-bottom: 20px;
+
+}
+
+.linha-logo-advogado span {
+
+  width: 100px;
+
+  height: 2px;
+
+  background-color: #D8D3CA;
+
+}
+
+
+/* SÍMBOLO */
+
+.simbolo-central-advogado {
+
+  font-size: 35px;
+
+  color: #C6A15B;
+
+}
+
+
+/* TEXTO SISTEMA */
+
+.logo-central-advogado h1 {
+
+  margin: 0;
+
+  font-size: 68px;
+
+  font-weight: 500;
+
+  line-height: 0.9;
+
+  color: #172536;
+
+}
+
+
+/* TEXTO JURÍDICO */
+
+.logo-central-advogado h2 {
+
+  margin: 0;
+
+  font-size: 62px;
+
+  font-weight: 400;
+
+  line-height: 1;
+
+  color: #C6A15B;
+
+}
+
+
+/* =========================================
+   RODAPÉ
+========================================= */
+
+.rodape-painel-advogado {
+
+  height: 58px;
+
+  background-color: #172536;
+
+  color: #FFFFFF;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  font-size: 18px;
+
+}
+
+
+/* =========================================
+   RESPONSIVIDADE
+========================================= */
+
+@media (max-width: 900px) {
+
+  .cabecalho-painel-advogado {
+
+    padding: 0 25px;
+
+  }
+
+  .logo-painel-advogado {
+
+    font-size: 26px;
+
+  }
+
+  .icone-logo-advogado {
+
+    font-size: 32px;
+
+  }
+
+  .menu-painel-advogado a {
+
+    padding: 0 15px;
+
+    font-size: 18px;
+
+  }
+
+  .botao-usuario-advogado {
+
+    width: 50px;
+
+    height: 50px;
+
+    font-size: 28px;
+
+  }
+
+  .conteudo-painel-advogado {
+
+    padding-left: 50px;
+
+  }
+
+}
