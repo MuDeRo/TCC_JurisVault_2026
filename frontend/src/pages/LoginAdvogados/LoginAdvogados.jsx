@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import CampoLogin from '../../components/Advogados/CampoLogin';
 import './LoginAdvogado.css';
+import { DragDrop } from '../../components/styles/DragDrop';
 
 function LoginAdvogados({ advogadoCadastrado }) {
   const [emailDigitado, setEmailDigitado] = useState('');
@@ -65,7 +66,7 @@ function LoginAdvogados({ advogadoCadastrado }) {
             </div>
 
             <h1>Bem-vindo!</h1>
-
+            
             <h2>{advogadoCadastrado.nome}</h2>
 
             <p>
@@ -109,6 +110,12 @@ function LoginAdvogados({ advogadoCadastrado }) {
 
       {/* CONTEÚDO */}
       <main className="conteudo-login">
+
+        <DragDrop
+        
+        />
+
+        
 
         <div className="card-login">
 
