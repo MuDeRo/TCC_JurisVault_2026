@@ -18,11 +18,11 @@ const router = Router();
 router.use('/auth', authRoutes);
 router.use('/advogado', advogadoRoutes);
 router.use('/administrador', administradorRoutes);
+router.use('/etapasArquivos', etapasArquivosRoutes);
 router.use('/advogadosCasos', advogadosCasosRoutes);
 router.use('/casos', casoRoutes);
 router.use('/etapas', etapasRoutes);
 router.use('/tarefas', tarefasRoutes);
-router.use('/etapasArquivos', etapasArquivosRoutes);
 router.use('/arquivos', arquivosRoutes);
 
 

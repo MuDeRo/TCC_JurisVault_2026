@@ -38,6 +38,7 @@ export class Etapas{
         return this.#descricao
     }
     set descricao(value){
+        this.#validarDescricao(value)
         this.#descricao = value
     }
     
@@ -52,11 +53,17 @@ export class Etapas{
         }
     }
 
+    #validarDescricao(value){
+        if (value && value.length > 250) {
+            throw new Error("A descrição não pode ter mais de 250 caracteres");
+        }
+    }
+
     static criar(dados){
         return new Etapas(dados.id_caso_fk, dados.etapa, dados.descricao, null);
     }
 
     static editar(dados){
-        return new Etapas(dados.id_caso_fk, dados.etapa, dados.descricao, id)
+        return new Etapas(dados.id_caso_fk, dados.etapa, dados.descricao, dados.id)
     }
 }

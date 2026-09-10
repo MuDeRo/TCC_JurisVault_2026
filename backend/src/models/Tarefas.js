@@ -63,6 +63,6 @@ export class Tarefas{
     }
 
     static editar(dados){
-        return new Tarefas(dados.id_etapa, dados.tarefa, dados.descricao_tarefa, id)
+        return new Tarefas(dados.id_etapa, dados.tarefa, dados.descricao_tarefa, dados.id)
     }
 }

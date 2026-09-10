@@ -5,7 +5,7 @@ const etapasController = {
 
     buscarEtapas: async (req, res) => {
         try {
-            const result = await casosRepository.buscarTodosCasos();
+            const result = await etapasRepository.buscarAsEtapas();
             res.status(200).json({
                 message: 'Etapas encontradas com sucesso:', data: result
             });
