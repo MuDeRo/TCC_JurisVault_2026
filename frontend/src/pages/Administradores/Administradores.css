@@ -1,13 +1,13 @@
 :root {
   --principal: #855E4A;
-  --fundo: #F6F7EB;
+  --fundo: #f9f9ec;
   --card: #F6E3D2;
-  --detalhe: #E8D2BE;
+  --detalhe: #e9ded4;
   --branco: #FFFFFF;
 }
 
 /* PÁGINA */
-.pagina-login-advogados {
+.pagina-administradores {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -17,16 +17,17 @@
 }
 
 /* CABEÇALHO */
-.cabecalho-login {
+.cabecalho-admin {
   height: 70px;
   background: var(--principal);
   border-bottom: 3px solid var(--detalhe);
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 0 40px;
 }
 
-.logo-login {
+.logo-admin {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -35,26 +36,28 @@
   font-weight: bold;
 }
 
-.logo-login strong,
-.icone-logo {
+.logo-admin strong,
+.cabecalho-admin .icone-logo {
   color: var(--detalhe);
 }
 
-.icone-logo {
-  font-size: 32px;
+.area-admin {
+  color: var(--fundo);
+  opacity: 0.8;
+  font-size: 11px;
 }
 
 /* CONTEÚDO */
-.conteudo-login {
+.conteudo-admin {
   flex: 1;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   padding: 40px 20px;
 }
 
 /* CARD */
-.card-login {
+.card-admin {
   width: 100%;
   max-width: 420px;
   background: var(--card);
@@ -66,13 +69,13 @@
 }
 
 /* ÍCONE */
-.icone-login {
+.icone-admin {
   width: 70px;
   height: 70px;
   margin: 0 auto 18px;
-  border-radius: 50%;
   background: var(--principal);
   color: var(--fundo);
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -80,38 +83,38 @@
 }
 
 /* TÍTULO */
-.card-login h1 {
+.card-admin h1 {
   color: var(--principal);
   font-size: 26px;
   margin-bottom: 8px;
 }
 
-.descricao-login {
+.descricao-admin {
   color: var(--principal);
-  opacity: 0.75;
+  opacity: 0.7;
   font-size: 14px;
   margin-bottom: 25px;
 }
 
 /* CAMPOS */
-.card-login form {
+.card-admin form {
   text-align: left;
 }
 
-.campo-login {
+.campo-formulario {
   margin-bottom: 18px;
   display: flex;
   flex-direction: column;
 }
 
-.campo-login label {
+.campo-formulario label {
   color: var(--principal);
   font-size: 14px;
   font-weight: bold;
   margin-bottom: 6px;
 }
 
-.campo-login input {
+.campo-formulario input {
   width: 100%;
   height: 44px;
   padding: 0 12px;
@@ -122,13 +125,13 @@
   outline: none;
 }
 
-.campo-login input:focus {
+.campo-formulario input:focus {
   border-color: var(--principal);
   box-shadow: 0 0 0 3px rgba(133, 94, 74, 0.12);
 }
 
 /* ERRO */
-.mensagem-erro {
+.mensagem-erro-admin {
   padding: 10px;
   margin-bottom: 15px;
   background: var(--fundo);
@@ -137,59 +140,46 @@
   border-radius: 6px;
   color: var(--principal);
   font-size: 13px;
+  text-align: left;
 }
 
 /* BOTÃO */
-.botao-login {
+.botao-entrar-admin {
   width: 100%;
   height: 46px;
-  border: none;
-  border-radius: 7px;
   background: var(--principal);
   color: var(--fundo);
+  border: none;
+  border-radius: 7px;
   font-size: 15px;
   font-weight: bold;
   cursor: pointer;
 }
 
-.botao-login:hover {
+.botao-entrar-admin:hover {
   background: #704C3C;
 }
 
-/* SEPARADOR */
-.separador {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 22px 0;
-}
-
-.separador span {
-  flex: 1;
-  height: 1px;
-  background: var(--detalhe);
-}
-
-.separador p {
-  margin: 0;
-  color: var(--principal);
-  opacity: 0.6;
-  font-size: 11px;
-}
-
 /* SEGURANÇA */
-.informacao-seguranca {
+.seguranca-admin {
+  margin-top: 20px;
   padding: 11px;
   background: var(--fundo);
   border: 1px solid var(--detalhe);
   border-radius: 7px;
   display: flex;
-  align-items: center;
-  justify-content: center;
   gap: 8px;
+  text-align: left;
 }
 
-.informacao-seguranca p {
+.seguranca-admin strong {
+  display: block;
+  color: var(--principal);
+  font-size: 12px;
+  margin-bottom: 3px;
+}
+
+.seguranca-admin p {
   margin: 0;
   color: var(--principal);
   opacity: 0.7;
@@ -197,17 +187,17 @@
 }
 
 /* SUCESSO */
-.sucesso-login {
+.sucesso-admin {
   text-align: center;
 }
 
-.icone-sucesso {
+.icone-sucesso-admin {
   width: 75px;
   height: 75px;
   margin: 0 auto 18px;
+  border: 2px solid var(--principal);
   border-radius: 50%;
   background: var(--fundo);
-  border: 2px solid var(--principal);
   color: var(--principal);
   display: flex;
   align-items: center;
@@ -215,24 +205,30 @@
   font-size: 35px;
 }
 
-.sucesso-login h1 {
+.badge-admin {
+  display: inline-block;
+  padding: 5px 10px;
+  margin-bottom: 12px;
+  background: var(--fundo);
+  border: 1px solid var(--principal);
+  border-radius: 20px;
   color: var(--principal);
+  font-size: 10px;
+  font-weight: bold;
+}
+
+.sucesso-admin h1 {
+  font-size: 25px;
   margin-bottom: 8px;
 }
 
-.sucesso-login h2 {
-  color: var(--principal);
-  font-size: 20px;
-  margin-bottom: 10px;
-}
-
-.sucesso-login > p {
+.sucesso-admin p {
   color: var(--principal);
   opacity: 0.7;
   margin-bottom: 20px;
 }
 
-.botao-continuar {
+.botao-painel {
   width: 100%;
   height: 45px;
   background: var(--principal);
@@ -243,7 +239,7 @@
 }
 
 /* RODAPÉ */
-.rodape-login {
+.rodape-admin {
   height: 55px;
   background: var(--principal);
   color: var(--fundo);
@@ -255,15 +251,19 @@
 
 /* RESPONSIVO */
 @media (max-width: 600px) {
-  .cabecalho-login {
+  .cabecalho-admin {
     padding: 0 20px;
   }
 
-  .card-login {
+  .area-admin {
+    display: none;
+  }
+
+  .card-admin {
     padding: 25px 20px;
   }
 
-  .card-login h1 {
+  .card-admin h1 {
     font-size: 23px;
   }
 }

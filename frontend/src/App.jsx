@@ -3,13 +3,13 @@ import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import CadastroAdvogados from "./pages/CadastroAdvogados/CadastroAdvogados";
 import LoginAdvogados from "./pages/LoginAdvogados/LoginAdvogados";
 import Administradores from "./pages/Administradores/Administradores";
+import Processos from "./pages/Processos/Processos";
 
 import "./App.css";
 function Inicio() {
   return (
     <div className="pagina-inicial">
 
-      {/* CABEÇALHO */}
       <header className="header">
         <div className="logo">
           <span className="logo-icone">⚖</span>
@@ -17,7 +17,7 @@ function Inicio() {
         </div>
       </header>
 
-      {/* CONTEÚDO PRINCIPAL */}
+     
       <main className="conteudo">
 
         <section className="titulo-area">
@@ -36,10 +36,8 @@ function Inicio() {
           <p>Selecione uma opção no menu ao lado</p>
         </section>
 
-        {/* CARDS */}
         <section className="cards">
 
-          {/* CADASTRO */}
           <div className="card">
 
             <div className="icone-card">
@@ -66,7 +64,7 @@ function Inicio() {
 
           </div>
 
-          {/* LOGIN */}
+        
           <div className="card">
 
             <div className="icone-card">
@@ -92,7 +90,7 @@ function Inicio() {
 
           </div>
 
-          {/* ADMINISTRADOR */}
+          
           <div className="card">
 
             <div className="icone-card">
@@ -122,7 +120,7 @@ function Inicio() {
 
       </main>
 
-      {/* RODAPÉ */}
+      
       <footer className="footer">
         © 2026 Sistema Jurídico. Todos os direitos reservados.
       </footer>
@@ -143,12 +141,10 @@ function App() {
           path="/cadastro"
           element={<CadastroAdvogados />}
         />
-
         <Route
           path="/login"
           element={<LoginAdvogados />}
         />
-
         <Route
           path="/administrador"
           element={<Administradores />}

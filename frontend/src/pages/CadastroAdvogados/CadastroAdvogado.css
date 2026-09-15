@@ -6,8 +6,9 @@
   --branco: #FFFFFF;
 }
 
-/* PÁGINA */
-.pagina-cadastro-advogados {
+
+
+.pagina-processos {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -16,13 +17,18 @@
   color: var(--principal);
 }
 
+
 /* CABEÇALHO */
+
 .cabecalho {
   height: 70px;
+
   background: var(--principal);
   border-bottom: 3px solid var(--detalhe);
+
   display: flex;
   align-items: center;
+
   padding: 0 40px;
 }
 
@@ -35,83 +41,141 @@
   color: var(--detalhe);
 }
 
+
 /* CONTEÚDO */
+
 .conteudo {
   flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+
   padding: 40px 20px;
 }
 
-/* CARD */
-.card-cadastro {
+
+/* ÁREA DOS PROCESSOS */
+
+.area-processos {
   width: 100%;
-  max-width: 500px;
-  background: var(--card);
-  border: 1px solid var(--detalhe);
-  border-radius: 12px;
-  padding: 32px;
-  box-shadow: 0 5px 18px rgba(133, 94, 74, 0.15);
+  max-width: 1000px;
+
+  margin: 0 auto;
 }
 
+
+/* CARD DE CADASTRO */
+
+.card-cadastro {
+  width: 100%;
+  max-width: 600px;
+
+  margin: 0 auto;
+
+  background: var(--card);
+
+  border: 1px solid var(--detalhe);
+
+  border-radius: 12px;
+
+  padding: 32px;
+
+  box-shadow:
+    0 5px 18px rgba(133, 94, 74, 0.15);
+}
+
+
 /* TÍTULO */
+
 .card-cadastro h1 {
   text-align: center;
+
   color: var(--principal);
+
   font-size: 26px;
+
   margin-bottom: 8px;
 }
 
 .descricao {
   text-align: center;
+
   color: var(--principal);
+
   opacity: 0.7;
+
   font-size: 14px;
+
   margin-bottom: 25px;
 }
 
+
 /* CAMPOS */
+
 .campo-cadastro {
   margin-bottom: 15px;
+
   display: flex;
   flex-direction: column;
 }
 
 .campo-cadastro label {
   color: var(--principal);
+
   font-size: 14px;
+
   font-weight: bold;
+
   margin-bottom: 6px;
 }
 
-.campo-cadastro input {
+.campo-cadastro input,
+.campo-cadastro select {
   width: 100%;
   height: 42px;
+
+  box-sizing: border-box;
+
   padding: 0 12px;
+
   background: var(--fundo);
+
   border: 1px solid var(--detalhe);
+
   border-radius: 7px;
+
   color: var(--principal);
+
   outline: none;
 }
 
-.campo-cadastro input:focus {
+.campo-cadastro input:focus,
+.campo-cadastro select:focus {
   border-color: var(--principal);
-  box-shadow: 0 0 0 3px rgba(133, 94, 74, 0.12);
+
+  box-shadow:
+    0 0 0 3px rgba(133, 94, 74, 0.12);
 }
 
+
 /* BOTÃO */
+
 .card-cadastro button {
   width: 100%;
+
   height: 45px;
+
   margin-top: 8px;
+
   background: var(--principal);
+
   color: var(--fundo);
+
   border: none;
+
   border-radius: 7px;
+
   font-weight: bold;
+
   font-size: 15px;
+
   cursor: pointer;
 }
 
@@ -119,54 +183,175 @@
   background: #704C3C;
 }
 
-/* MENSAGEM */
-.mensagem {
-  padding: 10px;
-  margin-top: 12px;
-  background: var(--fundo);
-  border: 1px solid var(--detalhe);
-  border-left: 4px solid var(--principal);
-  border-radius: 6px;
+
+/* BOTÃO CANCELAR */
+
+.card-cadastro .btn-cancelar {
+  background: var(--detalhe);
+
   color: var(--principal);
-  font-size: 13px;
+
+  margin-top: 10px;
 }
 
-/* PRÉ-VISUALIZAÇÃO */
-.pre-visualizacao {
-  width: 100%;
-  max-width: 500px;
-  margin-top: 20px;
-  padding: 22px;
+.card-cadastro .btn-cancelar:hover {
+  background: var(--branco);
+}
+
+
+/* LISTA */
+
+.lista-processos {
+  margin-top: 30px;
+
+  padding: 25px;
+
   background: var(--card);
+
   border: 1px solid var(--detalhe);
+
   border-radius: 12px;
 }
 
-.pre-visualizacao h2 {
+
+/* TÍTULO DA LISTA */
+
+.lista-processos h2 {
   color: var(--principal);
-  font-size: 19px;
-  margin-bottom: 12px;
+
+  font-size: 20px;
+
+  margin-bottom: 5px;
 }
 
-.pre-visualizacao p {
+.total-processos {
   color: var(--principal);
+
+  opacity: 0.7;
+
   font-size: 13px;
-  margin: 7px 0;
+
+  margin-bottom: 20px;
 }
+
+
+/* MENSAGEM */
+
+.mensagem {
+  padding: 15px;
+
+  background: var(--fundo);
+
+  border: 1px solid var(--detalhe);
+
+  border-left: 4px solid var(--principal);
+
+  border-radius: 6px;
+
+  color: var(--principal);
+
+  font-size: 13px;
+}
+
+
+/* TABELA */
+
+.tabela-container {
+  width: 100%;
+
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+
+  border-collapse: collapse;
+
+  background: var(--fundo);
+}
+
+th {
+  background: var(--principal);
+
+  color: var(--branco);
+
+  padding: 12px;
+
+  text-align: left;
+
+  font-size: 13px;
+}
+
+td {
+  padding: 12px;
+
+  border-bottom: 1px solid var(--detalhe);
+
+  color: var(--principal);
+
+  font-size: 13px;
+}
+
+tr:hover {
+  background: var(--detalhe);
+}
+
+
+/* AÇÕES */
+
+.acoes {
+  display: flex;
+
+  gap: 8px;
+}
+
+.acoes button {
+  width: 35px;
+  height: 35px;
+
+  margin: 0;
+
+  padding: 0;
+
+  background: var(--detalhe);
+
+  color: var(--principal);
+
+  border: none;
+
+  border-radius: 6px;
+
+  cursor: pointer;
+}
+
+.acoes button:hover {
+  background: var(--branco);
+}
+
 
 /* RODAPÉ */
+
 .rodape {
   height: 55px;
+
   background: var(--principal);
+
   color: var(--fundo);
+
   display: flex;
+
   align-items: center;
+
   justify-content: center;
+
   font-size: 12px;
 }
 
+
 /* RESPONSIVO */
+
 @media (max-width: 600px) {
+
   .cabecalho {
     padding: 0 20px;
   }
@@ -179,7 +364,8 @@
     font-size: 23px;
   }
 
-  .pre-visualizacao {
+  .lista-processos {
     padding: 18px;
   }
+
 }

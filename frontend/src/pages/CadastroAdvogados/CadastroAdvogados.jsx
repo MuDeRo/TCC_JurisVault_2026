@@ -5,6 +5,7 @@ import './CadastroAdvogado.css';
 
 import api from '../../services/api.js'; 
 
+
 function CadastroAdvogados() {
   const [nomeAdvogado, setNomeAdvogado] = useState('');
   const [emailAdvogado, setEmailAdvogado] = useState('');
@@ -17,7 +18,7 @@ function CadastroAdvogados() {
   const [mensagem, setMensagem] = useState('');
   const [carregando, setCarregando] = useState(false); // Estado para controlar o botão durante a requisição
 
-  // 2. A FUNÇÃO DE CADASTRAR COM O AXIOS 
+  // FUNÇÃO DE CADASTRAR COM O AXIOS 
   async function cadastrarAdvogado(e) {
     e.preventDefault(); // Evita o comportamento padrão do formulário (recarregar a página)
 

@@ -184,6 +184,10 @@ export class Advogado {
     #validarOAB(oab) {
         const regex = /^\d{1,6}[\/-]?[A-Z]{2}$/;
 
+        if (!oab || !regex.test(oab)) {
+            throw new Error('Registro OAB é obrigatório e deve conter 9 caracteres (ex: 123456/SP)');
+        }
+   
         return regex.test(oab.toUpperCase());
     }
 
