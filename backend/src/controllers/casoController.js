@@ -21,9 +21,9 @@ const casoController = {
 
     criar: async (req, res) => {
         try {
-            const { descricao_caso } = req.body;
+            const { descricao_caso, numero_cnj } = req.body;
 
-            const caso = Casos.criarCaso({ descricao_caso });
+            const caso = Casos.criarCaso({ descricao_caso, numero_cnj });
             const result = await casosRepository.criar(caso);
             res.status(201).json({
                 message: 'Caso criado com sucesso',
@@ -41,9 +41,9 @@ const casoController = {
     editar: async (req, res) => {
         try {
             const { id } = req.params;
-            const { descricao_caso } = req.body;
+            const { descricao_caso, numero_cnj } = req.body;
 
-            const caso = Casos.editarCaso({ id, descricao_caso });
+            const caso = Casos.editarCaso({ id, descricao_caso, numero_cnj });
             const result = await casosRepository.editar(caso);
             res.status(200).json({
                 message: 'Caso editado com sucesso',

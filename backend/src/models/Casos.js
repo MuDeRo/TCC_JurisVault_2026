@@ -1,24 +1,34 @@
-export class Casos{
+import { validarPadraoCnj } from "../utils/padraoCnj.js";
+export class Casos {
     #id;
     #descricao_caso;
+    #numero_cnj
 
-    constructor(pDescricao_caso, pId){
+    constructor(pDescricao_caso, pNumeroCnj, pId) {
         this.descricao_caso = pDescricao_caso;
+        this.numero_cnj = pNumeroCnj
         this.id = pId;
     }
 
-    get descricao_caso(){
+    get descricao_caso() {
         return this.#descricao_caso
     }
-    set descricao_caso(value){
+    set descricao_caso(value) {
         this.#validarDescricao_caso(value);
         this.#descricao_caso = value;
     }
 
-    get id(){
+    get numero_cnj() {
+        return this.#numero_cnj
+    }
+    set numero_cnj(value) {
+        this.#numero_cnj = this.#validarNumeroCnj(value);
+    }
+
+    get id() {
         return this.#id;
     }
-    set id(value){
+    set id(value) {
         this.#validarId(value);
         this.#id = value;
     }
@@ -35,11 +45,17 @@ export class Casos{
         }
     }
 
-
-    static criarCaso(dados){
-        return new Casos(dados.descricao_caso, null);
+    #validarNumeroCnj(value) {
+        if (value.length != 20) {
+            throw new Error('O número do CNJ não corresponde ao padrão esperado');
+        }
+        return validarPadraoCnj(value);
     }
-    static editarCaso(dados){
-        return new Casos(dados.descricao_caso, dados.id);
+
+    static criarCaso(dados) {
+        return new Casos(dados.descricao_caso, dados.numero_cnj, null);
+    }
+    static editarCaso(dados) {
+        return new Casos(dados.descricao_caso, dados.numero_cnj, dados.id);
     }
 }
