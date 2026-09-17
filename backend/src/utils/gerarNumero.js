@@ -1,5 +1,5 @@
 //Função criada para gerar automaticamente um identificador com 20 números aleatórios, que será usado para identificar os casos após sua criação
-function gerarNumerosAleatorios() {
+export function gerarNumerosAleatorios() {
     const numeros = [];
 
     for (let i = 0; i < 20; i++) {
@@ -10,5 +10,5 @@ function gerarNumerosAleatorios() {
     return numeros;
 }
 
-// Exemplo de uso:
-console.log(gerarNumerosAleatorios());
+// Teste da função gerador
+//console.log(gerarNumerosAleatorios());
