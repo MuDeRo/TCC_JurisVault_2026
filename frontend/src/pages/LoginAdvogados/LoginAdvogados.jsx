@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import CampoLogin from '../../components/Advogados/CampoLogin';
 import './LoginAdvogado.css';
-import { DragDrop } from '../../components/styles/DragDrop';
+import { DragDrop } from '../../components/styles/DragDrop'; //importa o componente DragDrop do arquivo DragDrop.jsx
 
 function LoginAdvogados({ advogadoCadastrado }) {
   const [emailDigitado, setEmailDigitado] = useState('');
@@ -113,7 +113,7 @@ function LoginAdvogados({ advogadoCadastrado }) {
 
         <DragDrop
         
-        />
+        /> {/* depois de exporta-lo, precisamos apenas chamar o componente na pagina */}
 
         
 
