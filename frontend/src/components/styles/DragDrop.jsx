@@ -1,6 +1,8 @@
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import { useState } from 'react';
 
+// FLUXO GERAL: importar o componente DragDrop no arquivo onde ele será usado, criar um estado para armazenar os itens que serão arrastados, criar uma função handleOnDragEnd que será chamada quando o usuário terminar de arrastar um item, e dentro dessa função atualizar a lista de itens com a nova ordem. Por fim, renderizar o componente DragDropContext com a função handleOnDragEnd, e dentro dele renderizar o componente Droppable com a lista de itens, e para cada item renderizar o componente Draggable.
+
 export function DragDrop() { // criação do componente DragDrop
 
     const [itens, setItens] = useState([ //usamos esse MOCK para testar a funcionalidade de drag and drop, futuramente será substituido por uma requisição ao backend
