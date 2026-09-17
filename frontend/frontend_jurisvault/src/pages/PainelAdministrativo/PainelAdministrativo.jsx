@@ -1,8 +1,13 @@
 import "./PainelAdministrativo.css";
+import "./PainelAdministrativo.css";
+import fundo from "../../public/fundo-painel.png";
 
 function PainelAdministrativo() {
     return (
-        <div className="pagina-painel">
+        <div
+            className="pagina-painel"
+            style={{ backgroundImage: `url("${fundo}")` }}
+        >
 
             {/* CABEÇALHO */}
             <header className="cabecalho-painel">

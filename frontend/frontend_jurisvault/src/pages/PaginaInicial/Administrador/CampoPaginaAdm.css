@@ -1,13 +1,9 @@
 :root {
 
   --principal: #172536;
-
   --fundo: #F7F5F0;
-
   --card: #FFFFFF;
-
   --detalhe: #D8D3CA;
-
   --branco: #FFFFFF;
 
 }
@@ -15,15 +11,10 @@
 .pagina-inicial-admin {
 
   min-height: 100vh;
-
   display: flex;
-
   flex-direction: column;
-
   background: var(--fundo);
-
   font-family: Arial, Helvetica, sans-serif;
-
   color: var(--principal);
 
 }
@@ -31,17 +22,11 @@
 .cabecalho-inicial-admin {
 
   height: 70px;
-
   background: var(--principal);
-
   border-bottom: 3px solid var(--detalhe);
-
   display: flex;
-
   align-items: center;
-
   justify-content: space-between;
-
   padding: 0 40px;
 
 }
@@ -49,15 +34,10 @@
 .logo-inicial-admin {
 
   display: flex;
-
   align-items: center;
-
   gap: 10px;
-
   color: var(--branco);
-
   font-size: 20px;
-
   font-weight: bold;
 
 }
@@ -73,9 +53,7 @@
 .navegacao-inicial-admin {
 
   display: flex;
-
   align-items: center;
-
   gap: 12px;
 
 }
@@ -83,23 +61,14 @@
 .botao-nav-inicial-admin {
 
   height: 38px;
-
   padding: 0 18px;
-
   background: var(--card);
-
   color: var(--principal);
-
   border: none;
-
   border-radius: 20px;
-
   font-size: 13px;
-
   font-weight: bold;
-
   cursor: pointer;
-
   transition: background 0.2s ease, transform 0.15s ease;
 
 }
@@ -107,7 +76,6 @@
 .botao-nav-inicial-admin:hover {
 
   background: #F7F5F0;
-
   transform: translateY(-1px);
 
 }
@@ -121,27 +89,16 @@
 .botao-perfil-inicial-admin {
 
   width: 38px;
-
   height: 38px;
-
   border-radius: 50%;
-
   background: var(--card);
-
   color: var(--principal);
-
   border: none;
-
   font-size: 17px;
-
   cursor: pointer;
-
   display: flex;
-
   align-items: center;
-
   justify-content: center;
-
   transition: background 0.2s ease, transform 0.15s ease;
 
 }
@@ -149,7 +106,6 @@
 .botao-perfil-inicial-admin:hover {
 
   background: #F7F5F0;
-
   transform: translateY(-1px);
 
 }
@@ -157,27 +113,16 @@
 .menu-perfil-inicial-admin {
 
   position: absolute;
-
   top: 48px;
-
   right: 0;
-
   width: 170px;
-
   background: var(--branco);
-
   border: 1px solid var(--detalhe);
-
   border-radius: 10px;
-
   box-shadow: 0 8px 20px rgba(23, 37, 54, 0.18);
-
   display: flex;
-
   flex-direction: column;
-
   overflow: hidden;
-
   z-index: 10;
 
 }
@@ -185,19 +130,12 @@
 .menu-perfil-inicial-admin button {
 
   padding: 12px 16px;
-
   background: var(--branco);
-
   border: none;
-
   border-bottom: 1px solid var(--detalhe);
-
   color: var(--principal);
-
   font-size: 13px;
-
   text-align: left;
-
   cursor: pointer;
 
 }
@@ -217,13 +155,9 @@
 .conteudo-inicial-admin {
 
   flex: 1;
-
   display: flex;
-
   align-items: center;
-
   justify-content: center;
-
   padding: 40px 20px;
 
 }
@@ -237,13 +171,9 @@
 .marca-logo-grande-admin {
 
   display: flex;
-
   align-items: center;
-
   justify-content: center;
-
   gap: 18px;
-
   margin-bottom: 12px;
 
 }
@@ -251,13 +181,9 @@
 .linha-logo-grande-admin {
 
   width: 70px;
-
   height: 3px;
-
   background: #C6A15B;
-
   opacity: 0.7;
-
   border-radius: 2px;
 
 }
@@ -265,9 +191,7 @@
 .icone-logo-grande-admin {
 
   font-size: 64px;
-
   color: #C6A15B;
-
   line-height: 1;
 
 }
@@ -275,13 +199,9 @@
 .titulo-logo-grande-admin {
 
   font-size: 48px;
-
   font-weight: bold;
-
   color: var(--principal);
-
   margin: 0;
-
   letter-spacing: 1px;
 
 }
@@ -289,15 +209,10 @@
 .subtitulo-logo-grande-admin {
 
   font-size: 40px;
-
   font-weight: bold;
-
   color: #C6A15B;
-
   text-shadow: 1px 1px 0 var(--detalhe);
-
   margin: -8px 0 0;
-
   letter-spacing: 1px;
 
 }
@@ -305,17 +220,11 @@
 .rodape-inicial-admin {
 
   height: 55px;
-
   background: var(--principal);
-
   color: var(--fundo);
-
   display: flex;
-
   align-items: center;
-
   justify-content: center;
-
   font-size: 12px;
 
 }
