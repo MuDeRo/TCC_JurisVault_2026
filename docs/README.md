@@ -1,18 +1,27 @@
 # ⚖️ JurisVault_2026 — Gestão Jurídica Inteligente
 
-O **JurisVault** é uma plataforma desenvolvida para auxiliar advogados autônomos e pequenos escritórios na organização de processos jurídicos, documentos e usuários dentro de um ambiente digital seguro. 
-O projeto foi criado com o objetivo de modernizar a rotina jurídica, substituindo métodos manuais por um sistema mais organizado, acessível e protegido. 
-A plataforma busca oferecer mais praticidade no gerenciamento de informações jurídicas, mantendo o foco na segurança dos dados e no controle de acesso dos usuários.
+O **JurisVault** é uma plataforma desenvolvida para auxiliar advogados autônomos e pequenos escritórios na organização de processos, documentos e informações jurídicas em um ambiente digital.
+
+O projeto busca modernizar a rotina jurídica, centralizando informações, facilitando o gerenciamento dos casos e utilizando recursos de autenticação e controle de acesso.
 
 ---
 
 # Objetivo do Projeto
 
-O principal objetivo do JurisVault é transformar processos manuais em uma solução digital simples e eficiente.
+O principal objetivo do JurisVault é transformar processos manuais em uma solução digital simples e organizada.
 
-O sistema foi pensado para permitir o gerenciamento de documentos, autenticação de usuários e controle de acesso através de permissões administrativas.
+O sistema foi desenvolvido para permitir:
 
-Além disso, o projeto também possui foco acadêmico, simulando um ambiente real de advocacia digital utilizando tecnologias modernas de desenvolvimento web.
+- Cadastro e gerenciamento de advogados;
+- Autenticação de advogados e administradores;
+- Validação de cadastros;
+- Gerenciamento de casos;
+- Associação entre advogados e casos;
+- Organização de documentos, provas, etapas e tarefas;
+- Controle de acesso;
+- Armazenamento das informações em banco de dados MySQL.
+
+Além disso, o projeto possui finalidade acadêmica, simulando uma solução digital para a área jurídica.
 
 ---
 
@@ -20,104 +29,281 @@ Além disso, o projeto também possui foco acadêmico, simulando um ambiente rea
 
 # Ferramentas Utilizadas
 
-* VS Code
-* GitHub
-* Render
-* MySQL
-
+- VS Code
+- GitHub
+- Git
+- Render
+- MySQL
 
 ### Front-end
- ![Static Badge](https://img.shields.io/badge/JavaScript-yellow?logo=JavaScript)
- ![Static Badge](https://img.shields.io/badge/React-blue?logo=React)
 
-O front-end é responsável pela interface visual da plataforma, permitindo a interação dos usuários com o sistema.
+![JavaScript](https://img.shields.io/badge/JavaScript-yellow?logo=javascript)
+![React](https://img.shields.io/badge/React-blue?logo=react)
+![Vite](https://img.shields.io/badge/Vite-purple?logo=vite)
+![Axios](https://img.shields.io/badge/Axios-5A29E4?logo=axios)
+![React Router](https://img.shields.io/badge/React%20Router-CA4245?logo=reactrouter)
 
----
+O front-end é responsável pela interface visual, navegação, formulários e interação dos usuários com o sistema.
 
 ### Back-end
- ![Static Badge](https://img.shields.io/badge/node.js-green?logo=node.js)
- ![Static Badge](https://img.shields.io/badge/JSON%20Web%20Tokens-black?logo=JSON%20Web%20Tokens)
- ![Static Badge](https://img.shields.io/badge/JUCESP%20-%20OAB-red?logo=JUCESP%20-%20OAB)
 
-O back-end é responsável pela lógica da aplicação, autenticação dos usuários, proteção das rotas e comunicação com o banco de dados.
+![Node.js](https://img.shields.io/badge/Node.js-green?logo=node.js)
+![Express](https://img.shields.io/badge/Express-black?logo=express)
+![JWT](https://img.shields.io/badge/JWT-black?logo=jsonwebtokens)
+![Bcrypt](https://img.shields.io/badge/Bcrypt-red)
+![Multer](https://img.shields.io/badge/Multer-orange)
+
+O back-end é responsável pela lógica da aplicação, autenticação, validações, proteção das rotas e comunicação com o banco de dados.
 
 ---
 
-## Banco de Dados
+# Banco de Dados
 
-![Static Badge](https://img.shields.io/badge/MySQL-orange?logo=mysql)
+![MySQL](https://img.shields.io/badge/MySQL-orange?logo=mysql)
 
-O MySQL será utilizado para armazenar informações dos usuários, documentos e dados necessários para o funcionamento da plataforma.
+O MySQL é utilizado para armazenar as informações necessárias para o funcionamento da plataforma.
+
+Entre as principais tabelas estão:
+
+- `administradores`
+- `advogados`
+- `enderecos`
+- `casos`
+- `advogados_casos`
+- `arquivos`
+- `provas`
+- `etapas`
+- `tarefas`
+- `etapas_arquivos`
+- `requerentes`
+- `requeridos`
 
 ---
 
 # Sistema de Autenticação
 
-O sistema utiliza autenticação baseada em JWT (JSON Web Token).
-Após realizar o login, o usuário recebe um token que será utilizado para acessar áreas protegidas do sistema.
-Esse mecanismo garante mais segurança e controle de acesso dentro da plataforma.
+O sistema utiliza autenticação baseada em **JWT (JSON Web Token)**.
+
+Após realizar o login, o usuário recebe um token utilizado para acessar áreas protegidas do sistema.
+
+O projeto possui autenticação para:
+
+- Advogados;
+- Administradores.
+
+As senhas são protegidas utilizando **Bcrypt** e o acesso às áreas administrativas utiliza middleware de autenticação.
 
 ---
 
 # Validação de Advogados
 
-Todos os usuários poderão realizar cadastro normalmente na plataforma.
+Os advogados podem realizar o cadastro na plataforma.
 
-Após o cadastro, o usuário será salvo no banco de dados com o status:
+Após o cadastro, o usuário é salvo no banco de dados com o status:
 
 **validando**
 
-Os administradores terão acesso a uma área protegida onde poderão analisar os usuários cadastrados.
-A validação será realizada manualmente através da página `ConfirmADV`.
+Os administradores possuem uma área protegida para analisar os cadastros.
 
-Após a análise, o usuário poderá ser:
+Após a análise, o cadastro pode receber os seguintes status:
 
-* aprovado;
-* negado;
-* ou permanecer em validação.
+- **aprovado**
+- **negado**
+- **validando**
 
-Somente usuários aprovados terão acesso às funcionalidades principais do sistema.
+O sistema possui endpoints específicos para consultar, aprovar e negar os cadastros.
 
 ---
-#  Funcionamento do Sistema
 
-- O usuário realiza o cadastro na plataforma;
+# Funcionamento do Sistema
 
-- O sistema registra automaticamente o cadastro com o status **"validando"**;
+- O advogado realiza o cadastro na plataforma;
+- Os dados são validados;
+- A senha é armazenada de forma protegida;
+- O cadastro recebe o status **"validando"**;
+- O administrador acessa a área administrativa;
+- O cadastro é analisado;
+- O administrador pode aprovar ou negar o cadastro;
+- Os casos podem ser cadastrados e associados aos advogados;
+- As informações são armazenadas no banco de dados.
 
-- Os administradores acessam a área protegida da aplicação;
+---
 
-- O cadastro é analisado manualmente através da página `ConfirmADV`;
+# Gerenciamento de Casos
 
-- Após a análise, o usuário pode ser:
-  - aprovado;
-  - negado;
-  - ou permanecer em validação;
+O sistema possui funcionalidades para gerenciamento de casos jurídicos.
 
+É possível realizar operações de:
 
+- Cadastro;
+- Consulta;
+- Atualização;
+- Exclusão.
+
+Os casos podem ser relacionados aos advogados através da tabela `advogados_casos`.
+
+A estrutura do banco também possui tabelas relacionadas a:
+
+- Arquivos;
+- Provas;
+- Etapas;
+- Tarefas;
+- Requerentes;
+- Requeridos.
+
+---
+
+# Upload de Arquivos
+
+O projeto possui configuração para upload de arquivos utilizando **Multer**.
+
+São permitidos arquivos nos formatos:
+
+- PDF;
+- JPEG;
+- JPG;
+- PNG.
+
+O limite configurado para upload é de **150 MB**.
+
+---
 
 # Estrutura do Projeto
+
+O projeto está dividido em **backend** e **frontend**.
+
+### Backend
 
 A pasta `controllers` contém as regras e funcionalidades da aplicação.
 
 A pasta `routes` define as rotas da API.
 
-A pasta `middlewares` possui as validações e autenticação JWT.
+A pasta `middlewares` possui autenticação, validações e controle de acesso.
 
-A pasta `models` contém a estrutura do banco de dados.
+A pasta `models` representa as entidades utilizadas pela aplicação.
 
-A pasta `services` reúne funções auxiliares utilizadas pelo sistema.
+A pasta `repositories` concentra a comunicação com o banco de dados.
 
-A pasta `database` é responsável pela configuração do banco de dados.
+A pasta `config` contém configurações do banco de dados e upload de arquivos.
+
+A pasta `utils` reúne funções auxiliares.
+
+### Frontend
+
+A pasta `components` contém componentes reutilizáveis da interface.
+
+A pasta `pages` contém as páginas do sistema.
+
+A pasta `services` contém a configuração de comunicação com a API.
+
+---
+
+# Principais Rotas da API
+
+### Autenticação
+
+```http
+POST /auth/login/advogado
+POST /auth/login/admin
+```
+
+### Advogados
+
+```http
+POST /advogado/cadastro
+GET  /advogado/perfil
+PUT  /advogado/atualizar/:id
+```
+
+### Administradores
+
+```http
+GET   /administrador/pendentes
+GET   /administrador/aprovados
+PATCH /administrador/aprovar/:id
+PATCH /administrador/negar/:id
+```
+
+### Casos
+
+```http
+GET    /casos
+POST   /casos
+PUT    /casos/:id
+DELETE /casos/:id
+```
+
+### Advogados e Casos
+
+```http
+GET    /advogadosCasos
+POST   /advogadosCasos
+PUT    /advogadosCasos/:id
+DELETE /advogadosCasos/:id
+```
 
 ---
 
 # 🛡️ Segurança e LGPD
 
-O projeto segue princípios da LGPD para garantir proteção de dados e segurança das informações armazenadas na plataforma.
+O projeto considera princípios da **LGPD** para proteção das informações armazenadas.
 
-O controle de acesso e a autenticação JWT ajudam a proteger áreas restritas do sistema.
+Entre os recursos utilizados estão:
 
-# Equipe JurisVault
+- Autenticação JWT;
+- Controle de acesso;
+- Hash de senhas com Bcrypt;
+- Validação de dados;
+- Variáveis de ambiente;
+- Controle de tipos e tamanho dos arquivos;
+- Proteção das áreas administrativas.
 
-Projeto acadêmico desenvolvido com foco em segurança, organização e modernização da advocacia digital.
+---
+
+# Estrutura de Pastas
+
+```text
+TCC_JurisVault_2026/
+│
+├── backend/
+│   └── src/
+│       ├── config/
+│       ├── controllers/
+│       ├── middlewares/
+│       ├── models/
+│       ├── repositories/
+│       ├── routes/
+│       ├── utils/
+│       └── server.js
+│
+├── frontend/
+│   └── src/
+│       ├── components/
+│       ├── pages/
+│       ├── services/
+│       ├── App.jsx
+│       └── main.jsx
+│
+└── docs/
+```
+
+---
+
+# Execução do Projeto
+
+### Backend
+
+```bash
+cd backend
+npm install
+```
+
+Configure as variáveis de ambiente e execute o servidor conforme a configuração do projeto.
+
+### Frontend
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
