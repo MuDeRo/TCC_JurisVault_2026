@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CampoFormulario from '../../components/Administradores/CampoFormulario';
+import api from '../../services/api'; // Ajuste o caminho se necessário
 import './Administradores.css';
 
 function Administradores({ onLoginSucesso }) {
@@ -8,10 +9,8 @@ function Administradores({ onLoginSucesso }) {
   const [login, setLogin] = useState('');
   const [senha, setSenha] = useState('');
   const [erro, setErro] = useState('');
+  const [carregando, setCarregando] = useState(false);
   const [autenticado, setAutenticado] = useState(false);
-
-  const LOGIN_CORRETO = 'admin.global38721@gmail.com';
-  const SENHA_CORRETA = 'admin123';
 
   function quandoDigitarLogin(e) {
     setLogin(e.target.value);
@@ -23,19 +22,49 @@ function Administradores({ onLoginSucesso }) {
     setErro('');
   }
 
-  function entrar(e) {
+  async function entrar(e) {
     e.preventDefault();
 
-    if (login === '' || senha === '') {
+    if (!login || !senha) {
       setErro('Preencha o login e a senha.');
       return;
     }
 
-    if (login === LOGIN_CORRETO && senha === SENHA_CORRETA) {
-      setAutenticado(true);
+    try {
+      setCarregando(true);
       setErro('');
-    } else {
-      setErro('Login ou senha incorretos.');
+
+      // Autenticação real com o backend
+      const resposta = await api.post('/auth/login/admin', {
+        email: login,
+        senha: senha,
+      });
+
+      const data = resposta.data || {};
+      const tokenRecebido = data.token || data.accessToken;
+      const usuarioLogado = data.usuario || data.admin || { email: login, role: 'admin' };
+
+      if (tokenRecebido) {
+        // Armazena o token para o interceptor do Axios utilizar
+        localStorage.setItem('token', tokenRecebido);
+        localStorage.setItem('@catalogoPessoas:token', tokenRecebido);
+        localStorage.setItem('@catalogoPessoas:user', JSON.stringify(usuarioLogado));
+
+        setAutenticado(true);
+      } else {
+        setErro('O servidor não retornou um token de acesso válido.');
+      }
+    } catch (err) {
+      console.error('Erro ao realizar login de administrador:', err);
+      if (err.response && err.response.data && err.response.data.message) {
+        setErro(err.response.data.message);
+      } else if (err.response && err.response.status === 401) {
+        setErro('E-mail ou senha de administrador incorretos.');
+      } else {
+        setErro('Não foi possível conectar ao servidor. Tente novamente.');
+      }
+    } finally {
+      setCarregando(false);
     }
   }
 
@@ -125,8 +154,8 @@ function Administradores({ onLoginSucesso }) {
               </div>
             )}
 
-            <button type="submit" className="botao-entrar-admin">
-              Entrar <span>→</span>
+            <button type="submit" className="botao-entrar-admin" disabled={carregando}>
+              {carregando ? 'Autenticando...' : 'Entrar'} <span>→</span>
             </button>
           </form>
 

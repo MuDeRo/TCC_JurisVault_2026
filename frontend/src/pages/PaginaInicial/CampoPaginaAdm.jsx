@@ -49,7 +49,7 @@ export default function CampoPaginaAdm() {
             <h3>Área do Administrador</h3>
             <div className="gold-dot"></div>
             <p>Acesse o painel administrativo do sistema</p>
-            <button onClick={() => navigate('/inicio')}>ACESSAR &gt;</button>
+            <button onClick={() => navigate('/administrador')}>ACESSAR &gt;</button>
           </div>
         </div>
       </main>

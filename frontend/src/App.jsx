@@ -1,14 +1,14 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
-// Página Pública de Entrada (Portal com os 3 cartões)
+// Páginas Públicas (Sem barra lateral / Layout próprio)
 import CampoPaginaAdm from './pages/PaginaInicial/CampoPaginaAdm';
 import LoginAdvogados from './pages/LoginAdvogados/LoginAdvogados';
 import CadastroAdvogados from './pages/CadastroAdvogados/CadastroAdvogados';
-
-// Páginas Internas do Sistema
-import PainelAdministrativo from './pages/PainelAdministrativo/PainelAdministrativo';
 import Administradores from './pages/Administradores/Administradores';
+
+// Páginas Internas do Sistema (Com barra lateral)
+import PainelAdministrativo from './pages/PainelAdministrativo/PainelAdministrativo';
 import Processos from './pages/Processos/Processos';
 import CadastroProcesso from './pages/Processos/CadastroProcesso';
 import Clientes from './pages/Processos/Clientes';
@@ -20,16 +20,16 @@ import Layout from './components/layoutPagina/layout';
 export default function App() {
   return (
     <Routes>
-      {/* ROTAS PÚBLICAS (Sem barra lateral) */}
+      {/* ROTAS PÚBLICAS */}
       <Route path="/" element={<CampoPaginaAdm />} />
       <Route path="/login" element={<LoginAdvogados />} />
       <Route path="/cadastro" element={<CadastroAdvogados />} />
+      <Route path="/administrador" element={<Administradores />} />
 
-      {/* ROTAS INTERNAS DO SISTEMA (Com barra lateral) */}
+      {/* ROTAS INTERNAS DO SISTEMA (Acessíveis dentro do Layout) */}
       <Route element={<Layout />}>
-        <Route path="/inicio" element={<PainelAdministrativo />} />
+        <Route path="/inicio" element={<Processos />} />
         <Route path="/painel-administrativo" element={<PainelAdministrativo />} />
-        <Route path="/administrador" element={<Administradores />} />
         <Route path="/processos" element={<Processos />} />
         <Route path="/novo-caso" element={<CadastroProcesso />} />
         <Route path="/clientes" element={<Clientes />} />
