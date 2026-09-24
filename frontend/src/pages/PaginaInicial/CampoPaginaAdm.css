@@ -1,173 +1,137 @@
-/* Container Principal */
-.portal-container {
+.pagina-adm-container {
+  display: flex;
   min-height: 100vh;
   background-color: #f6f4ee;
-  display: flex;
-  flex-direction: column;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  box-sizing: border-box;
-}
-
-/* Barra Superior */
-.portal-header {
-  background-color: #0d1e36;
-  padding: 16px 40px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  color: #ffffff;
-}
-
-.portal-header .logo-icon {
-  font-size: 1.3rem;
-}
-
-.portal-header h3 {
-  margin: 0;
-  font-size: 0.9rem;
-  letter-spacing: 1.5px;
-  font-weight: 500;
-  color: #ffffff;
-}
-
-.portal-header h3 strong {
-  color: #cbb279;
-  font-weight: 800;
-}
-
-/* Área Central */
-.portal-content {
-  flex: 1;
-  display: flex;
   align-items: center;
   justify-content: center;
-  padding: 40px 60px;
   gap: 60px;
-  max-width: 1250px;
-  margin: 0 auto;
-  width: 100%;
+  padding: 40px;
   box-sizing: border-box;
+  font-family: system-ui, -apple-system, sans-serif;
 }
 
-/* Título à Esquerda */
-.portal-title {
-  flex: 1;
-  max-width: 360px;
+/* LADO ESQUERDO */
+.hero-section {
   text-align: center;
+  max-width: 320px;
 }
 
-.portal-title .divider {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  margin-bottom: 20px;
-}
-
-.portal-title .divider::before,
-.portal-title .divider::after {
-  content: '';
-  height: 1px;
-  width: 70px;
-  background-color: #d8c89d;
-}
-
-.portal-title h1 {
-  font-size: 3rem;
-  line-height: 1.1;
-  margin: 0 0 16px 0;
-  color: #0d1e36;
-  font-weight: 900;
-}
-
-.portal-title h1 span {
-  display: block;
-  color: #cbb279;
-  font-weight: 800;
-}
-
-.portal-title p {
-  color: #718096;
-  font-size: 1rem;
-  margin: 0;
-}
-
-/* Grid dos Cartões */
-.cards-grid {
-  flex: 2;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-}
-
-/* Estilo de cada Cartão */
-.portal-card {
-  background-color: #ffffff;
-  padding: 36px 20px;
-  border-radius: 16px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.portal-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
-}
-
-.card-icon {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background-color: #0d1e36;
-  color: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.icon-balanca {
   font-size: 1.4rem;
-  margin-bottom: 18px;
+  margin-bottom: 12px;
 }
 
-.portal-card h3 {
-  color: #0d1e36;
-  font-size: 1.1rem;
-  font-weight: 700;
-  margin: 0 0 6px 0;
+.titulo-principal {
+  color: #0b1a2d;
+  font-size: 2.6rem;
+  margin: 0;
+  font-weight: 800;
+  line-height: 1.1;
 }
 
-.gold-dot {
-  width: 5px;
-  height: 5px;
-  background-color: #cbb279;
-  border-radius: 50%;
-  margin-bottom: 14px;
+.destaque-dourado {
+  color: #c49a45;
 }
 
-.portal-card p {
-  color: #718096;
-  font-size: 0.85rem;
-  line-height: 1.4;
-  margin: 0 0 24px 0;
-  min-height: 36px;
+.subtitulo {
+  color: #64748b;
+  margin-top: 16px;
+  font-size: 0.9rem;
 }
 
-.portal-card button {
-  width: 100%;
-  padding: 10px 16px;
-  background-color: #ffffff;
-  border: 1.5px solid #0d1e36;
-  border-radius: 8px;
-  color: #0d1e36;
-  font-weight: 700;
-  font-size: 0.85rem;
+/* CONTAINER DOS CARDS */
+.cards-container {
+  display: flex;
+  gap: 20px;
+  align-items: stretch; /* Garante que todos os cards tenham exatamente a mesma altura */
+}
+
+/* CARTÃO INDIVIDUAL */
+.card-opcao {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 32px 20px;
+  width: 210px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column; /* Organiza os elementos em coluna */
+  align-items: center;
+  text-align: center;
+  border: 1px solid #f1f5f9;
+  box-sizing: border-box;
+
+  /* MOVIMENTO SUAVE DE ELEVAÇÃO AO PASSAR O MOUSE */
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+              box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+              border-color 0.3s ease;
   cursor: pointer;
-  transition: all 0.2s ease;
 }
 
-.portal-card button:hover {
-  background-color: #0d1e36;
+/* EFEITO AO PASSAR O MOUSE NO CARTÃO */
+.card-opcao:hover {
+  transform: translateY(-10px); /* Subida do cartão */
+  box-shadow: 0 18px 36px rgba(11, 26, 45, 0.12); /* Sombra destacada */
+  border-color: #c49a45; /* Realce dourado na borda */
+}
+
+/* ÍCONE INTERNO */
+.icon-box {
+  background-color: #f8fafc;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  margin-bottom: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.card-opcao:hover .icon-box {
+  background-color: #fef9c3;
+}
+
+.card-opcao h3 {
+  margin: 0 0 4px 0;
+  font-size: 1.05rem;
+  color: #0b1a2d;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.card-opcao .dot {
+  color: #c49a45;
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.card-opcao p {
+  color: #64748b;
+  font-size: 0.82rem;
+  margin: 10px 0 24px 0;
+  line-height: 1.4;
+}
+
+/* ALINHAMENTO DOS BOTÕES */
+.btn-acessar {
+  margin-top: auto; /* EMPURRA O BOTÃO SEMPRE PARA A BASE DO CARTÃO */
+  width: 100%;
+  padding: 10px 0;
+  border: 1.5px solid #0b1a2d;
+  border-radius: 8px;
+  background: transparent;
+  color: #0b1a2d;
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+/* MUDANÇA DE COR DO BOTÃO AO PASSAR O MOUSE */
+.card-opcao:hover .btn-acessar,
+.btn-acessar:hover {
+  background: #0b1a2d;
   color: #ffffff;
 }

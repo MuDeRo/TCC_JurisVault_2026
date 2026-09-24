@@ -1,58 +1,77 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './CampoPaginaAdm.css';
 
 export default function CampoPaginaAdm() {
   const navigate = useNavigate();
+  const [email, setEmail] = useState('kaick.e.silva@aluno.senai.br');
+  const [senha, setSenha] = useState('12345');
+
+  const handleEntrarSemErro = (e) => {
+    e.preventDefault();
+
+    // 1. Criar utilizador Administrador no MOCK
+    const adminMock = {
+      id: 1,
+      nome: 'Kaick (Admin)',
+      email: email,
+      perfil: 'Admin'
+    };
+
+    // 2. Salvar sessão local
+    localStorage.setItem('token', 'token-admin-mock-12345');
+    localStorage.setItem('user', JSON.stringify(adminMock));
+
+    // 3. Forçar o navegação para a página de administradores
+    navigate('/administradores');
+  };
 
   return (
-    <div className="portal-container">
-      <header className="portal-header">
-        <span className="logo-icon">⚖️</span>
-        <h3>SISTEMA <strong>JURÍDICO</strong></h3>
-      </header>
+    <div className="login-adm-container">
+      <div className="login-adm-card">
+        <h2>Login - Administrador</h2>
+        <p className="subtitle">Aceda à sua conta para continuar</p>
 
-      <main className="portal-content">
-        <div className="portal-title">
-          <div className="divider">
-            <span>⚖️</span>
-          </div>
-          <h1>
-            Sistema
-            <span>Jurídico</span>
-          </h1>
-          <p>Selecione uma opção no menu ao lado</p>
-        </div>
-
-        <div className="cards-grid">
-          {/* Card 1: Cadastro */}
-          <div className="portal-card">
-            <div className="card-icon">👤</div>
-            <h3>Cadastro de Advogado</h3>
-            <div className="gold-dot"></div>
-            <p>Cadastre novos advogados no sistema</p>
-            <button onClick={() => navigate('/cadastro')}>ACESSAR &gt;</button>
+        <form onSubmit={handleEntrarSemErro}>
+          <div className="form-group">
+            <label>E-MAIL</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Digite seu e-mail"
+              required
+            />
           </div>
 
-          {/* Card 2: Login */}
-          <div className="portal-card">
-            <div className="card-icon">🔑</div>
-            <h3>Login de Advogado</h3>
-            <div className="gold-dot"></div>
-            <p>Acesse sua conta de advogado</p>
-            <button onClick={() => navigate('/login')}>ACESSAR &gt;</button>
+          <div className="form-group">
+            <label>SENHA</label>
+            <input
+              type="password"
+              value={senha}
+              onChange={(e) => setSenha(e.target.value)}
+              placeholder="•••••"
+              required
+            />
           </div>
 
-          {/* Card 3: Área Administrativa */}
-          <div className="portal-card">
-            <div className="card-icon">🛡️</div>
-            <h3>Área do Administrador</h3>
-            <div className="gold-dot"></div>
-            <p>Acesse o painel administrativo do sistema</p>
-            <button onClick={() => navigate('/inicio')}>ACESSAR &gt;</button>
-          </div>
-        </div>
-      </main>
+          <button type="submit" className="btn-submit-adm">
+            ENTRAR NO SISTEMA
+          </button>
+        </form>
+
+        <button 
+          type="button" 
+          className="btn-back" 
+          onClick={() => navigate('/')}
+        >
+          ← Voltar ao Menu Principal
+        </button>
+
+        <p className="test-mode-note">
+          ⚡ Modo Teste Activo: Pode clicar em Entrar com qualquer valor ou campo vazio!
+        </p>
+      </div>
     </div>
   );
 }
