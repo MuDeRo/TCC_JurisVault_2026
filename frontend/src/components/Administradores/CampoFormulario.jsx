@@ -1,53 +1,24 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-function CampoFormulario({ 
-  label, 
-  tipo = 'text', 
-  valor = '', 
-  aoMudar, 
-  onChange, 
-  name, 
-  opcoes = [], 
-  placeholder = '' 
-}) {
-  const tratarMudanca = aoMudar || onChange;
-  const ehSelect = tipo === 'select' || (Array.isArray(opcoes) && opcoes.length > 0);
+export default function CampoFormulario() {
+  const navigate = useNavigate();
+
+  const handleLoginDirect = (e) => {
+    e.preventDefault();
+    
+    // Força entrada Mock
+    localStorage.setItem('token', 'mock-token-admin');
+    localStorage.setItem('user', JSON.stringify({ nome: 'Admin', perfil: 'Admin' }));
+    
+    navigate('/administradores');
+  };
 
   return (
-    <div className="campo-formulario-box">
-      {label && <label htmlFor={name}>{label}</label>}
-
-      {ehSelect ? (
-        <select
-          id={name}
-          name={name}
-          value={valor}
-          onChange={tratarMudanca}
-        >
-          <option value="">{placeholder || 'Selecione uma opção...'}</option>
-          {(Array.isArray(opcoes) ? opcoes : []).map((item, index) => {
-            const ehObjeto = typeof item === 'object' && item !== null;
-            const val = ehObjeto ? (item.value ?? item.id) : item;
-            const txt = ehObjeto ? (item.label ?? item.nome) : item;
-            return (
-              <option key={index} value={val}>
-                {txt}
-              </option>
-            );
-          })}
-        </select>
-      ) : (
-        <input
-          id={name}
-          name={name}
-          type={tipo}
-          value={valor}
-          onChange={tratarMudanca}
-          placeholder={placeholder}
-        />
-      )}
-    </div>
+    <form onSubmit={handleLoginDirect}>
+      <input type="email" defaultValue="admin@jurisvault.com" />
+      <input type="password" defaultValue="12345" />
+      <button type="submit">ENTRAR NO SISTEMA</button>
+    </form>
   );
 }
-
-export default CampoFormulario;

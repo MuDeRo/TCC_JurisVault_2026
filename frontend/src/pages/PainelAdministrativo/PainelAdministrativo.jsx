@@ -1,211 +1,176 @@
 import React, { useState, useEffect } from 'react';
-import api from '../../services/api'; // Ajuste o caminho para o seu api.js
+import { useNavigate } from 'react-router-dom';
 import './PainelAdministrativo.css';
 
-function PainelAdministrativo() {
-  const [advogados, setAdvogados] = useState([]);
-  const [carregando, setCarregando] = useState(true);
-  const [erro, setErro] = useState(null);
+export default function PainelAdministrativo() {
+  const navigate = useNavigate();
 
-  // 1. Busca os advogados Pendentes e Aprovados simultaneamente
-  const buscarAdvogados = async () => {
-    try {
-      setCarregando(true);
-
-      const [resPendentes, resAprovados] = await Promise.all([
-        api.get('/administrador/pendentes'),
-        api.get('/administrador/aprovados')
-      ]);
-
-      // Garante a presença da tag de status em cada item recebido
-      const pendentes = (resPendentes.data || []).map(adv => ({
-        ...adv,
-        status_advogado: adv.status_advogado || 'validando'
-      }));
-
-      const aprovados = (resAprovados.data || []).map(adv => ({
-        ...adv,
-        status_advogado: adv.status_advogado || 'aprovado'
-      }));
-
-      // Une as duas listas no estado local
-      setAdvogados([...pendentes, ...aprovados]);
-      setErro(null);
-    } catch (err) {
-      console.error('Erro ao buscar advogados:', err);
-      setErro('Não foi possível carregar a lista de advogados.');
-    } finally {
-      setCarregando(false);
-    }
-  };
+  // Estados preparados para receber os dados do Backend
+  const [usuario, setUsuario] = useState({ nome: '', registroOab: '' });
+  const [metricas, setMetricas] = useState({
+    processosAtivos: 0,
+    prazosSemana: 0,
+    clientesAtendidos: 0,
+    documentosEmitidos: 0,
+  });
+  const [processosRecentes, setProcessosRecentes] = useState([]);
+  const [proximosPrazos, setProximosPrazos] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    buscarAdvogados();
+    // 1. Carregar dados do usuário autenticado no localStorage
+    const userStored = localStorage.getItem('user');
+    if (userStored) {
+      setUsuario(JSON.parse(userStored));
+    }
+
+    // 2. Função para buscar os dados do Backend (API)
+    async function carregarDadosDashboard() {
+      try {
+        const token = localStorage.getItem('token');
+        const headers = {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        };
+
+     
+
+      } catch (error) {
+        console.error('Erro ao ligar com o backend:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    carregarDadosDashboard();
   }, []);
 
-  // 2. Aprova a permissão de acesso do advogado
-  const aprovarAdvogado = async (id) => {
-    try {
-      await api.patch(`/administrador/aprovar/${id}`); 
-      
-      // Atualiza a interface localmente para 'aprovado'
-      setAdvogados(prev =>
-        prev.map(adv => (adv.id === id ? { ...adv, status_advogado: 'aprovado' } : adv))
-      );
-    } catch (err) {
-      console.error('Erro ao aprovar advogado:', err);
-      alert('Falha ao aprovar o advogado. Tente novamente.');
-    }
-  };
-
-  // 3. Nega a permissão de acesso do advogado
-  const removerCadastro = async (id) => {
-    if (!window.confirm('Tem certeza que deseja negar o acesso deste advogado?')) return;
-
-    try {
-      await api.patch(`/administrador/negar/${id}`); 
-      // Remove o advogado negado da visualização
-      setAdvogados(prev => prev.filter(adv => adv.id !== id));
-    } catch (err) {
-      console.error('Erro ao negar advogado:', err);
-      alert('Falha ao negar o acesso. Tente novamente.');
-    }
-  };
-
-  // Cálculos dinâmicos dos cards de topo
-  const totalAprovados = advogados.filter(
-    a => (a.status_advogado || '').toLowerCase() === 'aprovado'
-  ).length;
-
-  const totalValidando = advogados.filter(
-    a => (a.status_advogado || '').toLowerCase() === 'validando'
-  ).length;
-
   return (
-    <div className="painel-conteudo-wrapper">
-      <header className="dashboard-header">
+    <div className="dashboard-container">
+      {/* Banner Superior de Boas-Vindas */}
+      <div className="welcome-card">
         <div>
-          <h1 className="dashboard-titulo">Administração</h1>
-          <p className="dashboard-subtitulo">Controle de usuários e acessos ao sistema.</p>
+          <h2>Olá, {usuario.nome || 'Advogado'}! 👋</h2>
+          <p>Aqui está o resumo das atividades jurídicas do seu escritório.</p>
+        </div>
+      </div>
+
+      {/* Grid de Cards de Estatísticas */}
+      <div className="metrics-grid">
+        <div className="metric-card">
+          <div className="metric-top">
+            <span className="metric-label">Processos Ativos</span>
+            <div className="metric-icon" style={{ background: '#eff6ff', color: '#3b82f6' }}>📂</div>
+          </div>
+          <div className="metric-value">{metricas.processosAtivos}</div>
+          <span className="metric-trend">Carregado do banco</span>
         </div>
 
-        <div className="perfil-topo">
-          <div className="notificacao-icon-box">
-            🔔<span className="badge-notificacao">3</span>
+        <div className="metric-card">
+          <div className="metric-top">
+            <span className="metric-label">Prazos na Semana</span>
+            <div className="metric-icon" style={{ background: '#fef3c7', color: '#d97706' }}>⏰</div>
           </div>
-          <div className="avatar-circulo">KE</div>
-          <div className="perfil-info">
-            <span className="perfil-nome">Kaick Eduardo</span>
-            <span className="perfil-cargo">Administrador</span>
-          </div>
-        </div>
-      </header>
-
-      <div className="admin-container">
-        {/* Banner de Destaque */}
-        <div className="banner-admin">
-          <div className="banner-icon-box">⚖</div>
-          <div>
-            <h2 className="banner-titulo">Painel Administrativo</h2>
-            <p className="banner-subtitulo">Gerencie os usuários cadastrados e suas permissões.</p>
-          </div>
+          <div className="metric-value" style={{ color: '#d97706' }}>{metricas.prazosSemana}</div>
+          <span className="metric-trend" style={{ color: '#ef4444' }}>Urgentes</span>
         </div>
 
-        {/* Cards de Métricas Dinâmicos */}
-        <div className="cards-admin-grid">
-          <div className="card-metrica-admin">
-            <span className="valor-metrica">{String(totalAprovados).padStart(2, '0')}</span>
-            <span className="label-metrica">Advogados aprovados</span>
+        <div className="metric-card">
+          <div className="metric-top">
+            <span className="metric-label">Clientes Atendidos</span>
+            <div className="metric-icon" style={{ background: '#f0fdf4', color: '#10b981' }}>👥</div>
           </div>
-
-          <div className="card-metrica-admin destaque-alerta-amarelo">
-            <span className="valor-metrica">{String(totalValidando).padStart(2, '0')}</span>
-            <span className="label-metrica">Aguardando validação</span>
-          </div>
+          <div className="metric-value">{metricas.clientesAtendidos}</div>
+          <span className="metric-trend">Ativos</span>
         </div>
 
-        {/* Tabela de Advogados */}
-        <div className="card-painel-dash">
-          <div className="painel-header">
-            <div>
-              <h3 className="titulo-painel">Advogados cadastrados</h3>
-              <p className="subtitulo-painel">Acompanhe os cadastros aprovados e pendentes de validação.</p>
-            </div>
+        <div className="metric-card">
+          <div className="metric-top">
+            <span className="metric-label">Documentos Emitidos</span>
+            <div className="metric-icon" style={{ background: '#f3e8ff', color: '#a855f7' }}>📄</div>
+          </div>
+          <div className="metric-value">{metricas.documentosEmitidos}</div>
+          <span className="metric-trend">Sincronizado</span>
+        </div>
+      </div>
+
+      {/* Grid Inferior: Tabela + Próximos Prazos */}
+      <div className="dash-content-grid">
+        {/* Tabela de Processos Recentes */}
+        <div className="section-box">
+          <div className="section-title">
+            <span>Processos Recentes</span>
+            <span 
+              style={{ fontSize: '0.8rem', color: '#3b82f6', cursor: 'pointer' }}
+              onClick={() => navigate('/processos')}
+            >
+              Ver Todos →
+            </span>
           </div>
 
-          {carregando ? (
-            <div style={{ padding: '24px', textAlign: 'center' }}>Carregando dados...</div>
-          ) : erro ? (
-            <div style={{ padding: '24px', color: '#e53e3e', textAlign: 'center' }}>{erro}</div>
-          ) : (
-            <div className="tabela-responsive">
-              <table className="tabela-admin">
-                <thead>
-                  <tr>
-                    <th>NOME</th>
-                    <th>E-MAIL</th>
-                    <th>OAB</th>
-                    <th>UF</th>
-                    <th>STATUS</th>
-                    <th>AÇÕES</th>
+          <table className="custom-table">
+            <thead>
+              <tr>
+                <th>PROCESSO</th>
+                <th>CLIENTE</th>
+                <th>ÁREA</th>
+                <th>STATUS</th>
+              </tr>
+            </thead>
+            <tbody>
+              {processosRecentes.length > 0 ? (
+                processosRecentes.map((item, idx) => (
+                  <tr key={idx}>
+                    <td style={{ fontWeight: '700' }}>{item.numeroProcesso || item.id}</td>
+                    <td>{item.cliente}</td>
+                    <td>{item.area || item.tipo}</td>
+                    <td>
+                      <span className={`status-badge ${
+                        item.status === 'Urgente' ? 'status-urgente' :
+                        item.status === 'Concluído' ? 'status-concluido' : 'status-andamento'
+                      }`}>
+                        {item.status}
+                      </span>
+                    </td>
                   </tr>
-                </thead>
-                <tbody>
-                  {advogados.length === 0 ? (
-                    <tr>
-                      <td colSpan="6" style={{ textAlign: 'center', padding: '16px' }}>
-                        Nenhum advogado cadastrado no momento.
-                      </td>
-                    </tr>
-                  ) : (
-                    advogados.map((adv) => {
-                      const status = (adv.status_advogado || 'validando').toLowerCase();
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="4" style={{ textAlign: 'center', padding: '24px', color: '#94a3b8' }}>
+                    {loading ? 'A carregar processos...' : 'Nenhum processo cadastrado no banco de dados.'}
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
 
-                      return (
-                        <tr key={adv.id}>
-                          <td><strong>{adv.nome_advogado || adv.nome}</strong></td>
-                          <td>{adv.email_advogado || adv.email}</td>
-                          <td>{adv.registro_oab || adv.oab}</td>
-                          <td>{adv.uf_oab || adv.uf}</td>
-                          <td>
-                            <span className={`badge-status-admin status-${status}`}>
-                              {status.charAt(0).toUpperCase() + status.slice(1)}
-                            </span>
-                          </td>
-                          <td>
-                            <div className="acoes-botoes-flex">
-                              {status === 'validando' ? (
-                                <>
-                                  <button
-                                    className="btn-aprovar-admin"
-                                    onClick={() => aprovarAdvogado(adv.id)}
-                                  >
-                                    Aprovar
-                                  </button>
-                                  <button
-                                    className="btn-remover-admin"
-                                    onClick={() => removerCadastro(adv.id)}
-                                  >
-                                    Remover
-                                  </button>
-                                </>
-                              ) : (
-                                <span className="texto-aprovado">Acesso Liberado</span>
-                              )}
-                            </div>
-                          </td>
-                        </tr>
-                      );
-                    })
-                  )}
-                </tbody>
-              </table>
-            </div>
-          )}
+        {/* Painel Lateral de Prazos Urgentes */}
+        <div className="section-box">
+          <div className="section-title">
+            <span>Próximos Prazos</span>
+            <span style={{ fontSize: '0.8rem', color: '#d97706', fontWeight: 'bold' }}>Urgentes</span>
+          </div>
+
+          <div className="deadline-list">
+            {proximosPrazos.length > 0 ? (
+              proximosPrazos.map((prazo, idx) => (
+                <div className="deadline-item" key={idx}>
+                  <div className={`deadline-dot ${prazo.urgente ? 'dot-red' : 'dot-amber'}`}></div>
+                  <div className="deadline-info">
+                    <h4>{prazo.descricao}</h4>
+                    <p>Proc. {prazo.numeroProcesso} • <strong>{prazo.vencimento}</strong></p>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p style={{ textAlign: 'center', padding: '20px 0', color: '#94a3b8', fontSize: '0.85rem' }}>
+                {loading ? 'A carregar prazos...' : 'Sem prazos pendentes no momento.'}
+              </p>
+            )}
+          </div>
         </div>
       </div>
     </div>
   );
 }
-
-export default PainelAdministrativo;

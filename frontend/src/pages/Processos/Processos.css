@@ -1,254 +1,113 @@
-.layout-dashboard {
-  display: flex;
-  width: 100vw;
-  height: 100vh;
-  overflow-x: hidden;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background-color: #FAF8F5; /* Ivory */
-}
-
-/* Sidebar (Menu Lateral) */
-.sidebar-container {
-  width: 250px;
-  min-width: 250px;
-  background-color: #102542; /* Midnight Navy */
-  display: flex;
-  flex-direction: column;
-  padding: 24px 16px;
+.processos-container {
+  padding: 32px;
   box-sizing: border-box;
-  user-select: none;
 }
 
-.sidebar-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid rgba(216, 195, 165, 0.2); /* Champagne */
-  margin-bottom: 20px;
-}
-
-.sidebar-logo-box {
-  width: 42px;
-  height: 42px;
-  background-color: #1E3A5F; /* Sapphire */
-  color: #C79C5A; /* Brass */
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.3rem;
-  border: 1px solid #C79C5A;
-}
-
-.sidebar-titulo {
-  color: #FAF8F5; /* Ivory */
-  font-size: 1.25rem;
-  font-weight: 800;
-  margin: 0;
-  line-height: 1.1;
-}
-
-.sidebar-subtitulo {
-  color: #C79C5A; /* Brass */
-  font-size: 0.65rem;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-}
-
-.sidebar-menu {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  flex: 1;
-}
-
-.sidebar-link {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  width: 100%;
-  padding: 12px 16px;
-  background: transparent;
-  border: none;
-  border-radius: 10px;
-  color: #D8C3A5; /* Champagne */
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  text-align: left;
-  transition: all 0.2s ease;
-}
-
-.sidebar-link:hover {
-  background-color: #1E3A5F; /* Sapphire */
-  color: #FAF8F5; /* Ivory */
-}
-
-.sidebar-link.ativo {
-  background-color: #C79C5A; /* Brass */
-  color: #102542; /* Midnight Navy */
-  font-weight: 700;
-  box-shadow: 0 4px 12px rgba(199, 156, 90, 0.3);
-}
-
-.btn-sair-sidebar {
-  margin-top: auto;
-  border-top: 1px solid rgba(216, 195, 165, 0.2);
-  padding-top: 16px;
-  color: #D8C3A5;
-}
-
-.btn-sair-sidebar:hover {
-  color: #ef4444;
-  background-color: rgba(239, 68, 68, 0.1);
-}
-
-/* Área Principal com Imagem de Fundo */
-.dashboard-main {
-  flex: 1;
-  padding: 32px 40px;
-  overflow-y: auto;
-  box-sizing: border-box;
-
-  /* Overlay Ivory (#FAF8F5) + Imagem Jurídica */
-  background-image: 
-    linear-gradient(rgba(250, 248, 245, 0.88), rgba(250, 248, 245, 0.88)),
-    url('../../assets/fundo-juridico.png.png');
-  
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-}
-
-/* Topo / Header */
-.dashboard-header {
+.processos-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 28px;
-}
-
-.dashboard-titulo {
-  font-size: 1.6rem;
-  color: #102542; /* Midnight Navy */
-  margin: 0;
-  font-weight: 800;
-}
-
-.dashboard-subtitulo {
-  font-size: 0.85rem;
-  color: #1E3A5F; /* Sapphire */
-  margin: 2px 0 0 0;
-}
-
-.perfil-topo {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.avatar-circulo {
-  width: 38px;
-  height: 38px;
-  background-color: #102542; /* Midnight Navy */
-  color: #C79C5A; /* Brass */
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.85rem;
-  font-weight: 800;
-  border: 2px solid #C79C5A; /* Brass */
-}
-
-.perfil-info {
-  display: flex;
-  flex-direction: column;
-}
-
-.perfil-nome {
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: #102542; /* Midnight Navy */
-}
-
-.perfil-cargo {
-  font-size: 0.725rem;
-  color: #1E3A5F; /* Sapphire */
-}
-
-/* Boas-Vindas */
-.boas-vindas-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
   margin-bottom: 24px;
 }
 
-.boas-vindas-titulo {
+.processos-header h1 {
   font-size: 1.8rem;
-  color: #102542; /* Midnight Navy */
-  margin: 0 0 2px 0;
   font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 4px 0;
 }
 
-.boas-vindas-subtitulo {
-  font-size: 0.85rem;
-  color: #1E3A5F; /* Sapphire */
+.processos-header p {
+  color: #64748b;
   margin: 0;
+  font-size: 0.9rem;
 }
 
-.btn-novo-processo {
-  background-color: #C79C5A; /* Brass */
-  color: #102542; /* Midnight Navy */
+.btn-novo-caso {
+  background: #d97706;
+  color: #ffffff;
   border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
+  padding: 12px 24px;
+  border-radius: 10px;
   font-weight: 700;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   cursor: pointer;
-  transition: all 0.2s;
-  box-shadow: 0 2px 8px rgba(199, 156, 90, 0.3);
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(217, 119, 6, 0.3);
 }
 
-.btn-novo-processo:hover {
-  background-color: #102542; /* Midnight Navy */
-  color: #FAF8F5; /* Ivory */
+.btn-novo-caso:hover {
+  background: #b45309;
+  transform: translateY(-2px);
 }
 
-/* Suporte para Cards / Tabelas (se for adicionar no futuro) */
-.cards-metricas-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  margin-bottom: 28px;
+.processos-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 28px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
 }
 
-.card-metrica {
-  background-color: rgba(255, 255, 255, 0.9);
-  padding: 18px 20px;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  border: 1px solid #D8C3A5;
-  box-shadow: 0 2px 6px rgba(16, 37, 66, 0.04);
-  backdrop-filter: blur(4px);
+.processos-card h2 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 4px 0;
 }
 
-.dashboard-grid-duplo {
-  display: grid;
-  grid-template-columns: 1.5fr 1fr;
-  gap: 20px;
+.card-subtitle {
+  color: #64748b;
+  font-size: 0.85rem;
+  margin: 0 0 20px 0;
 }
 
-.card-painel-dash {
-  background-color: rgba(255, 255, 255, 0.9);
-  border-radius: 14px;
-  padding: 24px;
-  border: 1px solid #D8C3A5;
-  box-shadow: 0 2px 6px rgba(16, 37, 66, 0.04);
-  backdrop-filter: blur(4px);
+.search-bar {
+  margin-bottom: 24px;
 }
+
+.search-bar input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.search-bar input:focus {
+  border-color: #d97706;
+}
+
+.processos-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.processos-table th {
+  text-align: left;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: #64748b;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.processos-table td {
+  padding: 16px 0;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 0.88rem;
+  color: #0f172a;
+}
+
+.status-badge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.status-andamento { background: #fef3c7; color: #d97706; }
+.status-urgente { background: #fee2e2; color: #b91c1c; }
+.status-concluido { background: #dcfce7; color: #15803d; }

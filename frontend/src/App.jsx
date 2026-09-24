@@ -1,13 +1,16 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
-// Páginas Públicas (Sem barra lateral / Layout próprio)
-import CampoPaginaAdm from './pages/PaginaInicial/CampoPaginaAdm';
+// Layout Global
+import Layout from './components/layoutPagina/layout';
+
+// Páginas Públicas (SEM menu lateral)
 import LoginAdvogados from './pages/LoginAdvogados/LoginAdvogados';
 import CadastroAdvogados from './pages/CadastroAdvogados/CadastroAdvogados';
+import CampoPaginaAdm from './pages/PaginaInicial/CampoPaginaAdm';
 import Administradores from './pages/Administradores/Administradores';
 
-// Páginas Internas do Sistema (Com barra lateral)
+// Páginas Internas do Advogado (COM menu lateral)
 import PainelAdministrativo from './pages/PainelAdministrativo/PainelAdministrativo';
 import Processos from './pages/Processos/Processos';
 import CadastroProcesso from './pages/Processos/CadastroProcesso';
@@ -15,28 +18,27 @@ import Clientes from './pages/Processos/Clientes';
 import Documentos from './pages/Processos/Documentos';
 import Prazos from './pages/Processos/Prazos';
 
-import Layout from './components/layoutPagina/layout';
-
 export default function App() {
   return (
     <Routes>
-      {/* ROTAS PÚBLICAS */}
-      <Route path="/" element={<CampoPaginaAdm />} />
+      {/* 1. TELAS PÚBLICAS */}
+      <Route path="/" element={<LoginAdvogados />} />
       <Route path="/login" element={<LoginAdvogados />} />
+      <Route path="/login-admin" element={<CampoPaginaAdm />} />
       <Route path="/cadastro" element={<CadastroAdvogados />} />
-      <Route path="/administrador" element={<Administradores />} />
+      <Route path="/administradores" element={<Administradores />} />
 
-      {/* ROTAS INTERNAS DO SISTEMA (Acessíveis dentro do Layout) */}
+      {/* 2. ÁREA LOGADA DO ADVOGADO */}
       <Route element={<Layout />}>
-        <Route path="/inicio" element={<Processos />} />
-        <Route path="/painel-administrativo" element={<PainelAdministrativo />} />
+        <Route path="/painel" element={<PainelAdministrativo />} />
         <Route path="/processos" element={<Processos />} />
-        <Route path="/novo-caso" element={<CadastroProcesso />} />
+        <Route path="/processos/novo" element={<CadastroProcesso />} />
         <Route path="/clientes" element={<Clientes />} />
         <Route path="/documentos" element={<Documentos />} />
         <Route path="/prazos" element={<Prazos />} />
       </Route>
 
+      {/* Redirecionamento padrão */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

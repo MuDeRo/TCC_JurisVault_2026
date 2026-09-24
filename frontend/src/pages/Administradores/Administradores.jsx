@@ -1,179 +1,224 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import CampoFormulario from '../../components/Administradores/CampoFormulario';
-import api from '../../services/api'; // Ajuste o caminho se necessário
 import './Administradores.css';
 
-function Administradores({ onLoginSucesso }) {
+export default function Administradores() {
   const navigate = useNavigate();
-  const [login, setLogin] = useState('');
-  const [senha, setSenha] = useState('');
-  const [erro, setErro] = useState('');
-  const [carregando, setCarregando] = useState(false);
-  const [autenticado, setAutenticado] = useState(false);
 
-  function quandoDigitarLogin(e) {
-    setLogin(e.target.value);
-    setErro('');
-  }
-
-  function quandoDigitarSenha(e) {
-    setSenha(e.target.value);
-    setErro('');
-  }
-
-  async function entrar(e) {
-    e.preventDefault();
-
-    if (!login || !senha) {
-      setErro('Preencha o login e a senha.');
-      return;
+  // Lista de utilizadores
+  const [usuarios, setUsuarios] = useState([
+    {
+      id: 1,
+      nome: 'Dr. Carlos Eduardo',
+      email: 'carlos.eduardo@jurisvault.com',
+      oab: 'SP 123.456',
+      perfil: 'Advogado Sénior',
+      status: 'Aprovado'
+    },
+    {
+      id: 2,
+      nome: 'Dra. Mariana Ramos',
+      email: 'mariana.ramos@jurisvault.com',
+      oab: 'RJ 654.321',
+      perfil: 'Advogada Pleno',
+      status: 'Aprovado'
+    },
+    {
+      id: 3,
+      nome: 'João Pedro Silva',
+      email: 'joao.silva@jurisvault.com',
+      oab: 'N/A',
+      perfil: 'Administrador',
+      status: 'Aprovado'
+    },
+    {
+      id: 4,
+      nome: 'Dr. Lucas Ferreira (Novo Cadastro)',
+      email: 'lucas.ferreira@gmail.com',
+      oab: 'SP 998.112',
+      perfil: 'Advogado',
+      status: 'Validando'
+    },
+    {
+      id: 5,
+      nome: 'Dra. Amanda Lima (Pendente)',
+      email: 'amanda.lima@hotmail.com',
+      oab: 'MG 445.123',
+      perfil: 'Advogada',
+      status: 'Validando'
+    },
+    {
+      id: 6,
+      nome: 'Dr. Roberto Santos',
+      email: 'roberto.santos@email.com',
+      oab: 'DF 001.234',
+      perfil: 'Advogado',
+      status: 'Negado'
     }
+  ]);
 
-    try {
-      setCarregando(true);
-      setErro('');
+  const [filtroStatus, setFiltroStatus] = useState('Todos');
 
-      // Autenticação real com o backend
-      const resposta = await api.post('/auth/login/admin', {
-        email: login,
-        senha: senha,
-      });
+  // Redireciona para o site oficial de consulta da OAB-SP
+  const handleConsultarOAB = () => {
+    window.open('https://www2.oabsp.org.br/asp/consultainscritos/consulta01.asp', '_blank');
+  };
 
-      const data = resposta.data || {};
-      const tokenRecebido = data.token || data.accessToken;
-      const usuarioLogado = data.usuario || data.admin || { email: login, role: 'admin' };
-
-      if (tokenRecebido) {
-        // Armazena o token para o interceptor do Axios utilizar
-        localStorage.setItem('token', tokenRecebido);
-        localStorage.setItem('@catalogoPessoas:token', tokenRecebido);
-        localStorage.setItem('@catalogoPessoas:user', JSON.stringify(usuarioLogado));
-
-        setAutenticado(true);
-      } else {
-        setErro('O servidor não retornou um token de acesso válido.');
-      }
-    } catch (err) {
-      console.error('Erro ao realizar login de administrador:', err);
-      if (err.response && err.response.data && err.response.data.message) {
-        setErro(err.response.data.message);
-      } else if (err.response && err.response.status === 401) {
-        setErro('E-mail ou senha de administrador incorretos.');
-      } else {
-        setErro('Não foi possível conectar ao servidor. Tente novamente.');
-      }
-    } finally {
-      setCarregando(false);
-    }
-  }
-
-  if (autenticado) {
-    return (
-      <div className="pagina-administradores">
-        <header className="cabecalho-admin">
-          <div className="logo-admin">
-            <span className="icone-logo">⚖</span>
-            <span>
-              SISTEMA <strong>JURÍDICO</strong>
-            </span>
-          </div>
-          <span className="area-admin">ÁREA ADMINISTRATIVA</span>
-        </header>
-
-        <main className="conteudo-admin">
-          <div className="card-admin sucesso-admin">
-            <div className="icone-sucesso-admin">✓</div>
-            <span className="badge-admin">ACESSO AUTORIZADO</span>
-            <h1>Bem-vindo, administrador</h1>
-            <p>Seu acesso foi validado com sucesso.</p>
-
-            <button
-              className="botao-painel"
-              onClick={() => {
-                if (onLoginSucesso) {
-                  onLoginSucesso({ nome: 'Administrador Global', email: login });
-                } else {
-                  navigate('/painel-administrativo');
-                }
-              }}
-            >
-              Acessar Painel <span>→</span>
-            </button>
-          </div>
-        </main>
-
-        <footer className="rodape-admin">
-          © 2026 Sistema Jurídico — Área Administrativa
-        </footer>
-      </div>
+  const handleAprovar = (id) => {
+    setUsuarios(prev =>
+      prev.map(u => (u.id === id ? { ...u, status: 'Aprovado' } : u))
     );
-  }
+  };
+
+  const handleNegar = (id) => {
+    setUsuarios(prev =>
+      prev.map(u => (u.id === id ? { ...u, status: 'Negado' } : u))
+    );
+  };
+
+  // Contadores para os Cards
+  const totalAdvogados = usuarios.filter(u => u.perfil.includes('Advogad')).length;
+  const pendentesValidacao = usuarios.filter(u => u.status === 'Validando').length;
+  const utilizadoresAtivos = usuarios.filter(u => u.status === 'Aprovado').length;
+
+  // Filtragem da tabela
+  const usuariosFiltrados = usuarios.filter(u => {
+    if (filtroStatus === 'Todos') return true;
+    return u.status === filtroStatus;
+  });
 
   return (
-    <div className="pagina-administradores">
-      <header className="cabecalho-admin">
-        <div className="logo-admin">
-          <span className="icone-logo">⚖</span>
-          <span>
-            SISTEMA <strong>JURÍDICO</strong>
-          </span>
-        </div>
-        <span className="area-admin">ÁREA ADMINISTRATIVA</span>
-      </header>
-
-      <main className="conteudo-admin">
-        <div className="card-admin">
-          <div className="icone-admin">🔐</div>
-          <h1>Acesso Administrativo</h1>
-          <p className="descricao-admin">
-            Entre com suas credenciais para acessar o painel administrativo.
-          </p>
-
-          <form onSubmit={entrar}>
-            <CampoFormulario
-              label="Login"
-              tipo="text"
-              valor={login}
-              aoMudar={quandoDigitarLogin}
-              placeholder="Digite seu e-mail"
-            />
-
-            <CampoFormulario
-              label="Senha"
-              tipo="password"
-              valor={senha}
-              aoMudar={quandoDigitarSenha}
-              placeholder="Digite sua senha"
-            />
-
-            {erro !== '' && (
-              <div className="mensagem-erro-admin">
-                <span>!</span>
-                {erro}
-              </div>
-            )}
-
-            <button type="submit" className="botao-entrar-admin" disabled={carregando}>
-              {carregando ? 'Autenticando...' : 'Entrar'} <span>→</span>
+    <div className="admin-container">
+      {/* Topo do Painel */}
+      <header className="admin-header">
+        <div className="header-top-flex">
+          <div className="title-container">
+            <button className="btn-voltar" onClick={() => navigate('/')}>
+              ← Voltar
             </button>
-          </form>
-
-          <div className="seguranca-admin">
-            <span>🔒</span>
+            
             <div>
-              <strong>Acesso restrito</strong>
-              <p>Esta área é destinada exclusivamente aos administradores do sistema.</p>
+              <h1 className="admin-title">Painel do Administrador</h1>
+              <p className="admin-subtitle">
+                Controlo global do escritório, equipas jurídicas e validação de acessos.
+              </p>
             </div>
           </div>
-        </div>
-      </main>
 
-      <footer className="rodape-admin">
-        © 2026 Sistema Jurídico — Área Administrativa
-      </footer>
+          {/* Botão de Validar OAB no canto superior direito */}
+          <button
+            className="btn-validar-oab-top"
+            onClick={handleConsultarOAB}
+            title="Consultar inscritos no site da OAB-SP"
+          >
+            Validar OAB ↗
+          </button>
+        </div>
+      </header>
+
+      {/* Cards de Métricas */}
+      <div className="metrics-grid">
+        <div className="metric-card">
+          <span className="metric-label">ADVOGADOS CADASTRADOS</span>
+          <h2 className="metric-value text-blue">{totalAdvogados}</h2>
+        </div>
+
+        <div className="metric-card">
+          <span className="metric-label">PENDENTES DE VALIDAÇÃO</span>
+          <h2 className="metric-value text-yellow">{pendentesValidacao}</h2>
+        </div>
+
+        <div className="metric-card">
+          <span className="metric-label">UTILIZADORES ATIVOS</span>
+          <h2 className="metric-value text-green">{utilizadoresAtivos}</h2>
+        </div>
+      </div>
+
+      {/* Secção da Tabela */}
+      <section className="table-card">
+        <div className="table-header-flex">
+          <h2 className="table-title">Gestão de Acessos da Equipa</h2>
+
+          {/* Filtros de Estado */}
+          <div className="filter-tabs">
+            {['Todos', 'Validando', 'Aprovado', 'Negado'].map(st => (
+              <button
+                key={st}
+                className={`filter-btn ${filtroStatus === st ? 'active' : ''}`}
+                onClick={() => setFiltroStatus(st)}
+              >
+                {st === 'Validando' ? 'Em Validação' : st}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <table className="admin-table">
+          <thead>
+            <tr>
+              <th>NOME</th>
+              <th>E-MAIL</th>
+              <th>OAB / CARGO</th>
+              <th>PERFIL</th>
+              <th>STATUS</th>
+              <th className="text-right">AÇÕES</th>
+            </tr>
+          </thead>
+          <tbody>
+            {usuariosFiltrados.map(usuario => (
+              <tr key={usuario.id}>
+                <td className="user-name">{usuario.nome}</td>
+                <td className="user-email">{usuario.email}</td>
+                <td>{usuario.oab}</td>
+                <td>
+                  <span className="badge-perfil">{usuario.perfil}</span>
+                </td>
+                <td>
+                  <span className={`badge-status status-${usuario.status.toLowerCase()}`}>
+                    {usuario.status === 'Validando' ? 'Validando...' : usuario.status}
+                  </span>
+                </td>
+                <td className="actions-cell text-right">
+                  {usuario.status === 'Validando' && (
+                    <>
+                      <button
+                        className="btn-action approve"
+                        onClick={() => handleAprovar(usuario.id)}
+                      >
+                        Aprovar
+                      </button>
+                      <button
+                        className="btn-action reject"
+                        onClick={() => handleNegar(usuario.id)}
+                      >
+                        Negar
+                      </button>
+                    </>
+                  )}
+
+                  {usuario.status === 'Aprovado' && (
+                    <button
+                      className="btn-action disable"
+                      onClick={() => handleNegar(usuario.id)}
+                    >
+                      Desativar
+                    </button>
+                  )}
+
+                  {usuario.status === 'Negado' && (
+                    <button
+                      className="btn-action approve"
+                      onClick={() => handleAprovar(usuario.id)}
+                    >
+                      Reativar
+                    </button>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
     </div>
   );
 }
-
-export default Administradores;
