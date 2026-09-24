@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './PainelAdministrativo.css';
+import api from '../../services/api.js';
+
 
 export default function PainelAdministrativo() {
   const navigate = useNavigate();
@@ -27,16 +29,36 @@ export default function PainelAdministrativo() {
     // 2. Função para buscar os dados do Backend (API)
     async function carregarDadosDashboard() {
       try {
-        const token = localStorage.getItem('token');
-        const headers = {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        };
+        setLoading(true);
 
-     
+        // Busca os Casos e as Tarefas do advogado logado
+        const [resCasos, resTarefas] = await Promise.all([
+          api.get('/casos/'),
+          api.get('/tarefas/')
+        ]);
+
+        const casos = resCasos.data;
+        const tarefas = resTarefas.data;
+
+        // Calcula as métricas no Frontend
+        const processosAtivos = casos.length; 
+        const prazosNaSemana = tarefas.length; 
+
+        setMetricas({
+          processosAtivos: processosAtivos,
+          prazosNaSemana: prazosNaSemana,
+          documentosEmitidos: 0, // Como não tem rota de histórico, você pode deixar 0 ou buscar de /arquivos/
+          taxaSucesso: '0%' // Backend não forneceu essa métrica nas rotas
+        });
+
+        // Pega apenas os últimos 5 casos para mostrar na tabela
+        setProcessosRecentes(casos.slice(0, 5));
+
+        // Pega as primeiras tarefas para o card lateral
+        setProximosPrazos(tarefas.slice(0, 3));
 
       } catch (error) {
-        console.error('Erro ao ligar com o backend:', error);
+        console.error('Erro ao buscar dados do dashboard:', error);
       } finally {
         setLoading(false);
       }
@@ -100,7 +122,7 @@ export default function PainelAdministrativo() {
         <div className="section-box">
           <div className="section-title">
             <span>Processos Recentes</span>
-            <span 
+            <span
               style={{ fontSize: '0.8rem', color: '#3b82f6', cursor: 'pointer' }}
               onClick={() => navigate('/processos')}
             >
@@ -125,10 +147,9 @@ export default function PainelAdministrativo() {
                     <td>{item.cliente}</td>
                     <td>{item.area || item.tipo}</td>
                     <td>
-                      <span className={`status-badge ${
-                        item.status === 'Urgente' ? 'status-urgente' :
-                        item.status === 'Concluído' ? 'status-concluido' : 'status-andamento'
-                      }`}>
+                      <span className={`status-badge ${item.status === 'Urgente' ? 'status-urgente' :
+                          item.status === 'Concluído' ? 'status-concluido' : 'status-andamento'
+                        }`}>
                         {item.status}
                       </span>
                     </td>

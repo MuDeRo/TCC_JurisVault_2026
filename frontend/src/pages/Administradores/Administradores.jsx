@@ -1,91 +1,114 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Administradores.css';
+import api from '../../services/api.js';
 
 export default function Administradores() {
   const navigate = useNavigate();
-
-  // Lista de utilizadores
-  const [usuarios, setUsuarios] = useState([
-    {
-      id: 1,
-      nome: 'Dr. Carlos Eduardo',
-      email: 'carlos.eduardo@jurisvault.com',
-      oab: 'SP 123.456',
-      perfil: 'Advogado Sénior',
-      status: 'Aprovado'
-    },
-    {
-      id: 2,
-      nome: 'Dra. Mariana Ramos',
-      email: 'mariana.ramos@jurisvault.com',
-      oab: 'RJ 654.321',
-      perfil: 'Advogada Pleno',
-      status: 'Aprovado'
-    },
-    {
-      id: 3,
-      nome: 'João Pedro Silva',
-      email: 'joao.silva@jurisvault.com',
-      oab: 'N/A',
-      perfil: 'Administrador',
-      status: 'Aprovado'
-    },
-    {
-      id: 4,
-      nome: 'Dr. Lucas Ferreira (Novo Cadastro)',
-      email: 'lucas.ferreira@gmail.com',
-      oab: 'SP 998.112',
-      perfil: 'Advogado',
-      status: 'Validando'
-    },
-    {
-      id: 5,
-      nome: 'Dra. Amanda Lima (Pendente)',
-      email: 'amanda.lima@hotmail.com',
-      oab: 'MG 445.123',
-      perfil: 'Advogada',
-      status: 'Validando'
-    },
-    {
-      id: 6,
-      nome: 'Dr. Roberto Santos',
-      email: 'roberto.santos@email.com',
-      oab: 'DF 001.234',
-      perfil: 'Advogado',
-      status: 'Negado'
-    }
-  ]);
-
+  const [usuarios, setUsuarios] = useState([]);
   const [filtroStatus, setFiltroStatus] = useState('Todos');
+  const [loading, setLoading] = useState(true);
 
-  // Redireciona para o site oficial de consulta da OAB-SP
+  // 1. Carregar pendentes e aprovados ao iniciar
+  useEffect(() => {
+    async function carregarAdvogados() {
+      try {
+        setLoading(true);
+
+        const [resPendentes, resAprovados] = await Promise.all([
+          api.get('/administrador/pendentes'),
+          api.get('/administrador/aprovados')
+        ]);
+
+        // Imprime no console para você inspecionar exatamente a estrutura que veio do backend
+        console.log('Resposta Pendentes:', resPendentes.data);
+        console.log('Resposta Aprovados:', resAprovados.data);
+
+        // Função auxiliar para extrair o array com segurança
+        const extrairArray = (resposta) => {
+          if (Array.isArray(resposta)) return resposta; // Se já for array
+          if (resposta && Array.isArray(resposta.content)) return resposta.content; // Padrão Spring Boot
+          if (resposta && Array.isArray(resposta.data)) return resposta.data; // Padrão chave 'data'
+          if (resposta && Array.isArray(resposta.advogados)) return resposta.advogados; // Padrão chave 'advogados'
+          if (resposta && Array.isArray(resposta.resultado)) return resposta.resultado;
+          return []; // Fallback se não encontrar array
+        };
+
+        const listaPendentes = extrairArray(resPendentes.data);
+        const listaAprovados = extrairArray(resAprovados.data);
+
+        const normalizarAdvogado = (adv, status) => ({
+          ...adv,
+          id: adv.id_advogado ?? adv.id,
+          nome: adv.nome_advogado,
+          email: adv.email_advogado,
+          oab: adv.registro_oab,
+          status
+        });
+
+        const pendentes = listaPendentes.map(adv =>
+          normalizarAdvogado(adv, 'Validando')
+        );
+
+        const aprovados = listaAprovados.map(adv =>
+          normalizarAdvogado(adv, 'Aprovado')
+        );
+
+        // Junta tudo num array só para exibir na tabela
+        setUsuarios([...pendentes, ...aprovados]);
+      } catch (error) {
+        console.error('Erro ao carregar advogados:', error);
+        alert('Erro ao carregar a lista de advogados.');
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    carregarAdvogados();
+  }, []);
+
+  // 2. Função para Aprovar
+  const handleAprovar = async (id) => {
+    try {
+      await api.patch(`/administrador/aprovar/${id}`);
+
+      // Atualiza o estado local para mover o status para Aprovado
+      setUsuarios(prev => prev.map(u => (u.id === id ? { ...u, status: 'Aprovado' } : u)));
+    } catch (error) {
+      console.error(error);
+      alert('Erro ao aprovar o advogado.');
+    }
+  };
+
+  // 3. Função para Negar
+  const handleNegar = async (id) => {
+    try {
+      await api.patch(`/administrador/negar/${id}`);
+      setUsuarios(prev => prev.map(u => (u.id === id ? { ...u, status: 'Negado' } : u)));
+    } catch (error) {
+      console.error(error);
+      alert('Erro ao negar o advogado.');
+    }
+  };
+
+  // 4. Função para Consultar OAB
   const handleConsultarOAB = () => {
     window.open('https://www2.oabsp.org.br/asp/consultainscritos/consulta01.asp', '_blank');
   };
 
-  const handleAprovar = (id) => {
-    setUsuarios(prev =>
-      prev.map(u => (u.id === id ? { ...u, status: 'Aprovado' } : u))
-    );
-  };
 
-  const handleNegar = (id) => {
-    setUsuarios(prev =>
-      prev.map(u => (u.id === id ? { ...u, status: 'Negado' } : u))
-    );
-  };
-
-  // Contadores para os Cards
-  const totalAdvogados = usuarios.filter(u => u.perfil.includes('Advogad')).length;
+  const totalAdvogados = usuarios.length;
   const pendentesValidacao = usuarios.filter(u => u.status === 'Validando').length;
   const utilizadoresAtivos = usuarios.filter(u => u.status === 'Aprovado').length;
 
-  // Filtragem da tabela
-  const usuariosFiltrados = usuarios.filter(u => {
+  const usuariosFiltrados = usuarios.filter(usuario => {
     if (filtroStatus === 'Todos') return true;
-    return u.status === filtroStatus;
+    return usuario.status === filtroStatus;
   });
+
+  if (loading) {
+    return <div className="admin-container"><p>A carregar dados...</p></div>;
+  }
 
   return (
     <div className="admin-container">
@@ -96,7 +119,7 @@ export default function Administradores() {
             <button className="btn-voltar" onClick={() => navigate('/')}>
               ← Voltar
             </button>
-            
+
             <div>
               <h1 className="admin-title">Painel do Administrador</h1>
               <p className="admin-subtitle">
@@ -165,57 +188,65 @@ export default function Administradores() {
             </tr>
           </thead>
           <tbody>
-            {usuariosFiltrados.map(usuario => (
-              <tr key={usuario.id}>
-                <td className="user-name">{usuario.nome}</td>
-                <td className="user-email">{usuario.email}</td>
-                <td>{usuario.oab}</td>
-                <td>
-                  <span className="badge-perfil">{usuario.perfil}</span>
+            {usuariosFiltrados.length === 0 ? (
+              <tr>
+                <td colSpan="6" style={{ textAlign: 'center', padding: '20px' }}>
+                  Nenhum utilizador encontrado para este filtro.
                 </td>
-                <td>
-                  <span className={`badge-status status-${usuario.status.toLowerCase()}`}>
-                    {usuario.status === 'Validando' ? 'Validando...' : usuario.status}
-                  </span>
-                </td>
-                <td className="actions-cell text-right">
-                  {usuario.status === 'Validando' && (
-                    <>
+              </tr>
+            ) : (
+              usuariosFiltrados.map(usuario => (
+                <tr key={usuario.id}>
+                  <td className="user-name">{usuario.nome}</td>
+                  <td className="user-email">{usuario.email}</td>
+                  <td>{usuario.oab || '-'}</td>
+                  <td>
+                    <span className="badge-perfil">{usuario.perfil || 'Advogado'}</span>
+                  </td>
+                  <td>
+                    <span className={`badge-status status-${(usuario.status || '').toLowerCase()}`}>
+                      {usuario.status === 'Validando' ? 'Validando...' : usuario.status}
+                    </span>
+                  </td>
+                  <td className="actions-cell text-right">
+                    {usuario.status === 'Validando' && (
+                      <>
+                        <button
+                          className="btn-action approve"
+                          onClick={() => handleAprovar(usuario.id)}
+                        >
+                          Aprovar
+                        </button>
+                        <button
+                          className="btn-action reject"
+                          onClick={() => handleNegar(usuario.id)}
+                        >
+                          Negar
+                        </button>
+                      </>
+                    )}
+
+                    {usuario.status === 'Aprovado' && (
+                      <button
+                        className="btn-action disable"
+                        onClick={() => handleNegar(usuario.id)}
+                      >
+                        Desativar
+                      </button>
+                    )}
+
+                    {usuario.status === 'Negado' && (
                       <button
                         className="btn-action approve"
                         onClick={() => handleAprovar(usuario.id)}
                       >
-                        Aprovar
+                        Reativar
                       </button>
-                      <button
-                        className="btn-action reject"
-                        onClick={() => handleNegar(usuario.id)}
-                      >
-                        Negar
-                      </button>
-                    </>
-                  )}
-
-                  {usuario.status === 'Aprovado' && (
-                    <button
-                      className="btn-action disable"
-                      onClick={() => handleNegar(usuario.id)}
-                    >
-                      Desativar
-                    </button>
-                  )}
-
-                  {usuario.status === 'Negado' && (
-                    <button
-                      className="btn-action approve"
-                      onClick={() => handleAprovar(usuario.id)}
-                    >
-                      Reativar
-                    </button>
-                  )}
-                </td>
-              </tr>
-            ))}
+                    )}
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </section>

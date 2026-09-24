@@ -34,48 +34,42 @@ export default function LoginAdvogados() {
     setSucesso('');
   };
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    setErro('');
-    setCarregando(true);
+  const handleLogin = async (e) => {
+  e.preventDefault();
+  setErro('');
+  setCarregando(true);
 
-    setTimeout(() => {
-      if (modo === 'login-admin') {
-        // MOCK DO LOGIN DE ADMIN (SEM CHAMADA DE API)
-        const mockAdmin = {
-          id: 1,
-          nome: 'Administrador Geral',
-          email: email || 'admin@jurisvault.com.br',
-          tipo: 'admin',
-          perfil: 'Admin'
-        };
+  try {
+    // Escolhe a rota certa baseada no modo
+    const endpoint = modo === 'login-admin' ? '/auth/login/admin' : '/auth/login/advogado';
+    
+    // Faz a requisição POST
+    const response = await api.post(endpoint, { 
+      email, 
+      senha 
+    });
 
-        localStorage.setItem('token', 'mock-jwt-token-admin-99999');
-        localStorage.setItem('user', JSON.stringify(mockAdmin));
+    // O backend deve retornar um token e os dados do utilizador
+    const { token, usuario } = response.data; 
 
-        setCarregando(false);
-        navigate('/administradores'); // Redireciona para o painel de administradores
-      } else {
-        // MOCK DO LOGIN DE ADVOGADO
-        const mockUser = {
-          id: 1,
-          nome: nome || 'Dr. Advogado Teste',
-          email: email || 'advogado@jurisvault.com.br',
-          cpf: '123.456.789-00',
-          telefone: '(11) 98888-7777',
-          registroOab: '123456',
-          ufOab: 'SP',
-          tipo: 'advogado'
-        };
+    // Salva o token no localStorage para ser usado nas próximas requisições
+    localStorage.setItem('token', token);
+    localStorage.setItem('usuario', JSON.stringify(usuario));
 
-        localStorage.setItem('token', 'mock-jwt-token-advogado-123456');
-        localStorage.setItem('user', JSON.stringify(mockUser));
+    // Redireciona o utilizador
+    if (modo === 'login-admin') {
+      navigate('/administradores');
+    } else {
+      navigate('/painel');
+    }
 
-        setCarregando(false);
-        navigate('/painel');
-      }
-    }, 400);
-  };
+  } catch (err) {
+    // Tratamento de erro vindo do backend
+    setErro(err.response?.data?.message || 'E-mail ou senha incorretos.');
+  } finally {
+    setCarregando(false);
+  }
+};
 
   const handleCadastro = async (e) => {
     e.preventDefault();
@@ -84,7 +78,7 @@ export default function LoginAdvogados() {
     setCarregando(true);
 
     try {
-      await api.post('/auth/register/advogado', {
+      await api.post('/advogado/cadastro', {
         nome,
         email,
         senha,
