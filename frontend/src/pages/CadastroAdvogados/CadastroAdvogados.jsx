@@ -1,162 +1,142 @@
-import { useState } from 'react';
-import CampoCadastro from '../../components/Advogados/CampoCadastro';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './CadastroAdvogado.css';
 
+export default function CadastroAdvogados() {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    nome: '',
+    email: '',
+    senha: '',
+    cpf: '',
+    telefone: '',
+    oab: '',
+    uf: 'SP'
+  });
 
-import api from '../../services/api.js'; 
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
-
-function CadastroAdvogados() {
-  const [nomeAdvogado, setNomeAdvogado] = useState('');
-  const [emailAdvogado, setEmailAdvogado] = useState('');
-  const [senhaAdvogado, setSenhaAdvogado] = useState('');
-  const [cpfAdvogado, setCpfAdvogado] = useState('');
-  const [registroOab, setRegistroOab] = useState('');
-  const [telefoneAdvogado, setTelefoneAdvogado] = useState('');
-  const [ufOab, setUfOab] = useState('');
-
-  const [mensagem, setMensagem] = useState('');
-  const [carregando, setCarregando] = useState(false); // Estado para controlar o botão durante a requisição
-
-  // FUNÇÃO DE CADASTRAR COM O AXIOS 
-  async function cadastrarAdvogado(e) {
-    e.preventDefault(); // Evita o comportamento padrão do formulário (recarregar a página)
-
-    if (!nomeAdvogado || !emailAdvogado || !senhaAdvogado || !cpfAdvogado || !registroOab || !telefoneAdvogado || !ufOab) {
-      setMensagem('Preencha todos os campos.');
-      return;
-    }
-
-    try {
-      setCarregando(true);
-      setMensagem('');
-
-      // Envia os dados para a rota do backend usando o Axios
-      const resposta = await api.post('/advogado/cadastro', {
-        nome_advogado: nomeAdvogado,
-        email_advogado: emailAdvogado,
-        senha_advogado: senhaAdvogado,
-        cpf_advogado: cpfAdvogado,
-        registro_oab: registroOab,
-        telefone_advogado: telefoneAdvogado,
-        uf_oab: ufOab
-      });
-
-      // Exibe a mensagem de sucesso que veio do controller
-      setMensagem(resposta.data.message || 'Cadastro solicitado com sucesso!');
-
-      // Limpa os campos do formulário
-      setNomeAdvogado('');
-      setEmailAdvogado('');
-      setSenhaAdvogado('');
-      setCpfAdvogado('');
-      setRegistroOab('');
-      setTelefoneAdvogado('');
-      setUfOab('');
-
-    } catch (error) {
-      console.error('Erro na requisição:', error);
-      
-      // Se o backend respondeu com erro de validação (ex: CPF inválido, senha incorreta, etc)
-      if (error.response) {
-        setMensagem(error.response.data.message || error.response.data.error || 'Erro ao realizar cadastro.');
-      } else {
-        setMensagem('Não foi possível conectar ao servidor.');
-      }
-    } finally {
-      setCarregando(false);
-    }
-  }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    alert('Cadastro realizado com sucesso!');
+    navigate('/login');
+  };
 
   return (
-    <div className="pagina-cadastro-advogados">
+    <div className="cad-adv-page">
+      <div className="cad-adv-card">
+        {/* ÍCONE QUADRADO ARREDONDADO */}
+        <div className="cad-adv-icon-box">
+          <span className="cad-adv-icon">⚖️</span>
+        </div>
 
-      <header className="cabecalho">
-        <h2>SISTEMA <span>JURÍDICO</span></h2>
-      </header>
+        {/* TÍTULOS */}
+        <h2 className="cad-adv-title">Cadastro de Advogado</h2>
+        <p className="cad-adv-subtitle">Preencha os dados para criar a sua conta</p>
 
-      <main className="conteudo">
+        {/* FORMULÁRIO */}
+        <form className="cad-adv-form" onSubmit={handleSubmit}>
+          <div className="cad-adv-group">
+            <label>Nome Completo</label>
+            <input
+              type="text"
+              name="nome"
+              placeholder="Dr. Nome Exemplo"
+              value={formData.nome}
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-        <form
-          className="card-cadastro"
-          onSubmit={cadastrarAdvogado}
-        >
+          <div className="cad-adv-row">
+            <div className="cad-adv-group">
+              <label>E-mail</label>
+              <input
+                type="email"
+                name="email"
+                placeholder="advogado@jurisvault.com.br"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="cad-adv-group">
+              <label>Senha</label>
+              <input
+                type="password"
+                name="senha"
+                placeholder="••••••"
+                value={formData.senha}
+                onChange={handleChange}
+                required
+              />
+            </div>
+          </div>
 
-          <h1>Cadastro de Advogado</h1>
+          <div className="cad-adv-row">
+            <div className="cad-adv-group">
+              <label>CPF</label>
+              <input
+                type="text"
+                name="cpf"
+                placeholder="000.000.000-00"
+                value={formData.cpf}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="cad-adv-group">
+              <label>Telefone</label>
+              <input
+                type="text"
+                name="telefone"
+                placeholder="(11) 99999-9999"
+                value={formData.telefone}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
 
-          <p className="descricao">
-            Preencha os dados para realizar o cadastro.
-          </p>
+          <div className="cad-adv-row">
+            <div className="cad-adv-group">
+              <label>Registro OAB</label>
+              <input
+                type="text"
+                name="oab"
+                placeholder="123456"
+                value={formData.oab}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="cad-adv-group">
+              <label>UF OAB</label>
+              <input
+                type="text"
+                name="uf"
+                placeholder="SP"
+                maxLength={2}
+                value={formData.uf}
+                onChange={handleChange}
+                required
+              />
+            </div>
+          </div>
 
-          <CampoCadastro
-            label="Nome do Advogado"
-            tipo="text"
-            valor={nomeAdvogado}
-            aoMudar={setNomeAdvogado}
-          />
-
-          <CampoCadastro
-            label="E-mail"
-            tipo="email"
-            valor={emailAdvogado}
-            aoMudar={setEmailAdvogado}
-          />
-
-          <CampoCadastro
-            label="Senha"
-            tipo="password"
-            valor={senhaAdvogado}
-            aoMudar={setSenhaAdvogado}
-          />
-
-          <CampoCadastro
-            label="CPF"
-            tipo="text"
-            valor={cpfAdvogado}
-            aoMudar={setCpfAdvogado}
-          />
-
-          <CampoCadastro
-            label="Registro da OAB"
-            tipo="text"
-            valor={registroOab}
-            aoMudar={setRegistroOab}
-          />
-
-          <CampoCadastro
-            label="Telefone"
-            tipo="text"
-            valor={telefoneAdvogado}
-            aoMudar={setTelefoneAdvogado}
-          />
-
-          <CampoCadastro
-            label="UF da OAB"
-            tipo="text"
-            valor={ufOab}
-            aoMudar={setUfOab}
-          />
-
-          {mensagem && (
-            <p className="mensagem">
-              {mensagem}
-            </p>
-          )}
-
-          <button type="submit" disabled={carregando}>
-            {carregando ? 'Cadastrando...' : 'Cadastrar'}
+          <button type="submit" className="cad-adv-btn-submit">
+            Cadastrar no sistema
           </button>
-
         </form>
 
-      </main>
-
-      <footer className="rodape">
-        © 2026 Sistema Jurídico
-      </footer>
-
+        <button
+          type="button"
+          className="cad-adv-btn-back"
+          onClick={() => navigate('/')}
+        >
+          ← Voltar ao Menu Principal
+        </button>
+      </div>
     </div>
   );
 }
-
-export default CadastroAdvogados;

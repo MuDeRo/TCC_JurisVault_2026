@@ -1,0 +1,83 @@
+.documentos-container {
+  padding: 2rem;
+  background-color: #faf8f5;
+  border-radius: 12px;
+}
+
+.documentos-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.titulo-secao {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.subtitulo-secao {
+  font-size: 0.95rem;
+  color: #666;
+  margin-top: 0.25rem;
+}
+
+.btn-enviar-doc {
+  background-color: #735338;
+  color: #ffffff;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn-enviar-doc:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.btn-enviar-doc:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.dropzone-box {
+  border: 2px dashed #dcd6cd;
+  border-radius: 12px;
+  padding: 3.5rem 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  background-color: #ffffff;
+  transition: all 0.2s ease-in-out;
+}
+
+.dropzone-box:hover,
+.dropzone-box.drag-active {
+  border-color: #735338;
+  background-color: #f5f0eb;
+}
+
+.dropzone-icon {
+  font-size: 2.2rem;
+  margin-bottom: 0.75rem;
+  opacity: 0.6;
+}
+
+.dropzone-titulo {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #111111;
+  margin-bottom: 0.35rem;
+}
+
+.dropzone-formatos {
+  font-size: 0.85rem;
+  color: #888888;
+}
+
+.input-descricao-doc {
+  margin-top: 1.5rem;
+}

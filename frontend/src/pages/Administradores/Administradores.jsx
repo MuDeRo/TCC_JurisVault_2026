@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import CampoFormulario from '../../components/Administradores/CampoFormulario';
 import './Administradores.css';
 
-function Administradores() {
+function Administradores({ onLoginSucesso }) {
+  const navigate = useNavigate();
   const [login, setLogin] = useState('');
   const [senha, setSenha] = useState('');
   const [erro, setErro] = useState('');
@@ -37,125 +39,75 @@ function Administradores() {
     }
   }
 
-  /* =========================
-     ACESSO LIBERADO
-  ========================= */
-
   if (autenticado) {
     return (
       <div className="pagina-administradores">
-
         <header className="cabecalho-admin">
           <div className="logo-admin">
             <span className="icone-logo">⚖</span>
-
             <span>
               SISTEMA <strong>JURÍDICO</strong>
             </span>
           </div>
-
-          <span className="area-admin">
-            ÁREA ADMINISTRATIVA
-          </span>
+          <span className="area-admin">ÁREA ADMINISTRATIVA</span>
         </header>
 
         <main className="conteudo-admin">
-
           <div className="card-admin sucesso-admin">
-
-            <div className="icone-sucesso-admin">
-              ✓
-            </div>
-
-            <span className="badge-admin">
-              ACESSO AUTORIZADO
-            </span>
-
+            <div className="icone-sucesso-admin">✓</div>
+            <span className="badge-admin">ACESSO AUTORIZADO</span>
             <h1>Bem-vindo, administrador</h1>
-
-            <p>
-              Seu acesso foi validado com sucesso.
-            </p>
+            <p>Seu acesso foi validado com sucesso.</p>
 
             <button
               className="botao-painel"
-              onClick={() => window.location.href = '/'}
+              onClick={() => {
+                if (onLoginSucesso) {
+                  onLoginSucesso({ nome: 'Administrador Global', email: login });
+                } else {
+                  navigate('/painel-administrativo');
+                }
+              }}
             >
-              Acessar Painel
-              <span>→</span>
+              Acessar Painel <span>→</span>
             </button>
-
           </div>
-
         </main>
 
         <footer className="rodape-admin">
           © 2026 Sistema Jurídico — Área Administrativa
         </footer>
-
       </div>
     );
   }
 
-  /* =========================
-     LOGIN ADMINISTRATIVO
-  ========================= */
-
   return (
     <div className="pagina-administradores">
-
-      {/* CABEÇALHO */}
-
       <header className="cabecalho-admin">
-
         <div className="logo-admin">
-
-          <span className="icone-logo">
-            ⚖
-          </span>
-
+          <span className="icone-logo">⚖</span>
           <span>
             SISTEMA <strong>JURÍDICO</strong>
           </span>
-
         </div>
-
-        <span className="area-admin">
-          ÁREA ADMINISTRATIVA
-        </span>
-
+        <span className="area-admin">ÁREA ADMINISTRATIVA</span>
       </header>
 
-      {/* CONTEÚDO */}
-
       <main className="conteudo-admin">
-
         <div className="card-admin">
-
-          {/* ÍCONE */}
-
-          <div className="icone-admin">
-            🔐
-          </div>
-
-          {/* TÍTULO */}
-
+          <div className="icone-admin">🔐</div>
           <h1>Acesso Administrativo</h1>
-
           <p className="descricao-admin">
-            Entre com suas credenciais para acessar
-            o painel administrativo.
+            Entre com suas credenciais para acessar o painel administrativo.
           </p>
 
-          {/* FORMULÁRIO */}
-
           <form onSubmit={entrar}>
-
             <CampoFormulario
               label="Login"
               tipo="text"
               valor={login}
               aoMudar={quandoDigitarLogin}
+              placeholder="Digite seu e-mail"
             />
 
             <CampoFormulario
@@ -163,9 +115,8 @@ function Administradores() {
               tipo="password"
               valor={senha}
               aoMudar={quandoDigitarSenha}
+              placeholder="Digite sua senha"
             />
-
-            {/* ERRO */}
 
             {erro !== '' && (
               <div className="mensagem-erro-admin">
@@ -174,45 +125,24 @@ function Administradores() {
               </div>
             )}
 
-            {/* BOTÃO */}
-
-            <button
-              type="submit"
-              className="botao-entrar-admin"
-            >
-              Entrar
-              <span>→</span>
+            <button type="submit" className="botao-entrar-admin">
+              Entrar <span>→</span>
             </button>
-
           </form>
 
-          {/* SEGURANÇA */}
-
           <div className="seguranca-admin">
-
             <span>🔒</span>
-
             <div>
               <strong>Acesso restrito</strong>
-
-              <p>
-                Esta área é destinada exclusivamente
-                aos administradores do sistema.
-              </p>
+              <p>Esta área é destinada exclusivamente aos administradores do sistema.</p>
             </div>
-
           </div>
-
         </div>
-
       </main>
-
-      {/* RODAPÉ */}
 
       <footer className="rodape-admin">
         © 2026 Sistema Jurídico — Área Administrativa
       </footer>
-
     </div>
   );
 }
