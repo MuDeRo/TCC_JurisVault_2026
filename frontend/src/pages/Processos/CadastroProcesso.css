@@ -1,0 +1,141 @@
+.cadastro-caso-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 2rem 2.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.03);
+  border: 1px solid #eef2f6;
+}
+
+.topo-cadastro-header {
+  margin-bottom: 2rem;
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 1rem;
+}
+
+.form-cadastro-caso {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.secao-form-bloco {
+  background: #fafafa;
+  padding: 1.25rem 1.5rem;
+  border-radius: 12px;
+  border: 1px solid #f0f0f0;
+}
+
+.titulo-bloco {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-top: 0;
+  margin-bottom: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.grid-form {
+  display: grid;
+  gap: 1.2rem;
+}
+
+.grid-form.col-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.grid-form.col-3 {
+  grid-template-columns: 2fr 1fr 1fr;
+}
+
+@media (max-width: 768px) {
+  .grid-form.col-2,
+  .grid-form.col-3 {
+    grid-template-columns: 1fr;
+  }
+}
+
+.campo-input {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.campo-input label {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+.campo-input input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background-color: #ffffff;
+  color: #0f172a;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.campo-input input:focus {
+  outline: none;
+  border-color: #735338;
+  box-shadow: 0 0 0 3px rgba(115, 83, 56, 0.15);
+  background-color: #ffffff;
+}
+
+.campo-input input::placeholder {
+  color: #94a3b8;
+}
+
+.acoes-form-rodape {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #f1f5f9;
+}
+
+.btn-primario {
+  background-color: #735338;
+  color: #ffffff;
+  border: none;
+  padding: 0.8rem 1.8rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn-primario:hover:not(:disabled) {
+  background-color: #5c422c;
+  transform: translateY(-1px);
+}
+
+.btn-secundario {
+  background-color: #f1f5f9;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-secundario:hover:not(:disabled) {
+  background-color: #e2e8f0;
+  color: #1e293b;
+}
+
+.btn-primario:disabled,
+.btn-secundario:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

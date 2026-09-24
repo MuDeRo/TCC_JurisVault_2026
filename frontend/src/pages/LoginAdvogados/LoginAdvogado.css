@@ -1,269 +1,149 @@
-:root {
-  --principal: #855E4A;
-  --fundo:#f9f9ec;
-  --card: #F6E3D2;
-  --detalhe: #e9ded4;
-  --branco: #FFFFFF;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-/* PÁGINA */
-.pagina-login-advogados {
+.login-adv-page {
+  width: 100vw;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  background: var(--fundo);
-  font-family: Arial, Helvetica, sans-serif;
-  color: var(--principal);
-}
-
-/* CABEÇALHO */
-.cabecalho-login {
-  height: 70px;
-  background: var(--principal);
-  border-bottom: 3px solid var(--detalhe);
+  background-color: #0d1e36;
   display: flex;
   align-items: center;
-  padding: 0 40px;
-}
-
-.logo-login {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: var(--branco);
-  font-size: 20px;
-  font-weight: bold;
-}
-
-.logo-login strong,
-.icone-logo {
-  color: var(--detalhe);
-}
-
-.icone-logo {
-  font-size: 32px;
-}
-
-/* CONTEÚDO */
-.conteudo-login {
-  flex: 1;
-  display: flex;
   justify-content: center;
-  align-items: center;
-  padding: 40px 20px;
+  padding: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
-/* CARD */
-.card-login {
+
+.login-adv-card {
+  background-color: #ffffff;
   width: 100%;
   max-width: 420px;
-  background: var(--card);
-  border: 1px solid var(--detalhe);
+  border-radius: 16px;
+  padding: 40px 36px 28px 36px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+.login-adv-icon-box {
+  width: 52px;
+  height: 52px;
   border-radius: 12px;
-  padding: 32px;
-  box-shadow: 0 5px 18px rgba(133, 94, 74, 0.15);
+  background-color: #0d1e36;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
+}
+
+.login-adv-icon {
+  font-size: 1.4rem;
+  filter: sepia(100%) hue-rotate(5deg) saturate(200%);
+}
+
+
+.login-adv-title {
+  color: #0d1e36;
+  font-size: 1.7rem;
+  font-weight: 800;
+  margin-bottom: 4px;
+  text-align: center;
+  letter-spacing: -0.5px;
+}
+
+.login-adv-subtitle {
+  color: #8a94a6;
+  font-size: 0.88rem;
+  font-weight: 500;
+  margin-bottom: 28px;
   text-align: center;
 }
 
-/* ÍCONE */
-.icone-login {
-  width: 70px;
-  height: 70px;
-  margin: 0 auto 18px;
-  border-radius: 50%;
-  background: var(--principal);
-  color: var(--fundo);
+/* FORMULÁRIO */
+.login-adv-form {
+  width: 100%;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 30px;
+  flex-direction: column;
+  gap: 18px;
 }
 
-/* TÍTULO */
-.card-login h1 {
-  color: var(--principal);
-  font-size: 26px;
-  margin-bottom: 8px;
-}
-
-.descricao-login {
-  color: var(--principal);
-  opacity: 0.75;
-  font-size: 14px;
-  margin-bottom: 25px;
-}
-
-/* CAMPOS */
-.card-login form {
+.login-adv-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
   text-align: left;
 }
 
-.campo-login {
-  margin-bottom: 18px;
-  display: flex;
-  flex-direction: column;
+.login-adv-group label {
+  color: #0d1e36;
+  font-size: 0.85rem;
+  font-weight: 700;
 }
 
-.campo-login label {
-  color: var(--principal);
-  font-size: 14px;
-  font-weight: bold;
-  margin-bottom: 6px;
-}
-
-.campo-login input {
+.login-adv-group input {
   width: 100%;
-  height: 44px;
-  padding: 0 12px;
-  background: var(--fundo);
-  border: 1px solid var(--detalhe);
-  border-radius: 7px;
-  color: var(--principal);
+  padding: 13px 16px;
+  border: 1px solid #f0f2f5;
+  border-radius: 10px;
+  font-size: 0.92rem;
+  color: #1a202c;
   outline: none;
+  background-color: #f8fafc;
+  transition: all 0.2s ease;
 }
 
-.campo-login input:focus {
-  border-color: var(--principal);
-  box-shadow: 0 0 0 3px rgba(133, 94, 74, 0.12);
+.login-adv-group input:focus {
+  border-color: #0d1e36;
+  background-color: #ffffff;
 }
 
-/* ERRO */
-.mensagem-erro {
-  padding: 10px;
-  margin-bottom: 15px;
-  background: var(--fundo);
-  border: 1px solid var(--detalhe);
-  border-left: 4px solid var(--principal);
-  border-radius: 6px;
-  color: var(--principal);
-  font-size: 13px;
+.login-adv-group input::placeholder {
+  color: #a0aec0;
 }
 
-/* BOTÃO */
-.botao-login {
+
+.login-adv-btn-submit {
   width: 100%;
-  height: 46px;
+  padding: 14px;
+  background-color: #0d1e36;
+  color: #ffffff;
   border: none;
-  border-radius: 7px;
-  background: var(--principal);
-  color: var(--fundo);
-  font-size: 15px;
-  font-weight: bold;
+  border-radius: 10px;
+  font-size: 0.92rem;
+  font-weight: 700;
   cursor: pointer;
+  margin-top: 6px;
+  transition: background-color 0.2s ease;
 }
 
-.botao-login:hover {
-  background: #704C3C;
+.login-adv-btn-submit:hover {
+  background-color: #172d4d;
 }
 
-/* SEPARADOR */
-.separador {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 22px 0;
-}
 
-.separador span {
-  flex: 1;
-  height: 1px;
-  background: var(--detalhe);
-}
-
-.separador p {
-  margin: 0;
-  color: var(--principal);
-  opacity: 0.6;
-  font-size: 11px;
-}
-
-/* SEGURANÇA */
-.informacao-seguranca {
-  padding: 11px;
-  background: var(--fundo);
-  border: 1px solid var(--detalhe);
-  border-radius: 7px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-
-.informacao-seguranca p {
-  margin: 0;
-  color: var(--principal);
-  opacity: 0.7;
-  font-size: 11px;
-}
-
-/* SUCESSO */
-.sucesso-login {
-  text-align: center;
-}
-
-.icone-sucesso {
-  width: 75px;
-  height: 75px;
-  margin: 0 auto 18px;
-  border-radius: 50%;
-  background: var(--fundo);
-  border: 2px solid var(--principal);
-  color: var(--principal);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 35px;
-}
-
-.sucesso-login h1 {
-  color: var(--principal);
-  margin-bottom: 8px;
-}
-
-.sucesso-login h2 {
-  color: var(--principal);
-  font-size: 20px;
-  margin-bottom: 10px;
-}
-
-.sucesso-login > p {
-  color: var(--principal);
-  opacity: 0.7;
-  margin-bottom: 20px;
-}
-
-.botao-continuar {
-  width: 100%;
-  height: 45px;
-  background: var(--principal);
-  color: var(--fundo);
+.login-adv-btn-back {
+  background: transparent;
   border: none;
-  border-radius: 7px;
-  font-weight: bold;
+  color: #718096;
+  font-size: 0.88rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 22px;
+  margin-bottom: 24px;
+  transition: color 0.2s ease;
 }
 
-/* RODAPÉ */
-.rodape-login {
-  height: 55px;
-  background: var(--principal);
-  color: var(--fundo);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
+.login-adv-btn-back:hover {
+  color: #0d1e36;
 }
 
-/* RESPONSIVO */
-@media (max-width: 600px) {
-  .cabecalho-login {
-    padding: 0 20px;
-  }
 
-  .card-login {
-    padding: 25px 20px;
-  }
-
-  .card-login h1 {
-    font-size: 23px;
-  }
+.login-adv-hint {
+  color: #a0aec0;
+  font-size: 0.78rem;
+  text-align: center;
 }

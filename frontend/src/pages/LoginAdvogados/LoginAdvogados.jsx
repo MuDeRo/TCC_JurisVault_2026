@@ -1,194 +1,81 @@
-import { useState } from 'react';
-import CampoLogin from '../../components/Advogados/CampoLogin';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './LoginAdvogado.css';
 
-function LoginAdvogados({ advogadoCadastrado }) {
-  const [emailDigitado, setEmailDigitado] = useState('');
-  const [senhaDigitada, setSenhaDigitada] = useState('');
-  const [mensagemErro, setMensagemErro] = useState('');
+export default function LoginAdvogados() {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    email: '',
+    senha: ''
+  });
 
-  function quandoDigitarEmail(e) {
-    setEmailDigitado(e.target.value);
-    setMensagemErro('');
-  }
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
-  function quandoDigitarSenha(e) {
-    setSenhaDigitada(e.target.value);
-    setMensagemErro('');
-  }
-
-  function realizarLogin(e) {
+  const handleSubmit = (e) => {
     e.preventDefault();
-
-    if (!emailDigitado || !senhaDigitada) {
-      setMensagemErro('Preencha o e-mail e a senha.');
-      return;
-    }
-
-    if (
-      !advogadoCadastrado ||
-      emailDigitado !== advogadoCadastrado.email ||
-      senhaDigitada !== advogadoCadastrado.senha
-    ) {
-      setMensagemErro('E-mail ou senha incorretos.');
-      return;
-    }
-
-    setMensagemErro('');
-  }
-
-  const loginValido =
-    advogadoCadastrado &&
-    emailDigitado === advogadoCadastrado.email &&
-    senhaDigitada === advogadoCadastrado.senha &&
-    mensagemErro === '';
-
-  if (loginValido) {
-    return (
-      <div className="pagina-login-advogados">
-
-        <header className="cabecalho-login">
-          <div className="logo-login">
-            <span className="icone-logo">⚖</span>
-            <span>
-              SISTEMA <strong>JURÍDICO</strong>
-            </span>
-          </div>
-        </header>
-
-        <main className="conteudo-login">
-
-          <div className="card-login sucesso-login">
-
-            <div className="icone-sucesso">
-              ✓
-            </div>
-
-            <h1>Bem-vindo!</h1>
-
-            <h2>{advogadoCadastrado.nome}</h2>
-
-            <p>
-              Seu acesso foi liberado com sucesso.
-            </p>
-
-            <button
-              className="botao-continuar"
-              onClick={() => window.location.href = '/'}
-            >
-              Continuar
-            </button>
-
-          </div>
-
-        </main>
-
-        <footer className="rodape-login">
-          © 2026 Sistema Jurídico — Todos os direitos reservados.
-        </footer>
-
-      </div>
-    );
-  }
+    alert('Login realizado com sucesso!');
+    navigate('/painel-administrativo');
+  };
 
   return (
-    <div className="pagina-login-advogados">
-
-      {/* CABEÇALHO */}
-      <header className="cabecalho-login">
-
-        <div className="logo-login">
-          <span className="icone-logo">⚖</span>
-
-          <span>
-            SISTEMA <strong>JURÍDICO</strong>
-          </span>
+    <div className="login-adv-page">
+      <div className="login-adv-card">
+        {/* ÍCONE DA BALANÇA */}
+        <div className="login-adv-icon-box">
+          <span className="login-adv-icon">⚖️</span>
         </div>
 
-      </header>
+        {/* TÍTULO E SUBTÍTULO */}
+        <h2 className="login-adv-title">JurisVault</h2>
+        <p className="login-adv-subtitle">Gestão Jurídica Inteligente</p>
 
-      {/* CONTEÚDO */}
-      <main className="conteudo-login">
-
-        <div className="card-login">
-
-          {/* ÍCONE */}
-          <div className="icone-login">
-            🔐
-          </div>
-
-          {/* TÍTULO */}
-          <h1>Login do Advogado</h1>
-
-          <p className="descricao-login">
-            Acesse sua conta para entrar no sistema jurídico.
-          </p>
-
-          {/* FORMULÁRIO */}
-          <form onSubmit={realizarLogin}>
-
-            <CampoLogin
-              label="E-mail"
-              tipo="email"
-              valor={emailDigitado}
-              aoMudar={quandoDigitarEmail}
+        {/* FORMULÁRIO */}
+        <form className="login-adv-form" onSubmit={handleSubmit}>
+          <div className="login-adv-group">
+            <label>E-mail</label>
+            <input
+              type="email"
+              name="email"
+              placeholder="advogado@jurisvault.com.br"
+              value={formData.email}
+              onChange={handleChange}
+              required
             />
+          </div>
 
-            <CampoLogin
-              label="Senha"
-              tipo="password"
-              valor={senhaDigitada}
-              aoMudar={quandoDigitarSenha}
+          <div className="login-adv-group">
+            <label>Senha</label>
+            <input
+              type="password"
+              name="senha"
+              placeholder="••••••"
+              value={formData.senha}
+              onChange={handleChange}
+              required
             />
-
-            {/* ERRO */}
-            {mensagemErro && (
-              <div className="mensagem-erro">
-                <span>!</span>
-                {mensagemErro}
-              </div>
-            )}
-
-            {/* BOTÃO */}
-            <button
-              type="submit"
-              className="botao-login"
-            >
-              Entrar no Sistema
-              <span>→</span>
-            </button>
-
-          </form>
-
-          {/* SEPARADOR */}
-          <div className="separador">
-            <span></span>
-            <p>Acesso seguro</p>
-            <span></span>
           </div>
 
-          {/* INFORMAÇÃO */}
-          <div className="informacao-seguranca">
-            <span>🔒</span>
+          <button type="submit" className="login-adv-btn-submit">
+            Entrar no sistema
+          </button>
+        </form>
 
-            <p>
-              Seus dados são protegidos e utilizados
-              <br />
-              exclusivamente para acesso ao sistema.
-            </p>
-          </div>
+        {/* BOTÃO DE VOLTAR */}
+        <button
+          type="button"
+          className="login-adv-btn-back"
+          onClick={() => navigate('/')}
+        >
+          ← Voltar ao Menu Principal
+        </button>
 
-        </div>
-
-      </main>
-
-      {/* RODAPÉ */}
-      <footer className="rodape-login">
-        © 2026 Sistema Jurídico — Todos os direitos reservados.
-      </footer>
-
+        {/* CREDENCIAIS PADRÃO NO RODAPÉ */}
+        <p className="login-adv-hint">
+          Padrão: advogado@jurisvault.com.br / 123456
+        </p>
+      </div>
     </div>
   );
 }
-
-export default LoginAdvogados;

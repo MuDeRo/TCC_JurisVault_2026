@@ -1,371 +1,149 @@
-:root {
-  --principal: #855E4A;
-  --fundo: #F6F7EB;
-  --card: #F6E3D2;
-  --detalhe: #E8D2BE;
-  --branco: #FFFFFF;
-}
-
-
-
-.pagina-processos {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  background: var(--fundo);
-  font-family: Arial, Helvetica, sans-serif;
-  color: var(--principal);
-}
-
-
-/* CABEÇALHO */
-
-.cabecalho {
-  height: 70px;
-
-  background: var(--principal);
-  border-bottom: 3px solid var(--detalhe);
-
-  display: flex;
-  align-items: center;
-
-  padding: 0 40px;
-}
-
-.cabecalho h2 {
-  color: var(--branco);
-  font-size: 20px;
-}
-
-.cabecalho span {
-  color: var(--detalhe);
-}
-
-
-/* CONTEÚDO */
-
-.conteudo {
-  flex: 1;
-
-  padding: 40px 20px;
-}
-
-
-/* ÁREA DOS PROCESSOS */
-
-.area-processos {
-  width: 100%;
-  max-width: 1000px;
-
-  margin: 0 auto;
-}
-
-
-/* CARD DE CADASTRO */
-
-.card-cadastro {
-  width: 100%;
-  max-width: 600px;
-
-  margin: 0 auto;
-
-  background: var(--card);
-
-  border: 1px solid var(--detalhe);
-
-  border-radius: 12px;
-
-  padding: 32px;
-
-  box-shadow:
-    0 5px 18px rgba(133, 94, 74, 0.15);
-}
-
-
-/* TÍTULO */
-
-.card-cadastro h1 {
-  text-align: center;
-
-  color: var(--principal);
-
-  font-size: 26px;
-
-  margin-bottom: 8px;
-}
-
-.descricao {
-  text-align: center;
-
-  color: var(--principal);
-
-  opacity: 0.7;
-
-  font-size: 14px;
-
-  margin-bottom: 25px;
-}
-
-
-/* CAMPOS */
-
-.campo-cadastro {
-  margin-bottom: 15px;
-
-  display: flex;
-  flex-direction: column;
-}
-
-.campo-cadastro label {
-  color: var(--principal);
-
-  font-size: 14px;
-
-  font-weight: bold;
-
-  margin-bottom: 6px;
-}
-
-.campo-cadastro input,
-.campo-cadastro select {
-  width: 100%;
-  height: 42px;
-
+* {
   box-sizing: border-box;
-
-  padding: 0 12px;
-
-  background: var(--fundo);
-
-  border: 1px solid var(--detalhe);
-
-  border-radius: 7px;
-
-  color: var(--principal);
-
-  outline: none;
-}
-
-.campo-cadastro input:focus,
-.campo-cadastro select:focus {
-  border-color: var(--principal);
-
-  box-shadow:
-    0 0 0 3px rgba(133, 94, 74, 0.12);
-}
-
-
-/* BOTÃO */
-
-.card-cadastro button {
-  width: 100%;
-
-  height: 45px;
-
-  margin-top: 8px;
-
-  background: var(--principal);
-
-  color: var(--fundo);
-
-  border: none;
-
-  border-radius: 7px;
-
-  font-weight: bold;
-
-  font-size: 15px;
-
-  cursor: pointer;
-}
-
-.card-cadastro button:hover {
-  background: #704C3C;
-}
-
-
-/* BOTÃO CANCELAR */
-
-.card-cadastro .btn-cancelar {
-  background: var(--detalhe);
-
-  color: var(--principal);
-
-  margin-top: 10px;
-}
-
-.card-cadastro .btn-cancelar:hover {
-  background: var(--branco);
-}
-
-
-/* LISTA */
-
-.lista-processos {
-  margin-top: 30px;
-
-  padding: 25px;
-
-  background: var(--card);
-
-  border: 1px solid var(--detalhe);
-
-  border-radius: 12px;
-}
-
-
-/* TÍTULO DA LISTA */
-
-.lista-processos h2 {
-  color: var(--principal);
-
-  font-size: 20px;
-
-  margin-bottom: 5px;
-}
-
-.total-processos {
-  color: var(--principal);
-
-  opacity: 0.7;
-
-  font-size: 13px;
-
-  margin-bottom: 20px;
-}
-
-
-/* MENSAGEM */
-
-.mensagem {
-  padding: 15px;
-
-  background: var(--fundo);
-
-  border: 1px solid var(--detalhe);
-
-  border-left: 4px solid var(--principal);
-
-  border-radius: 6px;
-
-  color: var(--principal);
-
-  font-size: 13px;
-}
-
-
-/* TABELA */
-
-.tabela-container {
-  width: 100%;
-
-  overflow-x: auto;
-}
-
-table {
-  width: 100%;
-
-  border-collapse: collapse;
-
-  background: var(--fundo);
-}
-
-th {
-  background: var(--principal);
-
-  color: var(--branco);
-
-  padding: 12px;
-
-  text-align: left;
-
-  font-size: 13px;
-}
-
-td {
-  padding: 12px;
-
-  border-bottom: 1px solid var(--detalhe);
-
-  color: var(--principal);
-
-  font-size: 13px;
-}
-
-tr:hover {
-  background: var(--detalhe);
-}
-
-
-/* AÇÕES */
-
-.acoes {
-  display: flex;
-
-  gap: 8px;
-}
-
-.acoes button {
-  width: 35px;
-  height: 35px;
-
   margin: 0;
-
   padding: 0;
-
-  background: var(--detalhe);
-
-  color: var(--principal);
-
-  border: none;
-
-  border-radius: 6px;
-
-  cursor: pointer;
 }
 
-.acoes button:hover {
-  background: var(--branco);
-}
-
-
-/* RODAPÉ */
-
-.rodape {
-  height: 55px;
-
-  background: var(--principal);
-
-  color: var(--fundo);
-
+/* FUNDO AZUL-ESCURO NOITE */
+.cad-adv-page {
+  width: 100vw;
+  min-height: 100vh;
+  background-color: #0d1e36;
   display: flex;
-
   align-items: center;
-
   justify-content: center;
-
-  font-size: 12px;
+  padding: 24px 20px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
-
-/* RESPONSIVO */
-
-@media (max-width: 600px) {
-
-  .cabecalho {
-    padding: 0 20px;
-  }
-
-  .card-cadastro {
-    padding: 25px 20px;
-  }
-
-  .card-cadastro h1 {
-    font-size: 23px;
-  }
-
-  .lista-processos {
-    padding: 18px;
-  }
-
+/* CARTÃO BRANCO */
+.cad-adv-card {
+  background-color: #ffffff;
+  width: 100%;
+  max-width: 480px;
+  border-radius: 20px;
+  padding: 40px 36px 30px 36px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
+
+/* QUADRADO ARREDONDADO DO ÍCONE */
+.cad-adv-icon-box {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background-color: #0d1e36;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
+}
+
+.cad-adv-icon {
+  font-size: 1.4rem;
+}
+
+/* TÍTULOS */
+.cad-adv-title {
+  color: #0d1e36;
+  font-size: 1.6rem;
+  font-weight: 800;
+  margin-bottom: 4px;
+  text-align: center;
+  letter-spacing: -0.5px;
+}
+
+.cad-adv-subtitle {
+  color: #8a94a6;
+  font-size: 0.88rem;
+  font-weight: 500;
+  margin-bottom: 28px;
+  text-align: center;
+}
+
+/* FORMULÁRIO */
+.cad-adv-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cad-adv-row {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+}
+
+.cad-adv-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: left;
+}
+
+.cad-adv-group label {
+  color: #0d1e36;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+/* CAMPOS DE TEXTO COM O AZUL-CLARO DA IMAGEM */
+.cad-adv-group input {
+  width: 100%;
+  padding: 13px 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 0.92rem;
+  color: #0d1e36;
+  outline: none;
+  background-color: #eef4ff; /* Fundo azul suave igual ao do print */
+  transition: all 0.2s ease;
+}
+
+.cad-adv-group input:focus {
+  border-color: #0d1e36;
+  background-color: #ffffff;
+}
+
+.cad-adv-group input::placeholder {
+  color: #94a3b8;
+}
+
+/* BOTÃO SUBMIT */
+.cad-adv-btn-submit {
+  width: 100%;
+  padding: 14px;
+  background-color: #0d1e36;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.2s ease;
+}
+
+.cad-adv-btn-submit:hover {
+  background-color: #172d4d;
+}
+
+/* BOTÃO VOLTAR */
+.cad-adv-btn-back {
+  background: transparent;
+  border: none;
+  color: #718096;
+  font-size: 0.88rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 24px;
+  transition: color 0.2s ease;
+}
+
+.cad-adv-btn-back:hover {
+  color: #0d1e36;
+} 
