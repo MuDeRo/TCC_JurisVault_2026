@@ -1,3 +1,6 @@
+/* =========================
+   CONFIGURAÇÕES GERAIS
+========================= */
 
 * {
   margin: 0;
@@ -5,10 +8,16 @@
   box-sizing: border-box;
 }
 
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
 body {
   font-family: Arial, Helvetica, sans-serif;
-  background-color:#f9f9ec;
-  color: #855E4A;
+  background-color: #F7F5F0;
+  color: #30343B;
 }
 
 a {
@@ -16,191 +25,345 @@ a {
 }
 
 
-
+/* =========================
+   PÁGINA PRINCIPAL
+========================= */
 
 .pagina-inicial {
   min-height: 100vh;
-  background-color: #F6F7EB;
+  display: flex;
+  flex-direction: column;
+  background-color: #F7F5F0;
 }
 
 
+/* =========================
+   CABEÇALHO
+========================= */
+
 .header {
-  height: 75px;
-  background-color: #855E4A;
+  width: 100%;
+  height: 100px;
+  flex-shrink: 0;
+
+  background-color: #172536;
+
   display: flex;
   align-items: center;
-  padding: 0 35px;
-  border-bottom: 3px solid #e9ded4;
+
+  padding: 0 5%;
+
+  border-bottom: 3px solid #D8D3CA;
 }
 
 .logo {
   display: flex;
   align-items: center;
-  gap: 12px;
-  color: #F6F7EB;
-  font-size: 23px;
+  gap: 13px;
+
+  color: #FFFFFF;
+
+  font-size: 28px;
   font-weight: bold;
+  letter-spacing: 0.5px;
 }
 
 .logo strong {
-  color: #F6E3D2;
+  color: #C6A15B;
 }
 
 .logo-icone {
-  color: #F6E3D2;
-  font-size: 35px;
+  color: #C6A15B;
+  font-size: 40px;
+  line-height: 1;
 }
 
 
+/* =========================
+   CONTEÚDO PRINCIPAL
+========================= */
 
 .conteudo {
-  padding: 50px 6%;
-  background-color: #F6F7EB;
-}
+  flex: 1;
 
-
-
-.titulo-area {
-  text-align: center;
-  margin-bottom: 45px;
-}
-
-.titulo-area h1 {
-  font-size: 50px;
-  color: #855E4A;
-  margin-top: 10px;
-}
-
-.titulo-area h1 strong {
-  color: #E8D2BE;
-}
-
-.titulo-area p {
-  margin-top: 15px;
-  font-size: 18px;
-  color: #855E4A;
-}
-
-
-.linha-decorativa {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
-}
-
-.linha-decorativa span {
-  width: 80px;
-  height: 2px;
-  background-color: #E8D2BE;
-}
-
-.simbolo {
-  color: #855E4A;
-  font-size: 32px;
-}
-
-.linha-pequena {
-  width: 40px;
-  height: 3px;
-  background-color: #E8D2BE;
-  margin: 7px 10px auto 0;
-
-  
-}
-
-
-.cards {
   width: 100%;
-  max-width: 1100px;
-  margin: 0 20px;
 
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 30px;
+
+  /*
+    ESQUERDA:
+    identidade do sistema
+
+    DIREITA:
+    três cards
+  */
+  grid-template-columns: minmax(250px, 0.8fr) minmax(700px, 2fr);
+
+  align-items: center;
+
+  gap: 55px;
+
+  padding: 65px 7%;
 }
 
 
+/* =========================
+   ÁREA DE IDENTIDADE
+========================= */
 
-.card {
-  min-height: 380px;
-  background-color: #F6E3D2;
-  border: 1px solid #E8D2BE;
-  border-radius: 12px;
-  padding: 30px 25px;
-  text-align: center;
+.titulo-area {
+  width: 100%;
+
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  box-shadow: 0 4px 10px rgba(133, 94, 74, 0.12);
+  text-align: center;
+
+  padding: 20px 10px;
 }
 
 
+/* =========================
+   DECORAÇÃO SUPERIOR
+========================= */
 
-.icone-card {
-  width: 80px;
-  height: 80px;
-
-  border-radius: 50%;
-
-  background-color: #a07964;
-  color: #F6F7EB;
+.linha-decorativa {
+  width: 100%;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  font-size: 32px;
+  gap: 18px;
 
-  margin-bottom: 20px;
+  margin-bottom: 14px;
 }
 
-.icone-plus {
-  position: absolute;
-
-  right: 8px;
-  top: 8px;
-
-  color: #E8D2BE;
-
-  font-size: 22px;
-  font-weight: bold;
-}
-
-
-
-.card h2 {
-  color: #855E4A;
-
-  font-size: 21px;
-  font-weight: bold;
-
-  margin-bottom: 18px;
-}
-
-
-
-.separador {
-  width: 90px;
+.linha-decorativa span {
+  width: 75px;
   height: 2px;
 
-  background-color: #855E4A;
+  background-color: #C6A15B;
+}
 
+.simbolo {
+  color: #C6A15B;
+
+  font-size: 31px;
+  line-height: 1;
+}
+
+
+/* =========================
+   TÍTULO PRINCIPAL
+========================= */
+
+.titulo-area h1 {
+  color: #172536;
+
+  font-size: clamp(42px, 4vw, 58px);
+
+  line-height: 0.98;
+
+  font-weight: 700;
+
+  margin: 0;
+
+  letter-spacing: -1.5px;
+}
+
+.titulo-area h1 strong {
+  display: block;
+
+  color: #C6A15B;
+
+  font-weight: 700;
+}
+
+
+/* =========================
+   LINHA PEQUENA
+========================= */
+
+.linha-pequena {
+  width: 55px;
+  height: 3px;
+
+  background-color: #C6A15B;
+
+  margin-top: 28px;
+  margin-bottom: 22px;
+
+  align-self: flex-start;
+
+  margin-left: 20%;
+}
+
+
+/* =========================
+   TEXTO DA IDENTIDADE
+========================= */
+
+.titulo-area p {
+  max-width: 300px;
+
+  color: #30343B;
+
+  font-size: 18px;
+  line-height: 1.55;
+
+  margin: 0;
+}
+
+
+/* =========================
+   CARDS
+========================= */
+
+.cards {
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  gap: 28px;
+
+  align-items: stretch;
+}
+
+
+/* =========================
+   CARD
+========================= */
+
+.card {
+  width: 100%;
+
+  min-height: 390px;
+
+  background-color: #FFFFFF;
+
+  border: 1px solid #D8D3CA;
+
+  border-radius: 14px;
+
+  padding: 40px 28px 38px;
+
+  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  box-shadow: 0 7px 18px rgba(23, 37, 54, 0.10);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+
+  box-shadow: 0 11px 24px rgba(23, 37, 54, 0.14);
+}
+
+
+/* =========================
+   ÍCONE DO CARD
+========================= */
+
+.icone-card {
   position: relative;
 
-  margin-bottom: 20px;
+  width: 108px;
+  height: 108px;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background-color: #172536;
+
+  color: #FFFFFF;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 28px;
+}
+
+.icone-card svg {
+  width: 45px;
+  height: 45px;
+
+  stroke-width: 1.2;
+}
+
+
+/*
+  O primeiro SVG já possui o símbolo de +
+  internamente. Este elemento extra não é
+  necessário visualmente.
+*/
+.icone-plus {
+  display: none;
+}
+
+
+/* =========================
+   TÍTULO DO CARD
+========================= */
+
+.card h2 {
+  width: 100%;
+
+  min-height: 52px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #172536;
+
+  font-size: 22px;
+  line-height: 1.25;
+
+  font-weight: 700;
+
+  margin: 0 0 22px;
+}
+
+
+/* =========================
+   SEPARADOR
+========================= */
+
+.separador {
+  position: relative;
+
+  width: 95px;
+  height: 2px;
+
+  flex-shrink: 0;
+
+  background-color: #C6A15B;
+
+  margin-bottom: 25px;
 }
 
 .separador span {
   position: absolute;
 
-  width: 8px;
-  height: 8px;
+  width: 9px;
+  height: 9px;
 
   border-radius: 50%;
 
-  background-color: #855E4A;
+  background-color: #C6A15B;
 
   top: 50%;
   left: 50%;
@@ -209,29 +372,38 @@ a {
 }
 
 
+/* =========================
+   DESCRIÇÃO
+========================= */
 
 .card p {
-  color: #855E4A;
+  max-width: 220px;
 
-  font-size: 15px;
-  line-height: 1.5;
+  color: #30343B;
 
-  margin-bottom: 25px;
+  font-size: 16px;
+  line-height: 1.55;
+
+  margin: 0 0 30px;
 }
 
 
+/* =========================
+   BOTÃO
+========================= */
 
-.button {
-  width: 160px;
-  height: 45px;
+.botao {
+  width: 170px;
+  height: 48px;
 
   margin-top: auto;
 
-  border: 2px solid #855E4A;
-  border-radius: 7px;
+  border: 2px solid #172536;
+  border-radius: 8px;
 
-  background-color: #F6F7EB;
-  color: #855E4A;
+  background-color: #F7F5F0;
+
+  color: #172536;
 
   display: flex;
   align-items: center;
@@ -239,60 +411,223 @@ a {
 
   gap: 12px;
 
-  font-size: 15px;
+  font-size: 16px;
   font-weight: bold;
 
+  letter-spacing: 0.3px;
+
   cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .botao span {
-  font-size: 20px;
+  font-size: 24px;
+  line-height: 1;
 }
 
 .botao:hover {
-  background-color: #855E4A;
-  color: #F6F7EB;
+  background-color: #172536;
+  color: #FFFFFF;
+
+  transform: translateY(-1px);
 }
 
 
-.footer {
-  height: 60px;
+/* =========================
+   RODAPÉ
+========================= */
 
-  background-color: #855E4A;
+.footer {
+  width: 100%;
+  min-height: 58px;
+
+  flex-shrink: 0;
+
+  background-color: #172536;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  color: #F6E3D2;
+  text-align: center;
+
+  padding: 12px 20px;
+
+  color: #C6A15B;
 
   font-size: 13px;
 }
 
 
+/* =========================
+   TELAS MÉDIAS
+========================= */
 
+@media (max-width: 1250px) {
 
-@media (max-width: 900px) {
+  .conteudo {
+    grid-template-columns: 260px minmax(0, 1fr);
 
-  .cards {
-    grid-template-columns: 1fr;
-    max-width: 450px;
+    gap: 35px;
+
+    padding-left: 5%;
+    padding-right: 5%;
   }
 
-  .titulo-area h1 {
-    font-size: 40px;
+  .cards {
+    gap: 18px;
+  }
+
+  .card {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .card h2 {
+    font-size: 20px;
+  }
+
+  .icone-card {
+    width: 95px;
+    height: 95px;
+  }
+
+  .icone-card svg {
+    width: 42px;
+    height: 42px;
   }
 }
 
 
+/* =========================
+   TABLET / TELAS MENORES
+========================= */
+
+@media (max-width: 1000px) {
+
+  .header {
+    height: 85px;
+  }
+
+  .logo {
+    font-size: 23px;
+  }
+
+  .logo-icone {
+    font-size: 34px;
+  }
+
+  .conteudo {
+    grid-template-columns: 1fr;
+
+    gap: 45px;
+
+    padding: 50px 5%;
+  }
+
+  .titulo-area {
+    max-width: 600px;
+
+    margin: 0 auto;
+  }
+
+  .titulo-area h1 {
+    font-size: 48px;
+  }
+
+  .linha-pequena {
+    align-self: center;
+    margin-left: 0;
+  }
+
+  .titulo-area p {
+    max-width: 400px;
+  }
+
+  .cards {
+    width: 100%;
+
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    max-width: 900px;
+
+    margin: 0 auto;
+  }
+
+  .card {
+    min-height: 370px;
+  }
+
+  .card h2 {
+    font-size: 18px;
+  }
+
+  .card p {
+    font-size: 15px;
+  }
+
+  .botao {
+    width: 145px;
+  }
+}
+
+
+/* =========================
+   TABLET PEQUENO
+========================= */
+
+@media (max-width: 750px) {
+
+  .conteudo {
+    padding: 40px 25px;
+  }
+
+  .cards {
+    grid-template-columns: 1fr;
+    max-width: 430px;
+    gap: 22px;
+  }
+
+  .card {
+    min-height: 360px;
+    padding: 35px 25px;
+  }
+
+  .card h2 {
+    font-size: 21px;
+  }
+
+  .card p {
+    font-size: 16px;
+  }
+
+  .icone-card {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+
+/* =========================
+   CELULAR
+========================= */
+
 @media (max-width: 600px) {
 
   .header {
+    height: 75px;
+
     padding: 0 20px;
   }
 
   .logo {
     font-size: 18px;
+
+    gap: 9px;
   }
 
   .logo-icone {
@@ -300,23 +635,84 @@ a {
   }
 
   .conteudo {
-    padding: 35px 20px;
+    padding: 35px 20px 45px;
+
+    gap: 35px;
   }
 
-  .titulo-area h1 {
-    font-size: 32px;
+  .titulo-area {
+    padding: 10px 0;
   }
 
-  .titulo-area p {
-    font-size: 15px;
+  .linha-decorativa {
+    gap: 10px;
   }
 
   .linha-decorativa span {
-    width: 50px;
+    width: 45px;
+  }
+
+  .simbolo {
+    font-size: 27px;
+  }
+
+  .titulo-area h1 {
+    font-size: 38px;
+  }
+
+  .linha-pequena {
+    width: 45px;
+    margin-top: 23px;
+    margin-bottom: 18px;
+  }
+
+  .titulo-area p {
+    font-size: 16px;
+    max-width: 280px;
+  }
+
+  .cards {
+    max-width: 360px;
   }
 
   .card {
-    min-height: 360px;
-    
+    min-height: 350px;
+    padding: 32px 22px;
+  }
+
+  .icone-card {
+    width: 90px;
+    height: 90px;
+    margin-bottom: 23px;
+  }
+
+  .icone-card svg {
+    width: 40px;
+    height: 40px;
+  }
+
+  .card h2 {
+    font-size: 20px;
+    min-height: auto;
+    margin-bottom: 20px;
+  }
+
+  .separador {
+    margin-bottom: 20px;
+  }
+
+  .card p {
+    font-size: 15px;
+    margin-bottom: 25px;
+  }
+
+  .botao {
+    width: 160px;
+    height: 45px;
+    font-size: 15px;
+  }
+
+  .footer {
+    font-size: 12px;
   }
 }

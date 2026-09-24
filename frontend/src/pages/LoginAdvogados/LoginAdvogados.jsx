@@ -1,131 +1,111 @@
-import { useState } from 'react';
-import CampoLogin from '../../components/Advogados/CampoLogin';
-import './LoginAdvogado.css';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-function LoginAdvogados({ advogadoCadastrado }) {
-  const [emailDigitado, setEmailDigitado] = useState('');
-  const [senhaDigitada, setSenhaDigitada] = useState('');
-  const [mensagemErro, setMensagemErro] = useState('');
+import CampoLogin from "../../components/Advogados/CampoLogin";
+
+import "./LoginAdvogado.css";
+
+function LoginAdvogados() {
+
+  const navigate = useNavigate();
+
+  const [emailDigitado, setEmailDigitado] = useState("");
+  const [senhaDigitada, setSenhaDigitada] = useState("");
+  const [erro, setErro] = useState("");
+
+  // DADOS PARA TESTAR O LOGIN
+  const LOGIN_CORRETO = "advogado@gmail.com";
+  const SENHA_CORRETA = "123456";
+
 
   function quandoDigitarEmail(e) {
     setEmailDigitado(e.target.value);
-    setMensagemErro('');
+    setErro("");
   }
+
 
   function quandoDigitarSenha(e) {
     setSenhaDigitada(e.target.value);
-    setMensagemErro('');
+    setErro("");
   }
 
-  function realizarLogin(e) {
+
+  function entrar(e) {
+
     e.preventDefault();
 
-    if (!emailDigitado || !senhaDigitada) {
-      setMensagemErro('Preencha o e-mail e a senha.');
+    // Verifica se os campos estão vazios
+    if (emailDigitado === "" || senhaDigitada === "") {
+
+      setErro("Preencha o e-mail e a senha.");
+
       return;
     }
 
+
+    // VERIFICA LOGIN E SENHA
     if (
-      !advogadoCadastrado ||
-      emailDigitado !== advogadoCadastrado.email ||
-      senhaDigitada !== advogadoCadastrado.senha
+      emailDigitado === LOGIN_CORRETO &&
+      senhaDigitada === SENHA_CORRETA
     ) {
-      setMensagemErro('E-mail ou senha incorretos.');
-      return;
+
+      setErro("");
+
+      // VAI DIRETAMENTE PARA O PAINEL
+      navigate("/painel-advogado");
+
+    } else {
+
+      setErro("E-mail ou senha incorretos.");
+
     }
-
-    setMensagemErro('');
   }
 
-  const loginValido =
-    advogadoCadastrado &&
-    emailDigitado === advogadoCadastrado.email &&
-    senhaDigitada === advogadoCadastrado.senha &&
-    mensagemErro === '';
-
-  if (loginValido) {
-    return (
-      <div className="pagina-login-advogados">
-
-        <header className="cabecalho-login">
-          <div className="logo-login">
-            <span className="icone-logo">⚖</span>
-            <span>
-              SISTEMA <strong>JURÍDICO</strong>
-            </span>
-          </div>
-        </header>
-
-        <main className="conteudo-login">
-
-          <div className="card-login sucesso-login">
-
-            <div className="icone-sucesso">
-              ✓
-            </div>
-
-            <h1>Bem-vindo!</h1>
-
-            <h2>{advogadoCadastrado.nome}</h2>
-
-            <p>
-              Seu acesso foi liberado com sucesso.
-            </p>
-
-            <button
-              className="botao-continuar"
-              onClick={() => window.location.href = '/'}
-            >
-              Continuar
-            </button>
-
-          </div>
-
-        </main>
-
-        <footer className="rodape-login">
-          © 2026 Sistema Jurídico — Todos os direitos reservados.
-        </footer>
-
-      </div>
-    );
-  }
 
   return (
-    <div className="pagina-login-advogados">
+    <div className="pagina-login">
 
       {/* CABEÇALHO */}
+
       <header className="cabecalho-login">
 
         <div className="logo-login">
-          <span className="icone-logo">⚖</span>
+
+          <span className="icone-logo">
+            ⚖
+          </span>
 
           <span>
             SISTEMA <strong>JURÍDICO</strong>
           </span>
+
         </div>
 
       </header>
 
+
       {/* CONTEÚDO */}
+
       <main className="conteudo-login">
 
         <div className="card-login">
 
-          {/* ÍCONE */}
           <div className="icone-login">
-            🔐
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-lock-keyhole"><circle cx="12" cy="16" r="1" /><rect x="3" y="10" width="18" height="12" rx="2" /><path d="M7 10V7a5 5 0 0 1 10 0v3" /></svg>
           </div>
 
-          {/* TÍTULO */}
-          <h1>Login do Advogado</h1>
+
+          <h1>
+            Login do Advogado
+          </h1>
+
 
           <p className="descricao-login">
             Acesse sua conta para entrar no sistema jurídico.
           </p>
 
-          {/* FORMULÁRIO */}
-          <form onSubmit={realizarLogin}>
+
+          <form onSubmit={entrar}>
 
             <CampoLogin
               label="E-mail"
@@ -134,6 +114,7 @@ function LoginAdvogados({ advogadoCadastrado }) {
               aoMudar={quandoDigitarEmail}
             />
 
+
             <CampoLogin
               label="Senha"
               tipo="password"
@@ -141,50 +122,63 @@ function LoginAdvogados({ advogadoCadastrado }) {
               aoMudar={quandoDigitarSenha}
             />
 
-            {/* ERRO */}
-            {mensagemErro && (
-              <div className="mensagem-erro">
+
+            {erro !== "" && (
+
+              <div className="mensagem-erro-login">
+
                 <span>!</span>
-                {mensagemErro}
+
+                {erro}
+
               </div>
+
             )}
 
-            {/* BOTÃO */}
+
             <button
               type="submit"
-              className="botao-login"
+              className="botao-entrar-login"
             >
-              Entrar no Sistema
-              <span>→</span>
+              <span className="texto-entrar">Entrar</span>
+
             </button>
 
           </form>
 
-          {/* SEPARADOR */}
-          <div className="separador">
-            <span></span>
-            <p>Acesso seguro</p>
-            <span></span>
-          </div>
 
-          {/* INFORMAÇÃO */}
-          <div className="informacao-seguranca">
-            <span>🔒</span>
+          <div className="seguranca-login">
 
-            <p>
-              Seus dados são protegidos e utilizados
-              <br />
-              exclusivamente para acesso ao sistema.
-            </p>
+            <span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-lock-keyhole"><circle cx="12" cy="16" r="1" /><rect x="3" y="10" width="18" height="12" rx="2" /><path d="M7 10V7a5 5 0 0 1 10 0v3" /></svg>
+            </span>
+
+            <div>
+
+              <strong>
+                Acesso seguro
+              </strong>
+
+              <p>
+                Seus dados são protegidos pelo sistema.
+              </p>
+
+            </div>
+
           </div>
 
         </div>
 
       </main>
 
+
       {/* RODAPÉ */}
+
       <footer className="rodape-login">
-        © 2026 Sistema Jurídico — Todos os direitos reservados.
+
+        © 2026 Sistema Jurídico.
+        Todos os direitos reservados.
+
       </footer>
 
     </div>
