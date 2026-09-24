@@ -1,61 +1,74 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native';
+import React, { useState, useCallback } from 'react';
+import { StyleSheet, Text, View, FlatList, ActivityIndicator, RefreshControl } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
+import api from '../services/api';
 import { colors } from '../constants/theme';
 
 export default function AgendaScreen() {
-  const [filtro, setFiltro] = useState('Todos');
+  const [compromissos, setCompromissos] = useState([]);
+  const [carregando, setCarregando] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
 
-  const [compromissos] = useState([
-    { id: '1', titulo: 'Audiência de Conciliação', processo: '0001234-56.2023.8.26.0000', cliente: 'Carlos Silva', data: '08/09/2026', horario: '14:30', tipo: 'Audiencia', urgente: true },
-    { id: '2', titulo: 'Prazo: Réplica à Contestação', processo: '0009876-12.2023.8.26.0000', cliente: 'Maria Oliveira', data: '12/09/2026', horario: '23:59', tipo: 'Prazo', urgente: false },
-  ]);
+  const carregarAgenda = useCallback(async () => {
+    try {
+      const response = await api.get('/agenda').catch(() => ({ data: [] }));
+      const dados = Array.isArray(response.data) ? response.data : (response.data.compromissos || []);
+      setCompromissos(dados);
+    } catch (err) {
+      console.log('Erro agenda:', err);
+    } finally {
+      setCarregando(false);
+      setRefreshing(false);
+    }
+  }, []);
 
-  const listaFiltrada = compromissos.filter(item => filtro === 'Todos' || item.tipo === filtro);
+  useFocusEffect(useCallback(() => { carregarAgenda(); }, [carregarAgenda]));
+
+  const renderItem = ({ item }) => (
+    <View style={styles.card}>
+      <View style={styles.headerCard}>
+        <Text style={styles.titulo}>{item.titulo || 'Prazo Processual'}</Text>
+        <Text style={styles.data}>{item.data_limite || item.data || 'A definir'}</Text>
+      </View>
+      <Text style={styles.cnj}>CNJ: {item.numero_cnj || 'Não vinculado'}</Text>
+      <Text style={styles.descricao}>{item.descricao || 'Sem observações adicionais.'}</Text>
+    </View>
+  );
 
   return (
     <View style={styles.container}>
-      <View style={styles.filtroContainer}>
-        {['Todos', 'Audiencia', 'Prazo'].map((t) => (
-          <TouchableOpacity
-            key={t}
-            style={[styles.btnFiltro, filtro === t && styles.btnFiltroAtivo]}
-            onPress={() => setFiltro(t)}
-          >
-            <Text style={[styles.txtFiltro, filtro === t && styles.txtFiltroAtivo]}>
-              {t === 'Todos' ? 'Todos' : t === 'Audiencia' ? '⚖️ Audiências' : '📅 Prazos'}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </View>
-
-      <FlatList
-        data={listaFiltrada}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <View style={[styles.card, item.urgente && styles.cardUrgente]}>
-            <Text style={styles.titulo}>{item.titulo}</Text>
-            <Text style={styles.subtext}>Processo: {item.processo}</Text>
-            <Text style={styles.subtext}>Cliente: {item.cliente}</Text>
-            <Text style={styles.dataTexto}>🗓️ {item.data} às {item.horario}</Text>
-          </View>
-        )}
-      />
+      {carregando ? (
+        <ActivityIndicator size="large" color={colors.primary} style={{ marginTop: 40 }} />
+      ) : (
+        <FlatList
+          data={compromissos}
+          keyExtractor={(item, index) => String(item.id || index)}
+          renderItem={renderItem}
+          contentContainerStyle={{ padding: 16 }}
+          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => { setRefreshing(true); carregarAgenda(); }} colors={[colors.primary]} />}
+          ListEmptyComponent={
+            <View style={styles.emptyContainer}>
+              <Text style={styles.emptyIcon}>📅</Text>
+              <Text style={styles.emptyTitle}>Nenhum compromisso agendado</Text>
+              <Text style={styles.emptySubtitle}>Prazos e audiências aparecerão aqui.</Text>
+            </View>
+          }
+        />
+      )}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: colors.background, padding: 16 },
-  filtroContainer: { flexDirection: 'row', marginBottom: 16 },
-  btnFiltro: { flex: 1, paddingVertical: 8, backgroundColor: colors.cardBackground, borderRadius: 8, alignItems: 'center', marginHorizontal: 2, borderWidth: 1, borderColor: colors.border },
-  btnFiltroAtivo: { backgroundColor: colors.midnightNavy },
-  txtFiltro: { fontSize: 12, fontWeight: 'bold', color: colors.textPrimary },
-  txtFiltroAtivo: { color: colors.champagne },
-  card: { backgroundColor: colors.cardBackground, padding: 14, borderRadius: 12, marginBottom: 12, borderLeftWidth: 4, borderLeftColor: colors.sapphire, borderWidth: 1, borderColor: colors.border },
-  cardUrgente: { borderLeftColor: colors.brass },
-  titulo: { fontSize: 15, fontWeight: 'bold', color: colors.textPrimary, marginBottom: 4 },
-  subtext: { fontSize: 12, color: colors.textSecondary, marginBottom: 2 },
-  dataTexto: { fontSize: 12, fontWeight: 'bold', color: colors.midnightNavy, marginTop: 6 },
+  container: { flex: 1, backgroundColor: colors.background },
+  card: { backgroundColor: colors.cardBackground, borderRadius: 16, padding: 18, marginBottom: 12, borderWidth: 1, borderColor: colors.border },
+  headerCard: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 },
+  titulo: { fontSize: 15, fontWeight: '800', color: colors.primary, flex: 1 },
+  data: { fontSize: 12, fontWeight: '800', color: colors.danger },
+  cnj: { fontSize: 12, fontWeight: '700', color: colors.secondary, marginBottom: 6 },
+  descricao: { fontSize: 13, color: colors.textSecondary },
+  emptyContainer: { alignItems: 'center', paddingVertical: 60 },
+  emptyIcon: { fontSize: 48, marginBottom: 12 },
+  emptyTitle: { fontSize: 16, fontWeight: '800', color: colors.textPrimary },
+  emptySubtitle: { fontSize: 13, color: colors.textSecondary, marginTop: 4 }
 });
-
-// comentario para teste

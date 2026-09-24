@@ -1,76 +1,56 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView, Alert } from 'react-native';
-import { colors } from '../../constants/theme';
+import { StyleSheet, Text, TextInput, TouchableOpacity, ScrollView, Alert, ActivityIndicator } from 'react-native';
+import api from '../../services/api';
 
 export default function FormProcesso({ navigation }) {
-  const [numero, setNumero] = useState('');
-  const [cliente, setCliente] = useState('');
-  const [tipo, setTipo] = useState('');
-  const [vara, setVara] = useState('');
+  const [numeroCnj, setNumeroCnj] = useState('');
+  const [descricaoCaso, setDescricaoCaso] = useState('');
+  const [carregando, setCarregando] = useState(false);
 
-  function salvar() {
-    if (!numero.trim() || !cliente.trim()) {
-      Alert.alert('Atenção', 'Informe o Nº do Processo e o Cliente.');
+  async function salvar() {
+    if (!numeroCnj.trim() || !descricaoCaso.trim()) {
+      Alert.alert('Atenção', 'Informe o Número CNJ e a Descrição do Caso.');
       return;
     }
-    Alert.alert('Sucesso', 'Processo cadastrado com sucesso!', [
-      { text: 'OK', onPress: () => navigation.goBack() }
-    ]);
+
+    try {
+      setCarregando(true);
+      const response = await api.post('/casos', {
+        numero_cnj: numeroCnj,
+        descricao_caso: descricaoCaso,
+      });
+
+      Alert.alert('Sucesso', response.data.message, [
+        { text: 'OK', onPress: () => navigation.goBack() }
+      ]);
+    } catch (err) {
+      const mensagemErro = err.response?.data?.error || 'Não foi possível salvar o caso.';
+      Alert.alert('Erro', mensagemErro);
+    } finally {
+      setCarregando(false);
+    }
   }
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={{ padding: 20 }}>
-      <Text style={styles.headerTitle}>Cadastro de Processo</Text>
+      <Text style={styles.label}>Número CNJ (20 dígitos) *</Text>
+      <TextInput style={styles.input} placeholder="00000002020268260000" value={numeroCnj} onChangeText={setNumeroCnj} maxLength={20} />
 
-      <Text style={styles.label}>Nº do Processo (CNJ) *</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="0000000-00.0000.0.00.0000"
-        placeholderTextColor="#94A3B8"
-        value={numero}
-        onChangeText={setNumero}
-      />
+      <Text style={styles.label}>Descrição do Caso *</Text>
+      <TextInput style={styles.inputArea} placeholder="Resumo do processo judicial..." multiline numberOfLines={4} value={descricaoCaso} onChangeText={setDescricaoCaso} />
 
-      <Text style={styles.label}>Cliente *</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Nome do cliente cadastrado"
-        placeholderTextColor="#94A3B8"
-        value={cliente}
-        onChangeText={setCliente}
-      />
-
-      <Text style={styles.label}>Tipo de Ação</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Ex: Trabalhista, Cível, Família..."
-        placeholderTextColor="#94A3B8"
-        value={tipo}
-        onChangeText={setTipo}
-      />
-
-      <Text style={styles.label}>Vara / Comarca</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Ex: 2ª Vara Cível da Comarca X"
-        placeholderTextColor="#94A3B8"
-        value={vara}
-        onChangeText={setVara}
-      />
-
-      <TouchableOpacity style={styles.botao} onPress={salvar}>
-        <Text style={styles.txtBotao}>Salvar Processo</Text>
+      <TouchableOpacity style={styles.botao} onPress={salvar} disabled={carregando}>
+        {carregando ? <ActivityIndicator color="#FFF" /> : <Text style={styles.txtBotao}>Salvar Caso</Text>}
       </TouchableOpacity>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: colors.background },
-  headerTitle: { fontSize: 20, fontWeight: 'bold', color: colors.midnightNavy, marginBottom: 20 },
-  label: { fontSize: 12, fontWeight: '700', color: colors.midnightNavy, marginBottom: 6, textTransform: 'uppercase' },
-  input: { backgroundColor: colors.white, borderWidth: 1, borderColor: colors.border, borderRadius: 10, padding: 12, marginBottom: 14, color: colors.textPrimary },
-  botao: { backgroundColor: colors.sapphire, paddingVertical: 14, borderRadius: 10, alignItems: 'center', marginTop: 10, borderWidth: 1, borderColor: colors.brass },
-  txtBotao: { color: colors.ivory, fontWeight: 'bold', fontSize: 15 },
+  container: { flex: 1, backgroundColor: '#F8FAFC' },
+  label: { fontSize: 12, fontWeight: 'bold', color: '#0F172A', marginBottom: 6 },
+  input: { backgroundColor: '#FFF', borderWidth: 1, borderColor: '#CBD5E1', borderRadius: 8, padding: 12, marginBottom: 14 },
+  inputArea: { backgroundColor: '#FFF', borderWidth: 1, borderColor: '#CBD5E1', borderRadius: 8, padding: 12, marginBottom: 14, textAlignVertical: 'top' },
+  botao: { backgroundColor: '#1E3A8A', paddingVertical: 14, borderRadius: 8, alignItems: 'center' },
+  txtBotao: { color: '#FFF', fontWeight: 'bold' }
 });
-//comentario aleatorio
