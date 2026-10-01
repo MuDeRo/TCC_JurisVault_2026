@@ -88,7 +88,7 @@ export default function CampoPaginaAdm() {
         </button>
 
         <p className="test-mode-note">
-          ⚡ Modo Teste Activo: Pode clicar em Entrar com qualquer valor ou campo vazio!
+          
         </p>
       </div>
     </div>
