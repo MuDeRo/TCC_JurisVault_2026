@@ -136,7 +136,7 @@ export class Advogado {
 
     #validarCPF(cpf) {
 
-        cpf = cpf.replace(/[^\d]/g, '');
+        cpf = cpf.replace(/[^\d]/g, ''); 
 
         if (cpf.length !== 11) {
             return false;

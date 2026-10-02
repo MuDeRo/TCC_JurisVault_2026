@@ -23,6 +23,9 @@ const advogadoRepository = {
                 advogado.uf_oab
             ];
 
+            console.log(advogado.cpf_advogado);
+            
+
             const [rowsAdv] = await conn.execute(sqlAdv, valuesAdv);
 
             await conn.commit();
