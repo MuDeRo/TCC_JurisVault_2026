@@ -5,6 +5,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import Layout from './components/layoutPagina/layout';
 
 // Páginas Públicas (SEM menu lateral)
+import PaginaInicial from './pages/PaginaInicial/PaginaInicial'; 
 import LoginAdvogados from './pages/LoginAdvogados/LoginAdvogados';
 import CadastroAdvogados from './pages/CadastroAdvogados/CadastroAdvogados';
 import CampoPaginaAdm from './pages/PaginaInicial/CampoPaginaAdm';
@@ -22,7 +23,7 @@ export default function App() {
   return (
     <Routes>
       {/* 1. TELAS PÚBLICAS */}
-      <Route path="/" element={<LoginAdvogados />} />
+      <Route path="/" element={<PaginaInicial />} /> 
       <Route path="/login" element={<LoginAdvogados />} />
       <Route path="/login-admin" element={<CampoPaginaAdm />} />
       <Route path="/cadastro" element={<CadastroAdvogados />} />
