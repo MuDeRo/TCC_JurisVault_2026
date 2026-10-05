@@ -24,7 +24,7 @@ export default function Documentos() {
       <div className="upload-dropzone" onClick={() => fileInputRef.current?.click()}>
         <div className="upload-icon">📁</div>
         <h3 className="upload-title">Clique para carregar ou arraste os seus ficheiros aqui</h3>
-        <p className="upload-subtitle">Suporta arquivos PDF, DOCX, PNG, JPG (até 25MB)</p>
+        <p className="upload-subtitle">Suporta arquivos PDF, DOCX, PNG, JPG (até 300MB)</p>
         <button type="button" className="btn-select-file">
           Selecionar Ficheiro
         </button>

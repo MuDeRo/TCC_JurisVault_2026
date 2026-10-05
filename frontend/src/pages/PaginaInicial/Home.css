@@ -1,0 +1,128 @@
+:root {
+  --midnight-navy: #102542;
+  --sapphire: #1E3A5F;
+  --brass: #C79C5A;
+}
+
+.portal-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1100px;
+  width: 100%;
+  gap: 3rem;
+}
+
+/* Lado Esquerdo */
+.portal-left-header {
+  flex: 1;
+  max-width: 320px;
+  text-align: center;
+}
+
+.divider-box {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.divider-line {
+  flex: 1;
+  height: 1px;
+  background-color: var(--brass);
+}
+
+.title-primary {
+  font-size: 3rem;
+  font-weight: 900;
+  color: var(--midnight-navy);
+  line-height: 1;
+  margin: 0;
+}
+
+.title-secondary {
+  font-size: 3rem;
+  font-weight: 900;
+  color: var(--brass);
+  line-height: 1;
+  margin: 0 0 1rem 0;
+}
+
+.portal-subtitle {
+  color: #7A869A;
+  font-size: 0.9rem;
+}
+
+/* Grid de Cards */
+.cards-grid {
+  flex: 2;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+.access-card {
+  background-color: #FFFFFF;
+  border-radius: 16px;
+  padding: 2rem 1rem 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+}
+
+.card-icon-box {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background-color: #F3EFE6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+}
+
+.card-role {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--midnight-navy);
+  margin-bottom: 0.4rem;
+  line-height: 1.2;
+}
+
+.gold-dot {
+  width: 5px;
+  height: 5px;
+  background-color: var(--brass);
+  border-radius: 50%;
+  margin: 0.4rem auto 1rem auto;
+}
+
+.card-desc {
+  color: #7A869A;
+  font-size: 0.8rem;
+  line-height: 1.3;
+  margin-bottom: 1.5rem;
+  flex-grow: 1;
+}
+
+.card-action-btn {
+  width: 100%;
+  background: transparent;
+  border: 1.5px solid var(--midnight-navy);
+  color: var(--midnight-navy);
+  padding: 0.55rem;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.card-action-btn:hover {
+  background-color: var(--midnight-navy);
+  color: #FFFFFF;
+}
