@@ -1,80 +1,114 @@
-import { Casos } from "../models/Casos.js";
-import casosRepository from "../repositories/casoRepository.js"
+import CasoRepository from '../repositories/casoRepository.js';
 
-const casoController = {
-
-    buscarCasos: async (req, res) => {
+const CasosController = {
+    
+    
+    async criar(req, res) {
         try {
-            const result = await casosRepository.buscarTodosCasos();
-            res.status(200).json({
-                message: 'Casos encontrados com sucesso',
-                data: result
+            // O frontend deve enviar um JSON com essas 4 chaves
+            const { caso, requerente, requerido, advogadoCaso } = req.body;
+
+            // Validação básica para evitar estourar erro no banco
+            if (!caso || !requerente || !requerido || !advogadoCaso) {
+                return res.status(400).json({ 
+                    erro: "Dados incompletos. Certifique-se de enviar caso, requerente, requerido e advogadoCaso." 
+                });
+            }
+
+            
+            const resultado = await CasoRepository.criarCasoCompleto(caso, requerente, requerido, advogadoCaso);
+            
+            return res.status(201).json({
+                mensagem: "Caso cadastrado com sucesso!",
+                dados: resultado
             });
+
         } catch (error) {
-            console.log(error);
-            res.status(500).json({
-                message: 'Ocorreu um erro no servidor',
-                errorMessage: error.message
-            })
+            console.error("Erro no CasosController.criar:", error);
+            return res.status(500).json({ erro: error.message });
         }
     },
 
-    criar: async (req, res) => {
+    
+    async buscarPorId(req, res) {
         try {
-            const { descricao_caso, numero_cnj } = req.body;
+            const { id } = req.params; // Pega o ID da URL
 
-            const caso = Casos.criarCaso({ descricao_caso, numero_cnj });
-            const result = await casosRepository.criar(caso);
-            res.status(201).json({
-                message: 'Caso criado com sucesso',
-                data: result
-            });
+            const dadosCaso = await CasoRepository.buscarCasoPorId(id);
+
+            if (!dadosCaso) {
+                return res.status(404).json({ erro: "Caso não encontrado." });
+            }
+
+            return res.status(200).json(dadosCaso);
+
         } catch (error) {
-            console.log(error);
-            res.status(500).json({
-                message: 'Ocorreu um erro no servidor',
-                errorMessage: error.message
-            })
+            console.error("Erro no CasosController.buscarPorId:", error);
+            return res.status(500).json({ erro: error.message });
         }
     },
 
-    editar: async (req, res) => {
+    
+    async listarPorAdvogado(req, res) {
+        try {
+            const { idAdvogado } = req.params;
+
+            const listaCasos = await CasoRepository.listarCasosPorAdvogado(idAdvogado);
+
+            return res.status(200).json(listaCasos);
+
+        } catch (error) {
+            console.error("Erro no CasosController.listarPorAdvogado:", error);
+            return res.status(500).json({ erro: error.message });
+        }
+    },
+
+    
+    async atualizar(req, res) {
         try {
             const { id } = req.params;
-            const { descricao_caso, numero_cnj } = req.body;
+            const { caso, requerente, requerido, advogadoCaso } = req.body;
 
-            const caso = Casos.editarCaso({ id, descricao_caso, numero_cnj });
-            const result = await casosRepository.editar(caso);
-            res.status(200).json({
-                message: 'Caso editado com sucesso',
-                data: result
-            });
+            if (!caso || !requerente || !requerido || !advogadoCaso) {
+                return res.status(400).json({ 
+                    erro: "Dados incompletos para atualização." 
+                });
+            }
+
+            const resultado = await CasoRepository.atualizarCasoCompleto(id, caso, requerente, requerido, advogadoCaso);
+
+            return res.status(200).json(resultado);
+
         } catch (error) {
-            console.log(error);
-            res.status(500).json({
-                message: 'Ocorreu um erro no servidor',
-                errorMessage: error.message
-            })
+            console.error("Erro no CasosController.atualizar:", error);
+            return res.status(500).json({ erro: error.message });
         }
     },
 
-    deletar: async (req, res) => {
+    
+    async deletar(req, res) {
         try {
             const { id } = req.params;
 
-            const result = await casosRepository.deletar(id);
-            res.status(200).json({
-                message: 'Caso deletado com sucesso',
-                data: result
-            });
+            const resultado = await CasoRepository.deletarCasoCompleto(id);
+
+            return res.status(200).json(resultado);
+
         } catch (error) {
-            console.log(error);
-            res.status(500).json({
-                message: 'Ocorreu um erro no servidor',
-                errorMessage: error.message
-            })
+            console.error("Erro no CasosController.deletar:", error);
+            return res.status(500).json({ erro: error.message });
+        }
+    },
+
+    async listarTodosCasos(req, res) {
+        try {
+            const listaCasos = await CasoRepository.selecionarTodosCasos();
+            return res.status(200).json(listaCasos);
+        } catch (error) {
+            console.error("Erro no CasosController.listarTodosCasos:", error);
+            return res.status(500).json({ erro: error.message });
         }
     }
 };
 
-export default casoController;
+export default CasosController;
