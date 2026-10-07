@@ -91,6 +91,19 @@ export default function Layout() {
             }}>
               Prazos
             </Link>
+
+            <Link to="/etapas" style={{
+              display: 'block',
+              padding: '10px 16px',
+              borderRadius: '8px',
+              textDecoration: 'none',
+              fontSize: '0.9rem',
+              background: isAtivo('/etapas') ? '#c49a45' : 'transparent',
+              color: isAtivo('/etapas') ? '#fff' : '#94a3b8'
+            }}>
+              Etapas
+            </Link>
+
           </nav>
         </div>
 

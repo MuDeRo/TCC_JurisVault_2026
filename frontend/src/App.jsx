@@ -18,6 +18,9 @@ import CadastroProcesso from './pages/Processos/CadastroProcesso';
 import Clientes from './pages/Processos/Clientes';
 import Documentos from './pages/Processos/Documentos';
 import Prazos from './pages/Processos/Prazos';
+import EtapasCasos from './pages/Etapas/EtapasCasos';
+import EtapasLista from './pages/Etapas/EtapasLista';
+import KanbanTarefas from './pages/Etapas/KanbanTarefas';
 
 export default function App() {
   return (
@@ -37,6 +40,9 @@ export default function App() {
         <Route path="/clientes" element={<Clientes />} />
         <Route path="/documentos" element={<Documentos />} />
         <Route path="/prazos" element={<Prazos />} />
+        <Route path="/etapas" element={<EtapasCasos />} />
+        <Route path="/etapas/caso/:idCaso" element={<EtapasLista />} />
+        <Route path="/etapas/caso/:idCaso/kanban/:idEtapa" element={<KanbanTarefas />} />
       </Route>
 
       {/* Redirecionamento padrão */}

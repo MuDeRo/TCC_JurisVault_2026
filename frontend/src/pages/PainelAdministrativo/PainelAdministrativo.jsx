@@ -72,7 +72,7 @@ export default function PainelAdministrativo() {
       {/* Banner Superior de Boas-Vindas */}
       <div className="welcome-card">
         <div>
-          <h2>Olá, {usuario.nome || 'Advogado'}! 👋</h2>
+          <h2>Olá, {usuario.nome_advogado || 'Advogado'}! </h2>
           <p>Aqui está o resumo das atividades jurídicas do seu escritório.</p>
         </div>
       </div>
