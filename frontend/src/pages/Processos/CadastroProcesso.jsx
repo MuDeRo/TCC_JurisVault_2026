@@ -29,9 +29,38 @@ export default function CadastroProcesso() {
     setMensagem({ tipo: '', texto: '' });
     setCarregando(true);
 
+    // 1. Mapeando os dados do estado para o formato aninhado exigido pelo Controller
+    const payloadParaBackend = {
+      caso: {
+        numero_cnj: formData.numeroCnj,
+        descricao_caso: formData.descricaoCaso
+      },
+      requerente: {
+        nome: formData.nomeRequerente,
+        cpf: formData.cpfRequerente,
+        // Convertendo para número para bater com o banco de dados
+        idade_anos: formData.idadeRequerente ? Number(formData.idadeRequerente) : null 
+      },
+      requerido: {
+        nome: formData.nomeRequerido,
+        cpf: formData.cpfRequerido,
+        idade_anos: formData.idadeRequerido ? Number(formData.idadeRequerido) : null
+      },
+      advogadoCaso: {
+        
+        id_advogado: localStorage.getItem('id_advogado') || 1, 
+        cep: formData.cepLocal,
+        rua: formData.enderecoRua
+      }
+    };
+
     try {
-      await axios.post('http://localhost:3000/api/casos', formData);
+      // Enviando o payload formatado em vez do formData bruto
+      await axios.post('http://localhost:8080/casos', payloadParaBackend);
+      
       setMensagem({ tipo: 'sucesso', texto: 'Caso cadastrado com sucesso!' });
+      
+      // Limpa o formulário
       setFormData({
         numeroCnj: '',
         descricaoCaso: '',
@@ -47,7 +76,7 @@ export default function CadastroProcesso() {
     } catch (error) {
       setMensagem({
         tipo: 'erro',
-        texto: error.response?.data?.error || 'Erro ao cadastrar o caso. Tente novamente.'
+        texto: error.response?.data?.erro || 'Erro ao cadastrar o caso. Tente novamente.'
       });
     } finally {
       setCarregando(false);

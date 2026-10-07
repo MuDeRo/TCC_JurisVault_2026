@@ -1,15 +1,21 @@
-import {db} from '../config/Database.js';
+import { db } from '../config/Database.js';
+// ATENÇÃO: Verifique se o caminho da importação abaixo bate com a estrutura das suas pastas!
+import { Casos } from '../models/Casos.js'; 
 
 const CasoRepository = {
     
-    // 1. CREATE (Já havíamos feito)
+    // 1. CREATE 
     criarCasoCompleto: async (caso, requerente, requerido, advogadoCaso) => {
         const conn = await db.getConnection();
         try {
             await conn.beginTransaction();
 
+            // 1. Passamos o objeto 'caso' pela classe para limpar o CNJ e validar as regras!
+            const casoValidado = Casos.criarCaso(caso);
+
+            // 2. Usamos os dados limpos (casoValidado) para inserir no banco
             const sqlCaso = 'INSERT INTO casos (descricao_caso, numero_cnj) VALUES (?, ?)';
-            const [resultCaso] = await conn.execute(sqlCaso, [caso.descricao_caso, caso.numero_cnj]);
+            const [resultCaso] = await conn.execute(sqlCaso, [casoValidado.descricao_caso, casoValidado.numero_cnj]);
             const idCaso = resultCaso.insertId;
 
             const sqlRequerente = 'INSERT INTO requerentes (id_caso, nome, idade_anos, cpf) VALUES (?, ?, ?, ?)';
@@ -31,13 +37,12 @@ const CasoRepository = {
         }
     },
 
-    // 2. READ - Buscar um caso específico pelo ID com todos os detalhes
+    // 2. READ - Buscar um caso específico pelo ID
     buscarCasoPorId: async (idCaso) => {
         const conn = await db.getConnection();
         try {
-            // Busca os dados separadamente e monta um objeto completo
             const [casos] = await conn.execute('SELECT * FROM casos WHERE id = ?', [idCaso]);
-            if (casos.length === 0) return null; // Caso não encontrado
+            if (casos.length === 0) return null; 
 
             const [requerentes] = await conn.execute('SELECT * FROM requerentes WHERE id_caso = ?', [idCaso]);
             const [requiridos] = await conn.execute('SELECT * FROM requiridos WHERE id_caso = ?', [idCaso]);
@@ -45,7 +50,7 @@ const CasoRepository = {
 
             return {
                 caso: casos[0],
-                requerentes: requerentes, // Retorna array caso futuramente haja mais de um
+                requerentes: requerentes, 
                 requiridos: requiridos,
                 dadosAdvogado: advogadosCasos[0]
             };
@@ -56,15 +61,18 @@ const CasoRepository = {
         }
     },
 
-    // 2.1 READ - Listar todos os casos de um Advogado específico
     listarCasosPorAdvogado: async (idAdvogado) => {
         const conn = await db.getConnection();
         try {
-            // Um INNER JOIN para trazer todos os casos vinculados a um advogado
+            // Adicionamos um LEFT JOIN com a tabela requerentes para puxar o nome
             const sql = `
-                SELECT c.id, c.descricao_caso, c.numero_cnj, ac.cep_caso, ac.rua_caso
+                SELECT 
+                    c.id, c.descricao_caso, c.numero_cnj, 
+                    ac.cep_caso, ac.rua_caso,
+                    r.nome AS nome_requerente
                 FROM casos c
                 INNER JOIN advogados_casos ac ON c.id = ac.id_caso_fk
+                LEFT JOIN requerentes r ON c.id = r.id_caso
                 WHERE ac.id_advogado_fk = ?
             `;
             const [casos] = await conn.execute(sql, [idAdvogado]);
@@ -76,25 +84,25 @@ const CasoRepository = {
         }
     },
 
-    // 3. UPDATE - Atualizar dados do caso e das tabelas vinculadas
+    // 3. UPDATE - Atualizar dados do caso
     atualizarCasoCompleto: async (idCaso, caso, requerente, requerido, advogadoCaso) => {
         const conn = await db.getConnection();
         try {
             await conn.beginTransaction();
 
-            // Atualiza tabela Casos
-            const sqlCaso = 'UPDATE casos SET descricao_caso = ?, numero_cnj = ? WHERE id = ?';
-            await conn.execute(sqlCaso, [caso.descricao_caso, caso.numero_cnj, idCaso]);
+            // 1. Passamos o objeto pela classe para limpar os dados antes do update
+            const casoValidado = Casos.editarCaso({ ...caso, id: idCaso });
 
-            // Atualiza tabela Requerentes
+            // 2. Usamos os dados limpos
+            const sqlCaso = 'UPDATE casos SET descricao_caso = ?, numero_cnj = ? WHERE id = ?';
+            await conn.execute(sqlCaso, [casoValidado.descricao_caso, casoValidado.numero_cnj, idCaso]);
+
             const sqlReq = 'UPDATE requerentes SET nome = ?, idade_anos = ?, cpf = ? WHERE id_caso = ?';
             await conn.execute(sqlReq, [requerente.nome, requerente.idade_anos, requerente.cpf, idCaso]);
 
-            // Atualiza tabela Requiridos
             const sqlReqd = 'UPDATE requiridos SET nome = ?, idade_anos = ?, cpf = ? WHERE id_caso = ?';
-            await conn.execute(sqlReqd, [requerido.nome, requerido.idade_anos, requerido.cpf, idCaso]);
+            await conn.execute(sqlReqd, [requido.nome, requerido.idade_anos, requerido.cpf, idCaso]);
 
-            // Atualiza tabela Advogados_Casos (endereço)
             const sqlAdv = 'UPDATE advogados_casos SET cep_caso = ?, rua_caso = ? WHERE id_caso_fk = ?';
             await conn.execute(sqlAdv, [advogadoCaso.cep, advogadoCaso.rua, idCaso]);
 
@@ -114,14 +122,10 @@ const CasoRepository = {
         try {
             await conn.beginTransaction();
 
-            // É OBRIGATÓRIO deletar os "filhos" (tabelas com Foreign Key) ANTES do "pai" (tabela casos)
-            // para não dar erro de restrição de chave estrangeira (a menos que use ON DELETE CASCADE no banco)
             await conn.execute('DELETE FROM requerentes WHERE id_caso = ?', [idCaso]);
             await conn.execute('DELETE FROM requiridos WHERE id_caso = ?', [idCaso]);
             await conn.execute('DELETE FROM etapas WHERE id_caso_fk = ?', [idCaso]); 
             await conn.execute('DELETE FROM advogados_casos WHERE id_caso_fk = ?', [idCaso]);
-            
-            
             await conn.execute('DELETE FROM casos WHERE id = ?', [idCaso]);
 
             await conn.commit();

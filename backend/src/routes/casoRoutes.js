@@ -8,6 +8,7 @@ casoRoutes.get('/', CasosController.listarTodosCasos);
 casoRoutes.post('/', CasosController.criar);
 casoRoutes.put('/:id', CasosController.atualizar);
 casoRoutes.delete('/:id', CasosController.deletar);
+casoRoutes.get('/advogado/:idAdvogado', CasosController.listarPorAdvogado);
 
 
 export default casoRoutes;
