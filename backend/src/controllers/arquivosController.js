@@ -21,7 +21,8 @@ const arquivoController = {
 
             res.status(200).json({
                 message: 'Arquivo inserido com sucesso ✅',
-                data: result
+                data: result,
+                id: result.insertId
             });
 
 
