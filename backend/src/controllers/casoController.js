@@ -1,5 +1,5 @@
 import { Casos } from "../models/Casos.js";
-import casosRepository from "../repositories/casoRepository";
+import casosRepository from '../repositories/casoRepository.js'
 
 const casoController = {
 
@@ -16,6 +16,18 @@ const casoController = {
                 message: 'Ocorreu um erro no servidor',
                 errorMessage: error.message
             })
+        }
+    },
+
+    buscarPrazoProximo: async (req, res) => {
+        try {
+            const prazos = await casosRepository.buscarPrazosProximos();
+
+            return res.status(200).json(prazos);
+        } catch (error) {
+            return res.status(500).json({
+                mensagem: 'Erro ao buscar prazos próximos.'
+            });
         }
     },
 

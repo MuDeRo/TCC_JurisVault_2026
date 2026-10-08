@@ -8,6 +8,13 @@ const casosRepository = {
         return rowsCasos;
     },
 
+    buscarPrazosProximos: async () => {
+        const sql = `SELECT * FROM casos WHERE data_prazo > NOW()
+        AND data_prazo <= DATE_ADD(NOW(), INTERVAL 48 HOUR);`;
+        const [rows] = await db.execute(sql);
+        return rows;
+    },
+
     criar: async (caso) => {
         const sql = 'INSERT INTO casos(descricao_caso, numero_cnj) VALUES (?,?);';
         const values = [caso.descricao_caso, caso.numero_cnj];
