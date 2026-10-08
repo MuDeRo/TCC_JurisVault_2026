@@ -219,7 +219,7 @@ export default function Documentos() {
             <option value="">-- Escolha um Caso --</option>
             {casos.map((c) => (
               <option key={c.id} value={c.id}>
-                {c.nome_caso || c.titulo || `Caso #${c.id}`}
+                {c.nome_caso || c.titulo || `${c.numero_cnj}`}
               </option>
             ))}
           </select>
