@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Processos.css';
+import axios from 'axios';
 
 export default function Processos() {
   const navigate = useNavigate();
@@ -8,6 +9,12 @@ export default function Processos() {
   const [processos, setProcessos] = useState([]);
   const [filtro, setFiltro] = useState('');
   const [loading, setLoading] = useState(true);
+
+  // Função para aplicar a máscara (pontos e traço) no CNJ que vem limpo do banco
+  const formatarCNJ = (cnj) => {
+    if (!cnj || cnj.length !== 20) return cnj;
+    return cnj.replace(/^(\d{7})(\d{2})(\d{4})(\d{1})(\d{2})(\d{4})$/, "$1-$2.$3.$4.$5.$6");
+  };
 
   useEffect(() => {
     async function carregarProcessos() {
@@ -18,13 +25,22 @@ export default function Processos() {
           Authorization: `Bearer ${token}`,
         };
 
-        /* 
-          QUANDO O BACKEND ESTIVER PRONTO, DESCOMENTE ESTAS LINHAS:
+        const idAdvogado = localStorage.getItem('id_advogado') || 1; // Pega o ID do advogado logado ou usa 1 como fallback
+        // 1. Chamada via axios.get buscando os casos do advogado (ID 1 para testes)
+        const response = await axios.get(`http://localhost:8080/casos/advogado/${idAdvogado}`, { headers });
 
-          const response = await fetch('http://localhost:5000/api/processos', { headers });
-          const data = await response.json();
-          setProcessos(data);
-        */
+        // 2. Mapeia os campos vindos do banco de dados para a estrutura da sua tabela
+        const dadosFormatados = response.data.map((item) => ({
+          id: item.id,
+          numeroProcesso: formatarCNJ(item.numero_cnj),
+          cliente: item.nome_requerente || 'Cliente não informado',
+          acao: item.descricao_caso || 'Sem descrição',
+          ramo: 'Cível',           // Valor padrão até existir coluna no banco
+          tribunal: 'TJ-SP',       // Valor padrão até existir coluna no banco
+          status: 'Em Andamento'   // Valor padrão até existir coluna no banco
+        }));
+
+        setProcessos(dadosFormatados);
 
       } catch (error) {
         console.error('Erro ao carregar os processos do backend:', error);
@@ -88,7 +104,9 @@ export default function Processos() {
                 <tr key={item.id || item.numeroProcesso}>
                   <td style={{ fontWeight: '700' }}>{item.numeroProcesso}</td>
                   <td>{item.cliente}</td>
-                  <td>{item.ramo || item.acao}</td>
+                  <td title={item.acao}>
+                    {item.acao.length > 30 ? item.acao.substring(0, 30) + '...' : item.acao}
+                  </td>
                   <td>{item.tribunal}</td>
                   <td>
                     <span className={`status-badge ${

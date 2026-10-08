@@ -1,11 +1,14 @@
 import {Router} from 'express';
-import casoController from '../controllers/casosController.js';
+import CasosController from '../controllers/casosController.js';
 
 const casoRoutes = Router();
 
-casoRoutes.get('/', casoController.buscarCasos);
-casoRoutes.post('/', casoController.criar);
-casoRoutes.put('/:id', casoController.editar);
-casoRoutes.delete('/:id', casoController.deletar);
+casoRoutes.get('/:id', CasosController.buscarPorId);
+casoRoutes.get('/', CasosController.listarTodosCasos);
+casoRoutes.post('/', CasosController.criar);
+casoRoutes.put('/:id', CasosController.atualizar);
+casoRoutes.delete('/:id', CasosController.deletar);
+casoRoutes.get('/advogado/:idAdvogado', CasosController.listarPorAdvogado);
+
 
 export default casoRoutes;

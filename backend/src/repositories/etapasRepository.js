@@ -8,6 +8,13 @@ const etapasRepository = {
         return rows;
     },
 
+    buscarEtapasPorCaso: async (idCaso) => {
+        const sql = 'SELECT * FROM etapas WHERE id_caso_fk = ?;';
+        const values = [idCaso];
+        const [rows] = await db.execute(sql, values);
+        return rows;
+    },
+
     criar: async (etapas) => {
         const sql = 'INSERT INTO etapas(id_caso_fk, etapa, descricao) VALUES (?,?,?);';
 

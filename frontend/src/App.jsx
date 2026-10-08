@@ -1,97 +1,52 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
-import '../src/assets/logo.png'
+// Layout Global
+import Layout from './components/layoutPagina/layout';
 
-export default function Home() {
-  const navigate = useNavigate();
+// Páginas Públicas (SEM menu lateral)
+import PaginaInicial from './pages/PaginaInicial/PaginaInicial'; 
+import LoginAdvogados from './pages/LoginAdvogados/LoginAdvogados';
+import CadastroAdvogados from './pages/CadastroAdvogados/CadastroAdvogados';
+import CampoPaginaAdm from './pages/PaginaInicial/CampoPaginaAdm';
+import Administradores from './pages/Administradores/Administradores';
 
+// Páginas Internas do Advogado (COM menu lateral)
+import PainelAdministrativo from './pages/PainelAdministrativo/PainelAdministrativo';
+import Processos from './pages/Processos/Processos';
+import CadastroProcesso from './pages/Processos/CadastroProcesso';
+import Clientes from './pages/Processos/Clientes';
+import Documentos from './pages/Processos/Documentos';
+import Prazos from './pages/Processos/Prazos';
+import EtapasCasos from './pages/Etapas/EtapasCasos';
+import EtapasLista from './pages/Etapas/EtapasLista';
+import KanbanTarefas from './pages/Etapas/KanbanTarefas';
+
+export default function App() {
   return (
-    <div className="home-container">
-      {/* Header Superior */}
-      <header className="home-header">
-        <div className="home-header-brand">
-          <span className="home-header-icon">⚖️</span>
-          <h1>SISTEMA <span className="gold-text">JURÍDICO</span></h1>
-        </div>
-      </header>
+    <Routes>
+      {/* 1. TELAS PÚBLICAS */}
+      <Route path="/" element={<PaginaInicial />} /> 
+      <Route path="/login" element={<LoginAdvogados />} />
+      <Route path="/login-admin" element={<CampoPaginaAdm />} />
+      <Route path="/cadastro" element={<CadastroAdvogados />} />
+      <Route path="/administradores" element={<Administradores />} />
 
-      {/* Conteúdo Principal */}
-      <main className="home-content">
-        {/* Lado Esquerdo: Logo do JurisVault */}
-        <div className="home-hero">
-          <div className="home-hero-logo-wrapper">
-            <img 
-              src={logoJurisVault} 
-              alt="JurisVault - Gestão Jurídica Inteligente" 
-              className="home-hero-logo" 
-            />
-          </div>
-          <p className="home-hero-subtitle">Selecione uma opção no menu ao lado</p>
-        </div>
+      {/* 2. ÁREA LOGADA DO ADVOGADO */}
+      <Route element={<Layout />}>
+        <Route path="/painel" element={<PainelAdministrativo />} />
+        <Route path="/processos" element={<Processos />} />
+        <Route path="/processos/novo" element={<CadastroProcesso />} />
+        <Route path="/clientes" element={<Clientes />} />
+        <Route path="/documentos" element={<Documentos />} />
+        <Route path="/prazos" element={<Prazos />} />
+        <Route path="/etapas" element={<EtapasCasos />} />
+        <Route path="/etapas/caso/:idCaso" element={<EtapasLista />} />
+        <Route path="/etapas/caso/:idCaso/kanban/:idEtapa" element={<KanbanTarefas />} />
+      </Route>
 
-        {/* Lado Direito: Os 3 Cards de Opções */}
-        <div className="home-cards-grid">
-          {/* Card 1: Cadastro de Advogado */}
-          <div className="home-card">
-            <div className="home-card-icon-box">
-              <span className="home-card-icon">👤⁺</span>
-            </div>
-            <h3>Cadastro de Advogado</h3>
-            <div className="home-card-divider">
-              <span className="divider-dot"></span>
-            </div>
-            <p>Cadastre novos advogados no sistema</p>
-            <button 
-              className="home-card-btn"
-              onClick={() => navigate('/cadastro-advogado')} // Mantenha a sua rota existente
-            >
-              ACESSAR &rsaquo;
-            </button>
-          </div>
-          
-          {/* Card 2: Login de Advogado */}
-          <div className="home-card">
-            <div className="home-card-icon-box">
-              <span className="home-card-icon">👤</span>
-            </div>
-            <h3>Login de Advogado</h3>
-            <div className="home-card-divider">
-              <span className="divider-dot"></span>
-            </div>
-            <p>Acesse sua conta de advogado</p>
-            <button 
-              className="home-card-btn"
-              onClick={() => navigate('/login-advogado')} // Mantenha a sua rota existente
-            >
-              ACESSAR &rsaquo;
-            </button>
-          </div>
-
-          {/* Card 3: Área do Administrador */}
-          <div className="home-card">
-            <div className="home-card-icon-box">
-              <span className="home-card-icon">🛡️</span>
-            </div>
-            <h3>Área do Administrador</h3>
-            <div className="home-card-divider">
-              <span className="divider-dot"></span>
-            </div>
-            <p>Acesse o painel administrativo do sistema</p>
-            <button 
-              className="home-card-btn"
-              onClick={() => navigate('/login-admin')} // Mantenha a sua rota existente
-            >
-              ACESSAR &rsaquo;
-            </button>
-          </div>
-        </div>
-      </main>
-
-      {/* Rodapé */}
-      <footer className="home-footer">
-        <p>© {new Date().getFullYear()} Sistema Jurídico. Todos os direitos reservados.</p>
-      </footer>
-    </div>
+      {/* Redirecionamento padrão */}
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
   );
 }

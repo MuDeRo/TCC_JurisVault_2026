@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './PainelAdministrativo.css';
 import api from '../../services/api.js';
-
+import { Clock, Folder, UserRound, FileText } from 'lucide-react';
 
 export default function PainelAdministrativo() {
   const navigate = useNavigate();
@@ -67,12 +67,14 @@ export default function PainelAdministrativo() {
     carregarDadosDashboard();
   }, []);
 
+  const nome_advogado = localStorage.getItem('nome_advogado');
+
   return (
     <div className="dashboard-container">
       {/* Banner Superior de Boas-Vindas */}
       <div className="welcome-card">
         <div>
-          <h2>Olá, {usuario.nome || 'Advogado'}! 👋</h2>
+          <h2>Olá, {nome_advogado || 'Advogado'}! </h2>
           <p>Aqui está o resumo das atividades jurídicas do seu escritório.</p>
         </div>
       </div>
@@ -82,7 +84,7 @@ export default function PainelAdministrativo() {
         <div className="metric-card">
           <div className="metric-top">
             <span className="metric-label">Processos Ativos</span>
-            <div className="metric-icon" style={{ background: '#eff6ff', color: '#3b82f6' }}>📂</div>
+            <Folder size={20} color='#3b82f6' className="metric-icon" />
           </div>
           <div className="metric-value">{metricas.processosAtivos}</div>
           <span className="metric-trend">Carregado do banco</span>
@@ -91,7 +93,7 @@ export default function PainelAdministrativo() {
         <div className="metric-card">
           <div className="metric-top">
             <span className="metric-label">Prazos na Semana</span>
-            <div className="metric-icon" style={{ background: '#fef3c7', color: '#d97706' }}>⏰</div>
+            <Clock size={20} color='#d97706' className="metric-icon" />
           </div>
           <div className="metric-value" style={{ color: '#d97706' }}>{metricas.prazosSemana}</div>
           <span className="metric-trend" style={{ color: '#ef4444' }}>Urgentes</span>
@@ -100,7 +102,7 @@ export default function PainelAdministrativo() {
         <div className="metric-card">
           <div className="metric-top">
             <span className="metric-label">Clientes Atendidos</span>
-            <div className="metric-icon" style={{ background: '#f0fdf4', color: '#10b981' }}>👥</div>
+            <UserRound size={20} color='#16a34a' className="metric-icon" />
           </div>
           <div className="metric-value">{metricas.clientesAtendidos}</div>
           <span className="metric-trend">Ativos</span>
@@ -109,7 +111,7 @@ export default function PainelAdministrativo() {
         <div className="metric-card">
           <div className="metric-top">
             <span className="metric-label">Documentos Emitidos</span>
-            <div className="metric-icon" style={{ background: '#f3e8ff', color: '#a855f7' }}>📄</div>
+            <FileText size={20} color='#6b7280' className="metric-icon" />
           </div>
           <div className="metric-value">{metricas.documentosEmitidos}</div>
           <span className="metric-trend">Sincronizado</span>

@@ -15,14 +15,16 @@ export default function Administradores() {
       try {
         setLoading(true);
 
-        const [resPendentes, resAprovados] = await Promise.all([
+        const [resPendentes, resAprovados, resNegados] = await Promise.all([
           api.get('/administrador/pendentes'),
-          api.get('/administrador/aprovados')
+          api.get('/administrador/aprovados'),
+          api.get('/administrador/negados')
         ]);
 
         // Imprime no console para você inspecionar exatamente a estrutura que veio do backend
         console.log('Resposta Pendentes:', resPendentes.data);
         console.log('Resposta Aprovados:', resAprovados.data);
+        console.log('Resposta Negados:', resNegados.data);
 
         // Função auxiliar para extrair o array com segurança
         const extrairArray = (resposta) => {
@@ -36,6 +38,7 @@ export default function Administradores() {
 
         const listaPendentes = extrairArray(resPendentes.data);
         const listaAprovados = extrairArray(resAprovados.data);
+        const listaNegados = extrairArray(resNegados.data);
 
         const normalizarAdvogado = (adv, status) => ({
           ...adv,
@@ -54,8 +57,12 @@ export default function Administradores() {
           normalizarAdvogado(adv, 'Aprovado')
         );
 
+        const negados = listaNegados.map(adv =>
+          normalizarAdvogado(adv, 'Negado')
+        );
+
         // Junta tudo num array só para exibir na tabela
-        setUsuarios([...pendentes, ...aprovados]);
+        setUsuarios([...pendentes, ...aprovados, ...negados]);
       } catch (error) {
         console.error('Erro ao carregar advogados:', error);
         alert('Erro ao carregar a lista de advogados.');

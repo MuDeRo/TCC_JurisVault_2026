@@ -1,5 +1,6 @@
 import React from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
+import {Scale} from 'lucide-react';
 
 export default function Layout() {
   const location = useLocation();
@@ -22,7 +23,7 @@ export default function Layout() {
         <div>
           {/* LOGO JURISVAULT */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '32px', paddingLeft: '8px' }}>
-            <div style={{ background: '#b8863b', padding: '6px 8px', borderRadius: '6px', fontSize: '1.2rem' }}>⚖️</div>
+            <Scale size={32} color='#c49a45' />
             <div>
               <div style={{ fontWeight: 'bold', fontSize: '1.1rem', color: '#fff' }}>JurisVault</div>
               <div style={{ fontSize: '0.65rem', color: '#c49a45', letterSpacing: '1px', fontWeight: 'bold' }}>SISTEMA JURÍDICO</div>
@@ -91,6 +92,19 @@ export default function Layout() {
             }}>
               Prazos
             </Link>
+
+            <Link to="/etapas" style={{
+              display: 'block',
+              padding: '10px 16px',
+              borderRadius: '8px',
+              textDecoration: 'none',
+              fontSize: '0.9rem',
+              background: isAtivo('/etapas') ? '#c49a45' : 'transparent',
+              color: isAtivo('/etapas') ? '#fff' : '#94a3b8'
+            }}>
+              Etapas
+            </Link>
+
           </nav>
         </div>
 
