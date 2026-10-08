@@ -2,11 +2,13 @@ import { validarPadraoCnj } from "../utils/padraoCnj.js";
 export class Casos {
     #id;
     #descricao_caso;
-    #numero_cnj
+    #numero_cnj;
+    #data_prazo
 
-    constructor(pDescricao_caso, pNumeroCnj, pId) {
+    constructor(pDescricao_caso, pNumeroCnj, pDataPrazo, pId) {
         this.descricao_caso = pDescricao_caso;
-        this.numero_cnj = pNumeroCnj
+        this.numero_cnj = pNumeroCnj;
+        this.data_prazo = pDataPrazo;
         this.id = pId;
     }
 
@@ -23,6 +25,13 @@ export class Casos {
     }
     set numero_cnj(value) {
         this.#numero_cnj = this.#validarNumeroCnj(value);
+    }
+
+    get data_prazo(){
+        return this.#data_prazo
+    }
+    set data_prazo(value){
+        this.#data_prazo = value
     }
 
     get id() {
@@ -51,11 +60,16 @@ export class Casos {
         }
         return validarPadraoCnj(value);
     }
+    #validarPrazo(value){
+        if (value && value < 0) {
+            throw new Error('O prazo não corresponde ao esperado')
+        }
+    }
 
     static criarCaso(dados) {
-        return new Casos(dados.descricao_caso, dados.numero_cnj, null);
+        return new Casos(dados.descricao_caso, dados.numero_cnj, dados.data_prazo, null);
     }
     static editarCaso(dados) {
-        return new Casos(dados.descricao_caso, dados.numero_cnj, dados.id);
+        return new Casos(dados.descricao_caso, dados.numero_cnj, dados.data_prazo, dados.id);
     }
 }
