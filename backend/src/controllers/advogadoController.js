@@ -122,6 +122,16 @@ const advogadoController = {
         }
     },
 
+    selecionarNegados: async (req, res) => {
+        try {
+            const resultado = await advogadoRepository.selecionarNegados();
+            return res.status(200).json({ resultado });
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json({ message: 'Erro no server', error: error.message });
+        }
+    },
+
     aprovar: async (req, res) => {
         try {
             const id = Number(req.params.id);

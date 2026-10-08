@@ -8,13 +8,11 @@ import administradorRepository from '../repositories/administradorRepository.js'
 const authController = {
 
     loginAdvogado: async (req, res) => {
-
-        
         try {
             const { email, senha } = req.body;
             const advogado = await advogadoRepository.buscarPorEmail(email);
+            
             if (!advogado) {
-
                 return res.status(404).json({
                     message: 'Advogado não encontrado'
                 });
@@ -28,15 +26,34 @@ const authController = {
                 });
             }
 
+            
+            if (advogado.status_advogado !== 'aprovado') {
+                if (advogado.status_advogado === 'validando') {
+                    return res.status(403).json({
+                        message: 'Seu cadastro ainda está em análise pelo administrador.'
+                    });
+                }
+                
+                if (advogado.status_advogado === 'negado') {
+                    return res.status(403).json({
+                        message: 'Acesso recusado. Seu cadastro foi negado pelo administrador.'
+                    });
+                }
+
+                return res.status(403).json({
+                    message: 'Acesso não permitido. O seu cadastro não está ativo.'
+                });
+            }
+
             const token = jwt.sign(
                 {
-                    id: advogado.id_advogado,
+                    id: advogado.id_advogado || advogado.id,
                     type: 'advogado',
                     status: advogado.status_advogado
                 },
                 process.env.JWT_SECRET,
                 {
-                    expiresIn: '1m'
+                    expiresIn: '8h' // Ajustado para um tempo mais prático que 1m
                 }
             );
 
@@ -54,27 +71,23 @@ const authController = {
         }
     },
 
-
     loginAdmin: async (req, res) => {
         try {
-            const {email, senha} = req.body;
+            const { email, senha } = req.body;
 
             const admin = await administradorRepository.buscarPorEmail(email);
             if (!admin) {
-
                 return res.status(404).json({
                     message: 'Administrador não encontrado'
                 });
             }
 
-            const senhaValida =
-                await bcrypt.compare(
-                    senha,
-                    admin.senha_admin
-                );
+            const senhaValida = await bcrypt.compare(
+                senha,
+                admin.senha_admin
+            );
 
             if (!senhaValida) {
-
                 return res.status(401).json({
                     message: 'Senha inválida'
                 });
@@ -82,12 +95,12 @@ const authController = {
 
             const token = jwt.sign(
                 {
-                    id: admin.id_admin,
+                    id: admin.id_admin || admin.id,
                     type: 'admin'
                 },
                 process.env.JWT_SECRET,
                 {
-                    expiresIn: '1m'
+                    expiresIn: '8h'
                 }
             );
 
@@ -97,7 +110,6 @@ const authController = {
             });
 
         } catch (error) {
-
             console.error(error);
 
             return res.status(500).json({

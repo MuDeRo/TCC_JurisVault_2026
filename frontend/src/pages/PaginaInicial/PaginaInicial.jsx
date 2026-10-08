@@ -1,9 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ShieldUser, User, UserPlus, Scale } from 'lucide-react';
 import './PaginaInicial.css';
 
 import logoJurisVault from '../../assets/image-removebg-preview.png'; // Importe o logo do JurisVault
-
 
 export default function PaginaInicial() {
   const navigate = useNavigate();
@@ -13,7 +13,7 @@ export default function PaginaInicial() {
       {/* Header Superior */}
       <header className="home-header">
         <div className="home-header-brand">
-          <span className="home-header-icon">⚖️</span>
+          <Scale size={32} color='#c5a059' className="home-header-icon" />
           <h1>SISTEMA <span className="gold-text">JURÍDICO</span></h1>
         </div>
       </header>
@@ -37,7 +37,7 @@ export default function PaginaInicial() {
           {/* Card 1: Cadastro de Advogado */}
           <div className="home-card">
             <div className="home-card-icon-box">
-              <span className="home-card-icon">👤⁺</span>
+              <UserPlus size={28} className="home-card-icon" />
             </div>
             <h3>Cadastro de Advogado</h3>
             <div className="home-card-divider">
@@ -55,7 +55,7 @@ export default function PaginaInicial() {
           {/* Card 2: Login de Advogado */}
           <div className="home-card">
             <div className="home-card-icon-box">
-              <span className="home-card-icon">👤</span>
+              <User size={28} className="home-card-icon" />
             </div>
             <h3>Login de Advogado</h3>
             <div className="home-card-divider">
@@ -73,7 +73,7 @@ export default function PaginaInicial() {
           {/* Card 3: Área do Administrador */}
           <div className="home-card">
             <div className="home-card-icon-box">
-              <span className="home-card-icon">🛡️</span>
+              <ShieldUser size={28} className="home-card-icon" />
             </div>
             <h3>Área do Administrador</h3>
             <div className="home-card-divider">
