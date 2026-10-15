@@ -1,60 +1,104 @@
+
 import React from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate, Outlet } from 'react-router-dom';
+import { Scale } from 'lucide-react';
+import { useTema } from '../../context/ThemeContext.jsx';
 import './Layout.css';
 
-export default function Layout({ children }) {
+export default function Layout() {
   const location = useLocation();
   const navigate = useNavigate();
+  const { tema, alternarTema } = useTema();
 
   const handleLogout = () => {
-    // Adiciona aqui a limpeza de token/sessão se necessário
+    localStorage.removeItem('token');
+    localStorage.removeItem('usuario');
     navigate('/');
+  };
+
+  const isAtivo = (caminho) => {
+    if (caminho === '/processos') {
+      return location.pathname === '/processos';
+    }
+
+    return location.pathname === caminho;
   };
 
   return (
     <div className="layout-container">
-      {/* MENU LATERAL (SIDEBAR) */}
       <aside className="sidebar">
         <div className="logo-area">
-          <h2>⚖️ JurisVault</h2>
-          <span>SISTEMA JURÍDICO</span>
+          <Scale size={32} color="#c49a45" />
+
+          <div>
+            <h2>JurisVault</h2>
+            <span>SISTEMA JURÍDICO</span>
+          </div>
         </div>
 
         <nav className="nav-menu">
-          <Link 
-            to="/painel" 
-            className={`nav-item ${location.pathname === '/painel' ? 'active' : ''}`}
+          <Link
+            to="/painel"
+            className={`nav-item ${isAtivo('/painel') ? 'active' : ''}`}
           >
             📁 Início
           </Link>
-          <Link 
-            to="/processos" 
-            className={`nav-item ${location.pathname === '/processos' ? 'active' : ''}`}
+
+          <Link
+            to="/processos"
+            className={`nav-item ${isAtivo('/processos') ? 'active' : ''}`}
           >
             📂 Processos
           </Link>
-          <Link 
-            to="/documentos" 
-            className={`nav-item ${location.pathname === '/documentos' ? 'active' : ''}`}
+
+          <Link
+            to="/clientes"
+            className={`nav-item ${isAtivo('/clientes') ? 'active' : ''}`}
+          >
+            👥 Clientes
+          </Link>
+
+          <Link
+            to="/documentos"
+            className={`nav-item ${isAtivo('/documentos') ? 'active' : ''}`}
           >
             📄 Documentos
           </Link>
-          <Link 
-            to="/prazos" 
-            className={`nav-item ${location.pathname === '/prazos' ? 'active' : ''}`}
+
+          <Link
+            to="/prazos"
+            className={`nav-item ${isAtivo('/prazos') ? 'active' : ''}`}
           >
-            📅 Calendário
+            📅 Prazos
+          </Link>
+
+          <Link
+            to="/etapas"
+            className={`nav-item ${isAtivo('/etapas') ? 'active' : ''}`}
+          >
+            ⚙️ Etapas
           </Link>
         </nav>
 
-        <button className="btn-sair" onClick={handleLogout}>
+        <button
+          className="btn-tema"
+          type="button"
+          onClick={alternarTema}
+        >
+          {tema === 'claro' ? '🌙 Tema escuro' : '☀️ Tema claro'}
+        </button>
+
+        <button
+          className="btn-sair"
+          type="button"
+          onClick={handleLogout}
+        >
           🚪 Sair
         </button>
       </aside>
 
-      {/* CONTEÚDO PRINCIPAL */}
       <main className="main-content">
-        {children}
+        <Outlet />
       </main>
     </div>
   );

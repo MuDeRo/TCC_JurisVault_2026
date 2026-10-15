@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './LoginAdvogado.css';
+import api from '../../services/api.js';
 
 export default function LoginAdvogados() {
   const navigate = useNavigate();
+
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
 
@@ -15,20 +17,23 @@ export default function LoginAdvogados() {
   return (
     <div className="login-page-container">
       <div className="login-card">
-        
+
         {/* Ícone com balança no topo */}
         <div className="card-icon-wrapper">
           ⚖️
         </div>
 
         <h2 className="login-title">Login de Advogado</h2>
-        <p className="login-subtitle">Acesse a sua conta no sistema</p>
+
+        <p className="login-subtitle">
+          Acesse a sua conta no sistema
+        </p>
 
         <form onSubmit={handleSubmit} className="login-form">
           <div className="form-group">
             <label>E-mail</label>
-            <input 
-              type="email" 
+            <input
+              type="email"
               placeholder="advogado@jurisvault.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -38,8 +43,8 @@ export default function LoginAdvogados() {
 
           <div className="form-group">
             <label>Senha</label>
-            <input 
-              type="password" 
+            <input
+              type="password"
               placeholder="••••••"
               value={senha}
               onChange={(e) => setSenha(e.target.value)}
@@ -51,9 +56,9 @@ export default function LoginAdvogados() {
             Entrar no sistema
           </button>
 
-          <button 
-            type="button" 
-            className="back-link" 
+          <button
+            type="button"
+            className="back-link"
             onClick={() => navigate('/')}
           >
             ← Voltar ao Menu Principal

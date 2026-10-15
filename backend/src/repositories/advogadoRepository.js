@@ -93,6 +93,14 @@ const advogadoRepository = {
         return rows;
     },
 
+    selecionarNegados: async () => {
+        const conn = await db.getConnection();
+
+        const sql = 'SELECT * FROM advogados WHERE status_advogado = "negado";';
+        const [rows] = await conn.execute(sql);
+        return rows;
+    },
+
     buscarPorId: async (id) => {
         const conn = await db.getConnection();
 

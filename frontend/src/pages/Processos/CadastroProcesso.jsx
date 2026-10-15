@@ -1,11 +1,13 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './CadastroProcesso.css'; // Ajuste o nome do CSS conforme o seu projeto
+import axios from 'axios';
+import './CadastroProcesso.css';
 
 export default function CadastroProcesso() {
   const navigate = useNavigate();
 
-  // Estado do Formulário
+  // Estado do formulário
   const [formData, setFormData] = useState({
     cnj: '',
     descricao: '',
@@ -19,28 +21,121 @@ export default function CadastroProcesso() {
     endereco: '',
   });
 
+  const [mensagem, setMensagem] = useState({
+    tipo: '',
+    texto: '',
+  });
+
+  const [carregando, setCarregando] = useState(false);
+
+  // Atualiza os campos do formulário
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
-  const handleSubmit = (e) => {
+  // Envia o formulário
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Dados do caso enviados:', formData);
-    // Adicione a sua lógica de integração com a API/Backend aqui
+
+    setMensagem({ tipo: '', texto: '' });
+    setCarregando(true);
+
+    const payloadParaBackend = {
+      caso: {
+        numero_cnj: formData.cnj,
+        descricao_caso: formData.descricao,
+      },
+      requerente: {
+        nome: formData.requerenteNome,
+        cpf: formData.requerenteCpf,
+        idade_anos: formData.requerenteIdade
+          ? Number(formData.requerenteIdade)
+          : null,
+      },
+      requerido: {
+        nome: formData.requeridoNome,
+        cpf: formData.requeridoCpf,
+        idade_anos: formData.requeridoIdade
+          ? Number(formData.requeridoIdade)
+          : null,
+      },
+      advogadoCaso: {
+        id_advogado: Number(localStorage.getItem('id_advogado')) || 1,
+        cep: formData.cep,
+        rua: formData.endereco,
+      },
+    };
+
+    try {
+      const token = localStorage.getItem('token');
+
+      await axios.post(
+        'http://localhost:8080/casos',
+        payloadParaBackend,
+        {
+          headers: token
+            ? { Authorization: `Bearer ${token}` }
+            : {},
+        }
+      );
+
+      setMensagem({
+        tipo: 'sucesso',
+        texto: 'Caso cadastrado com sucesso!',
+      });
+
+      // Limpa o formulário
+      setFormData({
+        cnj: '',
+        descricao: '',
+        requerenteNome: '',
+        requerenteCpf: '',
+        requerenteIdade: '',
+        requeridoNome: '',
+        requeridoCpf: '',
+        requeridoIdade: '',
+        cep: '',
+        endereco: '',
+      });
+    } catch (error) {
+      console.error('Erro ao cadastrar caso:', error);
+
+      setMensagem({
+        tipo: 'erro',
+        texto:
+          error.response?.data?.erro ||
+          error.response?.data?.mensagem ||
+          'Erro ao cadastrar o caso. Verifique os dados e tente novamente.',
+      });
+    } finally {
+      setCarregando(false);
+    }
   };
 
   return (
     <div className="cadastro-page-container">
       <div className="cadastro-card">
-        {/* Botão de Voltar no topo esquerdo */}
-        <button 
-          type="button" 
-          className="btn-voltar-topo" 
+
+        {/* Botão de voltar */}
+        <button
+          type="button"
+          className="btn-voltar-topo"
           onClick={() => navigate(-1)}
           title="Voltar para a página anterior"
         >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
             <path d="M19 12H5M12 19l-7-7 7-7" />
           </svg>
           Voltar
@@ -49,11 +144,27 @@ export default function CadastroProcesso() {
         {/* Cabeçalho */}
         <div className="form-header">
           <h1 className="form-title">Cadastrar Novo Caso</h1>
-          <p className="form-subtitle">Preencha o registro CNJ, descrição, partes e localização.</p>
+          <p className="form-subtitle">
+            Preencha o registro CNJ, descrição, partes e localização.
+          </p>
         </div>
+
+        {/* Mensagem de retorno */}
+        {mensagem.texto && (
+          <p
+            role="alert"
+            style={{
+              color: mensagem.tipo === 'sucesso' ? 'green' : 'red',
+              marginBottom: '15px',
+            }}
+          >
+            {mensagem.texto}
+          </p>
+        )}
 
         {/* Formulário */}
         <form onSubmit={handleSubmit} className="form-grid">
+
           {/* Linha 1 */}
           <div className="field-group">
             <label className="field-label">Número CNJ *</label>
@@ -83,7 +194,9 @@ export default function CadastroProcesso() {
 
           {/* Linha 2 */}
           <div className="field-group">
-            <label className="field-label">Nome do Requerente (Cliente) *</label>
+            <label className="field-label">
+              Nome do Requerente (Cliente) *
+            </label>
             <input
               type="text"
               name="requerenteNome"
@@ -122,7 +235,9 @@ export default function CadastroProcesso() {
 
           {/* Linha 4 */}
           <div className="field-group">
-            <label className="field-label">Nome do Requerido (Adverso) *</label>
+            <label className="field-label">
+              Nome do Requerido (Adverso) *
+            </label>
             <input
               type="text"
               name="requeridoNome"
@@ -173,7 +288,9 @@ export default function CadastroProcesso() {
           </div>
 
           <div className="field-group">
-            <label className="field-label">Endereço / Rua do Caso</label>
+            <label className="field-label">
+              Endereço / Rua do Caso
+            </label>
             <input
               type="text"
               name="endereco"
@@ -184,7 +301,7 @@ export default function CadastroProcesso() {
             />
           </div>
 
-          {/* Botões de Ação */}
+          {/* Botões de ação */}
           <div className="form-actions span-full">
             <button
               type="button"
@@ -193,8 +310,13 @@ export default function CadastroProcesso() {
             >
               Cancelar
             </button>
-            <button type="submit" className="btn-submit">
-              CADASTRAR CASO
+
+            <button
+              type="submit"
+              className="btn-submit"
+              disabled={carregando}
+            >
+              {carregando ? 'CADASTRANDO...' : 'CADASTRAR CASO'}
             </button>
           </div>
         </form>

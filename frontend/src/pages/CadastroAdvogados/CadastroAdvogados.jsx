@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './CadastroAdvogado.css';
+import api from '../../services/api.js';
 
 export default function CadastroAdvogados() {
   const navigate = useNavigate();
@@ -18,11 +19,20 @@ export default function CadastroAdvogados() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    alert('Cadastro realizado com sucesso!');
-    navigate('/login');
-  };
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  
+  try {
+    // Envia os dados do formulário para o backend
+    await api.post('/advogado/cadastro', formData);
+    
+    alert('Cadastro realizado com sucesso! Aguarde a aprovação do administrador.');
+    navigate('/login'); 
+  } catch (error) {
+    alert(error.response?.data?.message || 'Erro ao realizar o cadastro. Verifique os dados e tente novamente.');
+    console.error(error);
+  }
+};
 
   return (
     <div className="cad-adv-page">

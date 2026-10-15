@@ -1,29 +1,55 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
 // Layout
 import Layout from './components/layoutPagina/layout.jsx';
 
-// Páginas
-import Home from './pages/PaginaInicial/Home.jsx';
-import LoginAdvogados from './pages/LoginAdvogados/LoginAdvogados.jsx';
-import Processos from './pages/Processos/Processos.jsx';
-import Documentos from './pages/Processos/Documentos.jsx';
-import Prazos from './pages/Processos/Prazos.jsx';
+// Páginas Públicas (SEM menu lateral)
+import PaginaInicial from './pages/PaginaInicial/PaginaInicial';
+import LoginAdvogados from './pages/LoginAdvogados/LoginAdvogados';
+import CadastroAdvogados from './pages/CadastroAdvogados/CadastroAdvogados';
+import CampoPaginaAdm from './pages/PaginaInicial/CampoPaginaAdm';
+import Administradores from './pages/Administradores/Administradores';
+
+// Páginas Internas do Advogado (COM menu lateral)
+import PainelAdministrativo from './pages/PainelAdministrativo/PainelAdministrativo';
+import Processos from './pages/Processos/Processos';
+import CadastroProcesso from './pages/Processos/CadastroProcesso';
+import Clientes from './pages/Processos/Clientes';
+import Documentos from './pages/Processos/Documentos';
+import Prazos from './pages/Processos/Prazos';
+import EtapasCasos from './pages/Etapas/EtapasCasos';
+import EtapasLista from './pages/Etapas/EtapasLista';
+import KanbanTarefas from './pages/Etapas/KanbanTarefas';
 
 export default function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<LoginAdvogados />} />
+    <Routes>
+      {/* 1. TELAS PÚBLICAS */}
+      <Route path="/" element={<PaginaInicial />} />
+      <Route path="/login" element={<LoginAdvogados />} />
+      <Route path="/login-admin" element={<CampoPaginaAdm />} />
+      <Route path="/cadastro" element={<CadastroAdvogados />} />
+      <Route path="/administradores" element={<Administradores />} />
 
-        {/* Rotas com Layout */}
-        <Route path="/painel" element={<Layout><Processos /></Layout>} />
-        <Route path="/processos" element={<Layout><Processos /></Layout>} />
-        <Route path="/documentos" element={<Layout><Documentos /></Layout>} />
-        <Route path="/prazos" element={<Layout><Prazos /></Layout>} />
-      </Routes>
-    </Router>
+      {/* 2. ÁREA LOGADA DO ADVOGADO */}
+      <Route element={<Layout />}>
+        <Route path="/painel" element={<PainelAdministrativo />} />
+        <Route path="/processos" element={<Processos />} />
+        <Route path="/processos/novo" element={<CadastroProcesso />} />
+        <Route path="/clientes" element={<Clientes />} />
+        <Route path="/documentos" element={<Documentos />} />
+        <Route path="/prazos" element={<Prazos />} />
+        <Route path="/etapas" element={<EtapasCasos />} />
+        <Route path="/etapas/caso/:idCaso" element={<EtapasLista />} />
+        <Route
+          path="/etapas/caso/:idCaso/kanban/:idEtapa"
+          element={<KanbanTarefas />}
+        />
+      </Route>
+
+      {/* Redirecionamento padrão */}
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
   );
 }

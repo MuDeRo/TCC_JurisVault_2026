@@ -1,31 +1,48 @@
+
+/* =========================================
+   JURISVAULT - PÁGINA DE PROCESSOS
+   TEMA CLARO E ESCURO
+   ========================================= */
+
+/* Container principal */
+
 .processos-container {
   padding: 32px;
   box-sizing: border-box;
+  min-height: 100%;
+  background-color: var(--bg-main, #FAF8F5);
+  color: var(--text-dark, #102542);
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
+
+/* Cabeçalho */
 
 .processos-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 20px;
   margin-bottom: 24px;
 }
 
 .processos-header h1 {
   font-size: 1.8rem;
   font-weight: 800;
-  color: #0f172a;
+  color: var(--text-dark, #102542);
   margin: 0 0 4px 0;
 }
 
 .processos-header p {
-  color: #64748b;
+  color: var(--text-muted, #536278);
   margin: 0;
   font-size: 0.9rem;
 }
 
+/* Botão novo processo */
+
 .btn-novo-caso {
-  background: #d97706;
-  color: #ffffff;
+  background: #D97706;
+  color: #FFFFFF;
   border: none;
   padding: 12px 24px;
   border-radius: 10px;
@@ -37,30 +54,36 @@
 }
 
 .btn-novo-caso:hover {
-  background: #b45309;
+  background: #B45309;
   transform: translateY(-2px);
 }
 
+/* Cartão de processos */
+
 .processos-card {
-  background: #ffffff;
+  background: var(--bg-card, #FFFFFF);
+  color: var(--text-dark, #102542);
   border-radius: 16px;
   padding: 28px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--border-color, #E2E8F0);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
 .processos-card h2 {
   font-size: 1.2rem;
   font-weight: 700;
-  color: #0f172a;
+  color: var(--text-dark, #102542);
   margin: 0 0 4px 0;
 }
 
 .card-subtitle {
-  color: #64748b;
+  color: var(--text-muted, #536278);
   font-size: 0.85rem;
   margin: 0 0 20px 0;
 }
+
+/* Barra de pesquisa */
 
 .search-bar {
   margin-bottom: 24px;
@@ -69,45 +92,169 @@
 .search-bar input {
   width: 100%;
   padding: 12px 16px;
-  border: 1px solid #cbd5e1;
+  background-color: var(--input-bg, #FFFFFF);
+  color: var(--text-dark, #102542);
+  border: 1px solid var(--border-color, #CBD5E1);
   border-radius: 8px;
   font-size: 0.9rem;
   box-sizing: border-box;
   outline: none;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.search-bar input::placeholder {
+  color: var(--text-muted, #64748B);
 }
 
 .search-bar input:focus {
-  border-color: #d97706;
+  border-color: var(--accent-gold, #D97706);
 }
+
+/* Tabela */
 
 .processos-table {
   width: 100%;
   border-collapse: collapse;
+  background-color: var(--bg-card, #FFFFFF);
+  color: var(--text-dark, #102542);
 }
 
 .processos-table th {
   text-align: left;
   font-size: 0.75rem;
   text-transform: uppercase;
-  color: #64748b;
-  padding-bottom: 12px;
-  border-bottom: 1px solid #e2e8f0;
+  color: var(--text-muted, #64748B);
+  padding: 12px 10px;
+  border-bottom: 1px solid var(--border-color, #E2E8F0);
+  background-color: var(--table-header-bg, #F2EADF);
 }
 
 .processos-table td {
-  padding: 16px 0;
-  border-bottom: 1px solid #f1f5f9;
+  padding: 16px 10px;
+  border-bottom: 1px solid var(--border-color, #F1F5F9);
   font-size: 0.88rem;
-  color: #0f172a;
+  color: var(--text-dark, #102542);
+  background-color: var(--bg-card, #FFFFFF);
 }
 
+.processos-table tbody tr:hover td {
+  background-color: var(--table-hover-bg, #F8F4EE);
+}
+
+/* Mensagens quando não existem processos */
+
+.processos-table td[colspan] {
+  text-align: center;
+  color: var(--text-muted, #64748B);
+  padding: 32px 16px;
+}
+
+/* Status dos processos */
+
 .status-badge {
+  display: inline-block;
   padding: 4px 12px;
   border-radius: 20px;
   font-size: 0.75rem;
   font-weight: 700;
 }
 
-.status-andamento { background: #fef3c7; color: #d97706; }
-.status-urgente { background: #fee2e2; color: #b91c1c; }
-.status-concluido { background: #dcfce7; color: #15803d; }
+/* As cores dos status permanecem identificáveis nos dois temas */
+
+.status-andamento {
+  background: #FEF3C7;
+  color: #D97706;
+}
+
+.status-urgente {
+  background: #FEE2E2;
+  color: #B91C1C;
+}
+
+.status-concluido {
+  background: #DCFCE7;
+  color: #15803D;
+}
+
+/* =========================================
+   AJUSTES EXCLUSIVOS DO TEMA ESCURO
+   ========================================= */
+
+:root[data-tema="escuro"] .processos-container {
+  background-color: var(--bg-main, #111827);
+  color: var(--text-dark, #F3F4F6);
+}
+
+:root[data-tema="escuro"] .processos-card {
+  background-color: var(--bg-card, #1F2937);
+  border-color: var(--border-color, #374151);
+  color: var(--text-dark, #F3F4F6);
+}
+
+:root[data-tema="escuro"] .processos-header h1,
+:root[data-tema="escuro"] .processos-card h2,
+:root[data-tema="escuro"] .processos-table td {
+  color: var(--text-dark, #F3F4F6);
+}
+
+:root[data-tema="escuro"] .processos-header p,
+:root[data-tema="escuro"] .card-subtitle,
+:root[data-tema="escuro"] .processos-table th {
+  color: var(--text-muted, #CBD5E1);
+}
+
+:root[data-tema="escuro"] .search-bar input {
+  background-color: var(--input-bg, #273449);
+  color: var(--text-dark, #F3F4F6);
+  border-color: var(--border-color, #374151);
+}
+
+:root[data-tema="escuro"] .processos-table {
+  background-color: var(--bg-card, #1F2937);
+}
+
+:root[data-tema="escuro"] .processos-table th {
+  background-color: var(--table-header-bg, #273449);
+  border-color: var(--border-color, #374151);
+}
+
+:root[data-tema="escuro"] .processos-table td {
+  background-color: var(--bg-card, #1F2937);
+  border-color: var(--border-color, #374151);
+}
+
+:root[data-tema="escuro"] .processos-table tbody tr:hover td {
+  background-color: var(--table-hover-bg, #2B3749);
+}
+
+/* =========================================
+   RESPONSIVIDADE
+   ========================================= */
+
+@media (max-width: 768px) {
+  .processos-container {
+    padding: 20px 16px;
+  }
+
+  .processos-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .processos-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .processos-card {
+    padding: 18px;
+    overflow-x: auto;
+  }
+
+  .processos-table {
+    min-width: 600px;
+  }
+
+  .btn-novo-caso {
+    width: 100%;
+  }
+}

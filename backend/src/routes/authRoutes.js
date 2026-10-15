@@ -3,7 +3,8 @@ import authController from '../controllers/authController.js';
 
 const router = Router();
 
-router.post('/login/advogado', authController.loginAdvogado);
+// Rota para login de advogado e administrador
+router.post('/login/advogado', authController.loginAdvogado); 
 router.post('/login/admin', authController.loginAdmin);
 
 

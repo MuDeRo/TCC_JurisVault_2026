@@ -1,98 +1,181 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Clock, Folder, UserRound, FileText } from 'lucide-react';
 import './PainelAdministrativo.css';
+import api from '../../services/api.js';
 
 export default function PainelAdministrativo() {
   const navigate = useNavigate();
 
+  const [metricas, setMetricas] = useState({
+    processosAtivos: 0,
+    prazosSemana: 0,
+    clientesAtendidos: 0,
+    documentosEmitidos: 0,
+  });
+
+  const [processosRecentes, setProcessosRecentes] = useState([]);
+  const [proximosPrazos, setProximosPrazos] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const nomeAdvogado =
+    localStorage.getItem('nome_advogado') || 'Advogado';
+
+  useEffect(() => {
+    async function carregarDadosDashboard() {
+      try {
+        setLoading(true);
+
+        const [resCasos, resTarefas] = await Promise.all([
+          api.get('/casos/'),
+          api.get('/tarefas/'),
+        ]);
+
+        const casos = Array.isArray(resCasos.data)
+          ? resCasos.data
+          : [];
+
+        const tarefas = Array.isArray(resTarefas.data)
+          ? resTarefas.data
+          : [];
+
+        setMetricas({
+          processosAtivos: casos.length,
+          prazosSemana: tarefas.length,
+          clientesAtendidos: 0,
+          documentosEmitidos: 0,
+        });
+
+        setProcessosRecentes(casos.slice(0, 5));
+        setProximosPrazos(tarefas.slice(0, 3));
+      } catch (error) {
+        console.error('Erro ao buscar dados do painel:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    carregarDadosDashboard();
+  }, []);
+
   return (
-    <div className="dashboard-container">
-      {/* Sidebar Esquerda */}
-      <aside className="dashboard-sidebar">
-        <div className="brand-box">
-          <div className="brand-logo-icon">⚖️</div>
-          <div>
-            <h2 className="brand-name">JurisVault</h2>
-            <span className="brand-subtitle">SISTEMA JURÍDICO</span>
-          </div>
+    <div className="dashboard-content">
+      {/* Boas-vindas */}
+      <div className="welcome-card">
+        <div>
+          <h1>Olá, {nomeAdvogado}! 👋</h1>
+
+          <p>
+            Aqui está o resumo das atividades jurídicas
+            do seu escritório.
+          </p>
         </div>
 
-        <nav className="sidebar-menu">
-          <button className="menu-btn active">📁 Início</button>
-          <button className="menu-btn">📂 Processos</button>
-          <button className="menu-btn">👥 Clientes</button>
-          <button className="menu-btn">📄 Documentos</button>
-          <button className="menu-btn">⏰ Prazos</button>
-        </nav>
-
-        <button className="logout-btn" onClick={() => navigate('/')}>
-          Sair
+        <button
+          type="button"
+          className="btn-primary"
+          onClick={() => navigate('/processos/novo')}
+        >
+          + Novo Processo
         </button>
-      </aside>
+      </div>
 
-      {/* Área de Conteúdo */}
-      <main className="dashboard-content">
-        
-        {/* Banner de Boas-Vindas */}
-        <div className="welcome-banner">
-          <div>
-            <h1>Olá, Dr. Advogado Teste! 👋</h1>
-            <p>Aqui está o resumo das atividades jurídicas do seu escritório.</p>
-          </div>
-          <button className="btn-primary" onClick={() => navigate('/cadastrar-processo')}>
-            + Novo Processo
-          </button>
-        </div>
+      {/* Cards de estatísticas */}
+      <div className="metrics-grid">
+        <div className="metric-card">
+          <div className="metric-top">
+            <span className="metric-label">
+              Processos Ativos
+            </span>
 
-        {/* Cards de Estatísticas */}
-        <div className="stats-grid">
-          <div className="stat-card">
-            <div className="stat-header">
-              <span className="stat-title">PROCESSOS ATIVOS</span>
-              <span className="stat-icon yellow">📁</span>
-            </div>
-            <div className="stat-value">28</div>
-            <span className="stat-trend positive">↑ 12% este mês</span>
+            <Folder
+              size={20}
+              color="#3b82f6"
+              className="metric-icon"
+            />
           </div>
 
-          <div className="stat-card">
-            <div className="stat-header">
-              <span className="stat-title">PRAZOS NA SEMANA</span>
-              <span className="stat-icon red">⏰</span>
-            </div>
-            <div className="stat-value orange">5</div>
-            <span className="stat-trend alert">2 vencem hoje</span>
-          </div>
-
-          <div className="stat-card">
-            <div className="stat-header">
-              <span className="stat-title">CLIENTES ATENDIDOS</span>
-              <span className="stat-icon purple">👥</span>
-            </div>
-            <div className="stat-value">42</div>
-            <span className="stat-trend positive">↑ 4 novos este mês</span>
-          </div>
-
-          <div className="stat-card">
-            <div className="stat-header">
-              <span className="stat-title">DOCUMENTOS EMITIDOS</span>
-              <span className="stat-icon light-purple">📄</span>
-            </div>
-            <div className="stat-value">114</div>
-            <span className="stat-trend neutral">Atualizado hoje</span>
+          <div className="metric-value">
+            {loading ? '...' : metricas.processosAtivos}
           </div>
         </div>
 
-        {/* Seção Inferior (Tabela + Prazos) */}
-        <div className="dashboard-grid">
-          
-          {/* Tabela de Processos Recentes */}
-          <div className="table-card">
-            <div className="card-header-flex">
-              <h3>Processos Recentes</h3>
-              <a href="#todos" className="link-action">Ver Todos →</a>
-            </div>
+        <div className="metric-card">
+          <div className="metric-top">
+            <span className="metric-label">
+              Prazos Registrados
+            </span>
 
+            <Clock
+              size={20}
+              color="#d97706"
+              className="metric-icon"
+            />
+          </div>
+
+          <div className="metric-value">
+            {loading ? '...' : metricas.prazosSemana}
+          </div>
+        </div>
+
+        <div className="metric-card">
+          <div className="metric-top">
+            <span className="metric-label">
+              Clientes Atendidos
+            </span>
+
+            <UserRound
+              size={20}
+              color="#16a34a"
+              className="metric-icon"
+            />
+          </div>
+
+          <div className="metric-value">
+            {metricas.clientesAtendidos}
+          </div>
+        </div>
+
+        <div className="metric-card">
+          <div className="metric-top">
+            <span className="metric-label">
+              Documentos Emitidos
+            </span>
+
+            <FileText
+              size={20}
+              color="#6b7280"
+              className="metric-icon"
+            />
+          </div>
+
+          <div className="metric-value">
+            {metricas.documentosEmitidos}
+          </div>
+        </div>
+      </div>
+
+      {/* Processos recentes e próximos prazos */}
+      <div className="dash-content-grid">
+        <div className="section-box">
+          <div className="section-title">
+            <span>Processos Recentes</span>
+
+            <span
+              style={{
+                fontSize: '0.8rem',
+                color: '#3b82f6',
+                cursor: 'pointer',
+              }}
+              onClick={() => navigate('/processos')}
+            >
+              Ver Todos →
+            </span>
+          </div>
+
+          {loading ? (
+            <p>Carregando processos...</p>
+          ) : (
             <table className="custom-table">
               <thead>
                 <tr>
@@ -102,71 +185,98 @@ export default function PainelAdministrativo() {
                   <th>STATUS</th>
                 </tr>
               </thead>
+
               <tbody>
-                <tr>
-                  <td><strong>1029384-12.2026.8.26.0100</strong></td>
-                  <td>João Silva</td>
-                  <td>Trabalhista</td>
-                  <td><span className="badge blue">Em Andamento</span></td>
-                </tr>
-                <tr>
-                  <td><strong>5093811-90.2025.8.26.0000</strong></td>
-                  <td>Maria Santos</td>
-                  <td>Cível</td>
-                  <td><span className="badge red">Urgente</span></td>
-                </tr>
-                <tr>
-                  <td><strong>2210394-44.2026.8.26.0200</strong></td>
-                  <td>Empresa XYZ Ltda</td>
-                  <td>Tributário</td>
-                  <td><span className="badge blue">Em Andamento</span></td>
-                </tr>
-                <tr>
-                  <td><strong>8839201-11.2025.8.26.0050</strong></td>
-                  <td>Carlos Eduardo</td>
-                  <td>Penal</td>
-                  <td><span className="badge green">Concluído</span></td>
-                </tr>
+                {processosRecentes.length > 0 ? (
+                  processosRecentes.map((item, idx) => (
+                    <tr key={item.id || idx}>
+                      <td>
+                        {item.numero_cnj ||
+                          item.numeroProcesso ||
+                          item.id ||
+                          '-'}
+                      </td>
+
+                      <td>
+                        {item.cliente ||
+                          item.requerente?.nome ||
+                          item.requerenteNome ||
+                          item.nome_requerente ||
+                          '-'}
+                      </td>
+
+                      <td>
+                        {item.area || item.tipo || '-'}
+                      </td>
+
+                      <td>
+                        <span
+                          className={`status-badge ${
+                            item.status === 'Urgente'
+                              ? 'status-urgente'
+                              : item.status === 'Concluído'
+                                ? 'status-concluido'
+                                : 'status-andamento'
+                          }`}
+                        >
+                          {item.status || 'Em andamento'}
+                        </span>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="4">
+                      Nenhum processo encontrado.
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
-          </div>
-
-          {/* Painel Próximos Prazos */}
-          <div className="deadlines-card">
-            <div className="card-header-flex">
-              <h3>Próximos Prazos</h3>
-              <span className="urgentes-label">Urgentes</span>
-            </div>
-
-            <ul className="deadlines-list">
-              <li>
-                <span className="dot red"></span>
-                <div>
-                  <strong>Réplica à Contestação</strong>
-                  <p>Proc. 1029384-12 • <strong>Hoje às 17:00</strong></p>
-                </div>
-              </li>
-
-              <li>
-                <span className="dot orange"></span>
-                <div>
-                  <strong>Audiência de Conciliação</strong>
-                  <p>Proc. 5093811-90 • <strong>Amanhã às 14:30</strong></p>
-                </div>
-              </li>
-
-              <li>
-                <span className="dot blue"></span>
-                <div>
-                  <strong>Juntada de Procuração</strong>
-                  <p>Proc. 2210394-44 • <strong>Em 3 dias</strong></p>
-                </div>
-              </li>
-            </ul>
-          </div>
-
+          )}
         </div>
-      </main>
+
+        {/* Próximos prazos */}
+        <div className="deadlines-card">
+          <div className="card-header-flex">
+            <h3>Próximos Prazos</h3>
+
+            <span className="urgentes-label">
+              Prazos
+            </span>
+          </div>
+
+          {loading ? (
+            <p>Carregando prazos...</p>
+          ) : proximosPrazos.length > 0 ? (
+            <ul className="deadlines-list">
+              {proximosPrazos.map((tarefa, idx) => (
+                <li key={tarefa.id || idx}>
+                  <span className="dot orange"></span>
+
+                  <div>
+                    <strong>
+                      {tarefa.titulo ||
+                        tarefa.descricao ||
+                        tarefa.nome ||
+                        'Tarefa jurídica'}
+                    </strong>
+
+                    <p>
+                      {tarefa.data_prazo ||
+                        tarefa.data ||
+                        tarefa.prazo ||
+                        'Data não informada'}
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>Nenhum prazo encontrado.</p>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

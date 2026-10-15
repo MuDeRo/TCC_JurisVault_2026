@@ -1,59 +1,194 @@
-:root {
-  --midnight-navy: #102542;
-  --ivory: #FAF8F5;
-  --brass: #C79C5A;
-}
 
-* {
-  box-sizing: border-box;
+/* =========================================
+   JURISVAULT - LAYOUT PRINCIPAL
+   TEMA CLARO E ESCURO
+   ========================================= */
+
+/* Estrutura geral da página */
+
+.layout-container {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
   margin: 0;
   padding: 0;
+  background-color: var(--bg-main, #F7F5F0);
+  color: var(--text-dark, #102542);
+  box-sizing: border-box;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-.app-layout {
-  min-height: 100vh;
-  width: 100vw;
-  font-family: system-ui, -apple-system, sans-serif;
-  background-color: var(--ivory);
-}
+/* Menu lateral */
 
-.main-wrapper {
-  width: 100%;
+.sidebar {
+  width: 250px;
+  min-width: 250px;
   min-height: 100vh;
+  padding: 24px 18px;
+  background-color: #0F2038;
+  color: #FFFFFF;
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
 }
 
-/* Header Superior estendido em 100% da largura */
-.top-header {
-  height: 60px;
-  width: 100%;
-  background-color: var(--midnight-navy);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+.logo-area {
   display: flex;
   align-items: center;
-  padding: 0 2.5rem;
+  gap: 12px;
+  margin-bottom: 30px;
 }
 
-.header-logo {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
+.logo-icon {
+  flex-shrink: 0;
+}
+
+.logo-area h2 {
+  margin: 0 0 5px;
+  font-size: 24px;
   color: #FFFFFF;
-  font-size: 0.95rem;
-  letter-spacing: 1px;
 }
 
-.header-title strong {
-  color: var(--brass);
+.logo-area span {
+  font-size: 13px;
+  color: #D4A359;
 }
 
-/* Área Central Ocupando Toda a Largura Restante */
-.page-content {
-  flex: 1;
+/* Links do menu */
+
+.nav-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.nav-item {
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 2rem;
+  gap: 10px;
   width: 100%;
+  padding: 13px 14px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  color: #DCE4EF;
+  text-decoration: none;
+  font-size: 15px;
+  transition: background-color 0.2s ease;
+}
+
+.nav-item:hover,
+.nav-item.active {
+  background-color: #203D60;
+  color: #FFFFFF;
+}
+
+/* Botão de tema */
+
+.btn-tema {
+  width: 100%;
+  margin-top: 16px;
+  margin-bottom: 12px;
+  padding: 12px;
+  border: 1px solid #D4A359;
+  border-radius: 8px;
+  background-color: transparent;
+  color: #FFFFFF;
+  font-size: 14px;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-tema:hover {
+  background-color: #203D60;
+}
+
+/* Botão sair */
+
+.btn-sair {
+  width: 100%;
+  margin-top: auto;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background-color: #D4A359;
+  color: #0F2038;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn-sair:hover {
+  background-color: #E3B66E;
+}
+
+/* Conteúdo principal */
+
+.main-content {
+  flex: 1;
+  width: calc(100% - 250px);
+  min-width: 0;
+  min-height: 100vh;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  background-color: var(--bg-main, #F7F5F0);
+  color: var(--text-dark, #102542);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Tema escuro: fundo do layout */
+
+:root[data-tema="escuro"] .layout-container,
+:root[data-tema="escuro"] .main-content {
+  background-color: var(--bg-main, #111827);
+  color: var(--text-dark, #F3F4F6);
+}
+
+/* Fundo e texto das páginas internas */
+
+:root[data-tema="escuro"] .main-content .processos-container,
+:root[data-tema="escuro"] .main-content .clientes-container,
+:root[data-tema="escuro"] .main-content .documentos-container,
+:root[data-tema="escuro"] .main-content .prazos-container,
+:root[data-tema="escuro"] .main-content .etapas-container {
+  background-color: var(--bg-main, #111827);
+  color: var(--text-dark, #F3F4F6);
+}
+
+/* Ajustes para celular */
+
+@media (max-width: 700px) {
+  .layout-container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    min-width: 0;
+    min-height: auto;
+    padding: 16px;
+  }
+
+  .logo-area {
+    margin-bottom: 16px;
+  }
+
+  .nav-menu {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .nav-item {
+    width: auto;
+  }
+
+  .btn-sair {
+    margin-top: 16px;
+  }
+
+  .main-content {
+    width: 100%;
+  }
 }

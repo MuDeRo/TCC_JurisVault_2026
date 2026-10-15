@@ -1,278 +1,441 @@
+/* =========================================
+   JURISVAULT - PAINEL ADMINISTRATIVO
+   TEMA CLARO E ESCURO (CORRIGIDO)
+   ========================================= */
+
+/* Cores do tema claro (Padrão) */
 :root {
   --navy: #0F2038;
   --gold: #D4A359;
+
   --bg-light: #F7F5F0;
   --white: #FFFFFF;
+  --text: #243247;
+  --text-muted: #718096;
+  --border: #E2E8F0;
+
+  --table-header: #F1F5F9;
+  --table-hover: #F8FAFC;
+  
+  --input-bg: #FFFFFF;
 }
 
-* {
-  box-sizing: border-box;
+/* Cores do tema escuro */
+[data-tema="escuro"],
+:root[data-tema="escuro"] {
+  --navy: #F8FAFC; /* Texto principal do título/métricas no Dark Mode */
+  --gold: #D4A359;
+
+  --bg-light: #0B132B; /* Fundo geral escuro da página */
+  --white: #1C2541;    /* Fundo dos cards e tabelas no Dark Mode */
+  --text: #F8FAFC;     /* Texto visível */
+  --text-muted: #94A3B8; /* Texto secundário com boa leitura */
+  --border: #2E3856;
+
+  --table-header: #111827;
+  --table-hover: #2A365C;
+
+  --input-bg: #111827;
+}
+
+/* Container do painel */
+.dashboard-container {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  min-height: 100vh;
   margin: 0;
   padding: 0;
-  font-family: system-ui, -apple-system, sans-serif;
-}
-
-.dashboard-container {
-  display: flex;
-  min-height: 100vh;
   background-color: var(--bg-light);
+  color: var(--text);
+  box-sizing: border-box;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-/* Sidebar */
+/* O menu principal já existe no Layout.jsx */
 .dashboard-sidebar {
-  width: 240px;
-  background-color: var(--navy);
-  color: #fff;
-  padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
+  display: none !important;
 }
 
-.brand-box {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 2rem;
-}
-
-.brand-logo-icon {
-  background-color: var(--gold);
-  padding: 0.5rem;
-  border-radius: 8px;
-  font-size: 1.2rem;
-}
-
-.brand-name {
-  font-size: 1.1rem;
-  font-weight: 800;
-}
-
-.brand-subtitle {
-  font-size: 0.65rem;
-  color: var(--gold);
-  letter-spacing: 1px;
-}
-
-.sidebar-menu {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  flex: 1;
-}
-
-.menu-btn {
-  background: transparent;
-  border: none;
-  color: #A0AEC0;
-  padding: 0.75rem 1rem;
-  border-radius: 8px;
-  text-align: left;
-  font-size: 0.9rem;
-  cursor: pointer;
-}
-
-.menu-btn.active {
-  background-color: var(--gold);
-  color: #fff;
-  font-weight: 700;
-}
-
-.logout-btn {
-  background: transparent;
-  border: none;
-  color: #A0AEC0;
-  text-align: left;
-  padding: 0.75rem 1rem;
-  cursor: pointer;
-}
-
-/* Conteúdo */
+/* Conteúdo principal */
 .dashboard-content {
-  flex: 1;
-  padding: 2rem;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  align-items: stretch;
+  gap: 24px;
+
+  width: 100%;
+  max-width: none;
+  min-width: 0;
+  min-height: 100vh;
+
+  margin: 0;
+  padding: 32px;
+
+  background-color: var(--bg-light);
+  color: var(--text);
+  box-sizing: border-box;
 }
 
-/* Banner Boas-vindas */
-.welcome-banner {
-  background-color: var(--navy);
-  color: #fff;
-  padding: 2rem;
-  border-radius: 16px;
+/* Boas-vindas */
+.welcome-card {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+
+  width: 100%;
+  min-width: 0;
 }
 
-.welcome-banner h1 {
-  font-size: 1.6rem;
-  margin-bottom: 0.4rem;
+.welcome-card h1 {
+  margin: 0 0 8px;
+  color: var(--navy);
+  font-size: 28px;
+  font-weight: 800;
 }
 
-.welcome-banner p {
-  color: #A0AEC0;
-  font-size: 0.9rem;
+.welcome-card p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 15px;
+  line-height: 1.5;
 }
 
+/* Botão principal */
 .btn-primary {
-  background-color: var(--gold);
-  color: #fff;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 12px 20px;
   border: none;
-  padding: 0.8rem 1.5rem;
-  border-radius: 10px;
+  border-radius: 8px;
+
+  background-color: #0F2038;
+  color: #FFFFFF;
+
+  font-size: 14px;
   font-weight: 700;
   cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
-/* Cards Métricas */
-.stats-grid {
+.btn-primary:hover {
+  background-color: #203D60;
+}
+
+/* Cards de estatísticas */
+.metrics-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+
+  width: 100%;
+  min-width: 0;
 }
 
-.stat-card {
-  background: var(--white);
-  padding: 1.25rem;
+.metric-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  width: 100%;
+  min-width: 0;
+  min-height: 130px;
+  padding: 22px;
+
+  box-sizing: border-box;
+
+  background-color: var(--white);
+  color: var(--text);
+  border: 1px solid var(--border);
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.stat-header {
+.metric-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 12px;
+
+  width: 100%;
+  min-width: 0;
 }
 
-.stat-title {
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: #718096;
+.metric-label {
+  color: var(--text-muted);
+  font-size: 14px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
 }
 
-.stat-icon {
-  padding: 0.4rem;
-  border-radius: 8px;
+.metric-icon {
+  flex-shrink: 0;
 }
 
-.stat-icon.yellow { background: #FEF3C7; }
-.stat-icon.red { background: #FEE2E2; }
-.stat-icon.purple { background: #E0E7FF; }
-.stat-icon.light-purple { background: #F3E8FF; }
-
-.stat-value {
-  font-size: 1.8rem;
-  font-weight: 800;
+.metric-value {
+  margin-top: 18px;
   color: var(--navy);
-  margin: 0.5rem 0;
+  font-size: 30px;
+  font-weight: 800;
 }
 
-.stat-value.orange { color: #D97706; }
-
-.stat-trend {
-  font-size: 0.75rem;
-  font-weight: 600;
-}
-
-.stat-trend.positive { color: #10B981; }
-.stat-trend.alert { color: #EF4444; }
-.stat-trend.neutral { color: #6B7280; }
-
-/* Grid Inferior */
-.dashboard-grid {
+/* Processos recentes e próximos prazos */
+.dash-content-grid {
   display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 1.5rem;
+  grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
+  align-items: start;
+  gap: 20px;
+
+  width: 100%;
+  min-width: 0;
 }
 
-.table-card, .deadlines-card {
-  background: var(--white);
-  padding: 1.5rem;
-  border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+.section-box,
+.deadlines-card {
+  display: block;
+
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 24px;
+
+  box-sizing: border-box;
+
+  background-color: var(--white);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.card-header-flex {
+/* Título das seções */
+.section-title {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+  gap: 12px;
+
+  margin-bottom: 20px;
+
+  color: var(--navy);
+  font-size: 17px;
+  font-weight: 700;
 }
 
-.link-action {
-  color: #2563EB;
-  text-decoration: none;
-  font-size: 0.85rem;
-  font-weight: 600;
-}
-
-/* Tabela */
+/* Tabela de processos */
 .custom-table {
   width: 100%;
   border-collapse: collapse;
   text-align: left;
+  background-color: var(--white);
+  color: var(--text);
 }
 
 .custom-table th {
-  background-color: #F7F5F0;
-  color: #718096;
-  font-size: 0.75rem;
-  padding: 0.75rem;
+  padding: 13px 12px;
+  background-color: var(--table-header);
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 700;
 }
 
 .custom-table td {
-  padding: 1rem 0.75rem;
-  border-bottom: 1px solid #EDF2F7;
-  font-size: 0.85rem;
+  padding: 14px 12px;
+  border-bottom: 1px solid var(--border);
+  background-color: var(--white);
+  color: var(--text);
+  font-size: 14px;
+  overflow-wrap: anywhere;
 }
 
-/* Badges */
-.badge {
-  padding: 0.25rem 0.75rem;
+.custom-table tbody tr:hover td {
+  background-color: var(--table-hover);
+}
+
+/* Campo de Pesquisa */
+.search-input,
+.custom-table-search {
+  background-color: var(--input-bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+/* Status dos processos */
+.status-badge {
+  display: inline-block;
+  padding: 6px 10px;
   border-radius: 20px;
-  font-size: 0.75rem;
+  font-size: 12px;
   font-weight: 600;
+  white-space: nowrap;
 }
 
-.badge.blue { background: #E0F2FE; color: #0369A1; }
-.badge.red { background: #FEE2E2; color: #B91C1C; }
-.badge.green { background: #DCFCE7; color: #15803D; }
+.status-andamento {
+  background-color: #FEF3C7;
+  color: #92400E;
+}
 
-/* Prazos */
+.status-urgente {
+  background-color: #FEE2E2;
+  color: #B91C1C;
+}
+
+.status-concluido {
+  background-color: #DCFCE7;
+  color: #166534;
+}
+
+/* Próximos prazos */
+.card-header-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+
+  margin-bottom: 20px;
+}
+
+.card-header-flex h3 {
+  margin: 0;
+  color: var(--navy);
+  font-size: 17px;
+}
+
 .urgentes-label {
   color: #D97706;
-  font-size: 0.8rem;
+  font-size: 13px;
   font-weight: 700;
 }
 
 .deadlines-list {
-  list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 18px;
+
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .deadlines-list li {
   display: flex;
-  gap: 0.75rem;
   align-items: flex-start;
+  gap: 12px;
+  min-width: 0;
+}
+
+.deadlines-list li > div {
+  min-width: 0;
+}
+
+.deadlines-list strong {
+  color: var(--navy);
+  font-size: 14px;
+  overflow-wrap: anywhere;
 }
 
 .deadlines-list p {
-  font-size: 0.8rem;
-  color: #718096;
-  margin-top: 0.2rem;
+  margin: 5px 0 0;
+  color: var(--text-muted);
+  font-size: 13px;
 }
 
+/* Indicadores dos prazos */
 .dot {
-  width: 8px;
-  height: 8px;
+  width: 9px;
+  height: 9px;
+  margin-top: 5px;
+  flex-shrink: 0;
   border-radius: 50%;
-  margin-top: 0.4rem;
 }
 
-.dot.red { background: #EF4444; }
-.dot.orange { background: #F59E0B; }
-.dot.blue { background: #3B82F6; }
+.dot.orange {
+  background-color: #F59E0B;
+}
+
+.dot.red {
+  background-color: #EF4444;
+}
+
+.dot.blue {
+  background-color: #3B82F6;
+}
+
+/* Transição suave entre temas */
+.dashboard-container,
+.dashboard-content,
+.metric-card,
+.section-box,
+.deadlines-card,
+.custom-table,
+.custom-table th,
+.custom-table td {
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+/* Ajustes para telas médias */
+@media (max-width: 1100px) {
+  .dashboard-content {
+    padding: 24px;
+  }
+
+  .metrics-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .dash-content-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Ajustes para celulares */
+@media (max-width: 600px) {
+  .dashboard-content {
+    padding: 16px;
+    gap: 18px;
+  }
+
+  .welcome-card {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .welcome-card h1 {
+    font-size: 23px;
+  }
+
+  .metrics-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+
+  .metric-card {
+    min-height: 110px;
+    padding: 18px;
+  }
+
+  .dash-content-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .section-box,
+  .deadlines-card {
+    padding: 16px;
+  }
+
+  .section-box {
+    overflow-x: auto;
+  }
+
+  .custom-table {
+    min-width: 500px;
+  }
+}

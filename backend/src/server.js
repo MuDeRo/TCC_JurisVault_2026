@@ -12,5 +12,5 @@ app.use('/', router);
 
 
 app.listen(process.env.SERVER_PORT || 8080,() =>{
-    console.log(`Servidor rodando em https://localhost:${process.env.SERVER_PORT}`)
+    console.log(`Servidor rodando em http://localhost:${process.env.SERVER_PORT}`)
 })  
