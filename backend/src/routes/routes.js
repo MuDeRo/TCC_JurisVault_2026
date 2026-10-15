@@ -15,15 +15,15 @@ import arquivosRoutes from "./arquivosRoutes.js";
 const router = Router();
 
 
-router.use('/auth', authRoutes);
-router.use('/advogado', advogadoRoutes);
+ router.use('/auth', authRoutes);
+ router.use('/advogado', advogadoRoutes);
 router.use('/administrador', administradorRoutes);
 router.use('/etapasArquivos', etapasArquivosRoutes);
-router.use('/advogadosCasos', advogadosCasosRoutes);
+ router.use('/advogadosCasos', advogadosCasosRoutes);
 router.use('/casos', casoRoutes);
 router.use('/etapas', etapasRoutes);
 router.use('/tarefas', tarefasRoutes);
-router.use('/arquivos', arquivosRoutes);
+ router.use('/arquivos', arquivosRoutes);
 
 
 export default router;
