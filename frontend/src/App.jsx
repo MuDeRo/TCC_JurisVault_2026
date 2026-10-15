@@ -1,34 +1,29 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-// Importação das páginas
-import Home from './pages/PaginaInicial/Home';
-import LoginAdvogados from './pages/LoginAdvogados/LoginAdvogados';
-import CadastroAdvogados from './pages/CadastroAdvogados/CadastroAdvogados';
-import Administradores from './pages/Administradores/Administradores';
-import PainelAdministrativo from './pages/PainelAdministrativo/PainelAdministrativo';
-import CadastroProcesso from './pages/Processos/CadastroProcesso';
+// Layout
+import Layout from './components/layoutPagina/layout.jsx';
+
+// Páginas
+import Home from './pages/PaginaInicial/Home.jsx';
+import LoginAdvogados from './pages/LoginAdvogados/LoginAdvogados.jsx';
+import Processos from './pages/Processos/Processos.jsx';
+import Documentos from './pages/Processos/Documentos.jsx';
+import Prazos from './pages/Processos/Prazos.jsx';
 
 export default function App() {
   return (
-    <Routes>
-      {/* Rota Principal */}
-      <Route path="/" element={<Home />} />
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<LoginAdvogados />} />
 
-      {/* Autenticação e Cadastro */}
-      <Route path="/login-advogado" element={<LoginAdvogados />} />
-      <Route path="/cadastrar-advogado" element={<CadastroAdvogados />} />
-      <Route path="/login-admin" element={<Administradores />} />
-
-      {/* Painel do Sistema (Dashboard) */}
-      <Route path="/painel" element={<PainelAdministrativo />} />
-      <Route path="/painel-admin" element={<PainelAdministrativo />} />
-
-      {/* Módulos do Sistema */}
-      <Route path="/cadastrar-processo" element={<CadastroProcesso />} />
-
-      {/* Rota Fallback (Redireciona URLs desconhecidas para a Home) */}
-      <Route path="*" element={<Home />} />
-    </Routes>
+        {/* Rotas com Layout */}
+        <Route path="/painel" element={<Layout><Processos /></Layout>} />
+        <Route path="/processos" element={<Layout><Processos /></Layout>} />
+        <Route path="/documentos" element={<Layout><Documentos /></Layout>} />
+        <Route path="/prazos" element={<Layout><Prazos /></Layout>} />
+      </Routes>
+    </Router>
   );
 }
