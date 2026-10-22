@@ -27,11 +27,11 @@ export class Casos {
         this.#numero_cnj = this.#validarNumeroCnj(value);
     }
 
-    get data_prazo(){
+    get data_prazo() {
         return this.#data_prazo
     }
-    set data_prazo(value){
-        this.#data_prazo = value
+    set data_prazo(value) {
+        this.#data_prazo = this.#validarPrazo(value);
     }
 
     get id() {
@@ -60,9 +60,9 @@ export class Casos {
         }
         return validarPadraoCnj(value);
     }
-    #validarPrazo(value){
-        if (value && value < 0) {
-            throw new Error('O prazo não corresponde ao esperado')
+    #validarPrazo(value) {
+        if (value && isNaN(new Date(value).getTime())) {
+            throw new Error('O prazo deve ser uma data válida');
         }
     }
 
