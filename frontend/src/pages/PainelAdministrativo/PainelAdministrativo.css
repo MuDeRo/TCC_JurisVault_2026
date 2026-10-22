@@ -1,441 +1,329 @@
-/* =========================================
-   JURISVAULT - PAINEL ADMINISTRATIVO
-   TEMA CLARO E ESCURO (CORRIGIDO)
-   ========================================= */
+/* ===== PAINEL ADMINISTRATIVO ===== */
 
-/* Cores do tema claro (Padrão) */
-:root {
-  --navy: #0F2038;
-  --gold: #D4A359;
-
-  --bg-light: #F7F5F0;
-  --white: #FFFFFF;
-  --text: #243247;
-  --text-muted: #718096;
-  --border: #E2E8F0;
-
-  --table-header: #F1F5F9;
-  --table-hover: #F8FAFC;
-  
-  --input-bg: #FFFFFF;
-}
-
-/* Cores do tema escuro */
-[data-tema="escuro"],
-:root[data-tema="escuro"] {
-  --navy: #F8FAFC; /* Texto principal do título/métricas no Dark Mode */
-  --gold: #D4A359;
-
-  --bg-light: #0B132B; /* Fundo geral escuro da página */
-  --white: #1C2541;    /* Fundo dos cards e tabelas no Dark Mode */
-  --text: #F8FAFC;     /* Texto visível */
-  --text-muted: #94A3B8; /* Texto secundário com boa leitura */
-  --border: #2E3856;
-
-  --table-header: #111827;
-  --table-hover: #2A365C;
-
-  --input-bg: #111827;
-}
-
-/* Container do painel */
-.dashboard-container {
-  display: block;
-  width: 100%;
-  min-width: 0;
-  min-height: 100vh;
-  margin: 0;
-  padding: 0;
-  background-color: var(--bg-light);
-  color: var(--text);
-  box-sizing: border-box;
-  transition: background-color 0.2s ease, color 0.2s ease;
-}
-
-/* O menu principal já existe no Layout.jsx */
-.dashboard-sidebar {
-  display: none !important;
-}
-
-/* Conteúdo principal */
 .dashboard-content {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  gap: 24px;
-
   width: 100%;
-  max-width: none;
   min-width: 0;
-  min-height: 100vh;
-
-  margin: 0;
-  padding: 32px;
-
-  background-color: var(--bg-light);
-  color: var(--text);
+  padding: 16px 24px;
   box-sizing: border-box;
 }
 
-/* Boas-vindas */
+/* ===== CABEÇALHO ===== */
+
 .welcome-card {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 20px;
-
   width: 100%;
-  min-width: 0;
+  padding-bottom: 12px;
+  box-sizing: border-box;
 }
 
 .welcome-card h1 {
-  margin: 0 0 8px;
-  color: var(--navy);
-  font-size: 28px;
-  font-weight: 800;
+  margin: 0 0 4px;
+  font-size: 1.4rem;
+  font-weight: 700;
 }
 
 .welcome-card p {
   margin: 0;
-  color: var(--text-muted);
-  font-size: 15px;
-  line-height: 1.5;
+  font-size: 0.85rem;
+  color: var(--text-muted, #9ca3af);
 }
 
-/* Botão principal */
+/* Botões no canto superior direito */
+
+.welcome-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-wrap: nowrap;
+}
+
+/* Botão Novo Processo */
+
 .btn-primary {
   display: inline-flex;
-  justify-content: center;
   align-items: center;
-
-  padding: 12px 20px;
-  border: none;
-  border-radius: 8px;
-
-  background-color: #0F2038;
-  color: #FFFFFF;
-
-  font-size: 14px;
-  font-weight: 700;
+  justify-content: center;
+  white-space: nowrap;
+  padding: 8px 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.2s ease;
 }
 
-.btn-primary:hover {
-  background-color: #203D60;
-}
+/* ===== CARDS DE MÉTRICAS (COMPACTOS EM 4 COLUNAS) ===== */
 
-/* Cards de estatísticas */
 .metrics-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 20px;
-
+  gap: 12px;
   width: 100%;
-  min-width: 0;
 }
 
 .metric-card {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-
-  width: 100%;
   min-width: 0;
-  min-height: 130px;
-  padding: 22px;
-
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: var(--card-bg, #111827);
+  border: 1px solid var(--border-color, #1f2937);
   box-sizing: border-box;
-
-  background-color: var(--white);
-  color: var(--text);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .metric-top {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  gap: 12px;
-
-  width: 100%;
-  min-width: 0;
+  justify-content: space-between;
+  gap: 8px;
 }
 
 .metric-label {
-  color: var(--text-muted);
-  font-size: 14px;
+  min-width: 0;
+  font-size: 0.72rem;
   font-weight: 600;
-  overflow-wrap: anywhere;
-}
-
-.metric-icon {
-  flex-shrink: 0;
+  text-transform: uppercase;
+  color: var(--text-muted, #9ca3af);
 }
 
 .metric-value {
-  margin-top: 18px;
-  color: var(--navy);
-  font-size: 30px;
-  font-weight: 800;
+  margin-top: 6px;
+  font-size: 1.35rem;
+  font-weight: 700;
 }
 
-/* Processos recentes e próximos prazos */
+/* ===== CONTEÚDO DO PAINEL (LADO A LADO) ===== */
+
 .dash-content-grid {
   display: grid;
-  grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
-  align-items: start;
-  gap: 20px;
-
+  grid-template-columns: 2.2fr 1fr;
+  gap: 16px;
+  margin-top: 16px;
   width: 100%;
-  min-width: 0;
 }
 
 .section-box,
 .deadlines-card {
-  display: block;
-
-  width: 100%;
   min-width: 0;
-  margin: 0;
-  padding: 24px;
-
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 8px;
+  background: var(--card-bg, #111827);
+  border: 1px solid var(--border-color, #1f2937);
   box-sizing: border-box;
-
-  background-color: var(--white);
-  color: var(--text);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* Título das seções */
 .section-title {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
+  justify-content: space-between;
   gap: 12px;
-
-  margin-bottom: 20px;
-
-  color: var(--navy);
-  font-size: 17px;
-  font-weight: 700;
-}
-
-/* Tabela de processos */
-.custom-table {
-  width: 100%;
-  border-collapse: collapse;
-  text-align: left;
-  background-color: var(--white);
-  color: var(--text);
-}
-
-.custom-table th {
-  padding: 13px 12px;
-  background-color: var(--table-header);
-  color: var(--text-muted);
-  font-size: 12px;
-  font-weight: 700;
-}
-
-.custom-table td {
-  padding: 14px 12px;
-  border-bottom: 1px solid var(--border);
-  background-color: var(--white);
-  color: var(--text);
-  font-size: 14px;
-  overflow-wrap: anywhere;
-}
-
-.custom-table tbody tr:hover td {
-  background-color: var(--table-hover);
-}
-
-/* Campo de Pesquisa */
-.search-input,
-.custom-table-search {
-  background-color: var(--input-bg);
-  color: var(--text);
-  border: 1px solid var(--border);
-}
-
-/* Status dos processos */
-.status-badge {
-  display: inline-block;
-  padding: 6px 10px;
-  border-radius: 20px;
-  font-size: 12px;
+  margin-bottom: 10px;
+  font-size: 0.95rem;
   font-weight: 600;
+}
+
+.link-processos {
+  border: none;
+  background: transparent;
+  color: var(--primary-hover, #3b82f6);
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 500;
   white-space: nowrap;
 }
 
-.status-andamento {
-  background-color: #FEF3C7;
-  color: #92400E;
+/* ===== PESQUISA ===== */
+
+.pesquisa-processos {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 10px 0 12px;
+  padding: 6px 10px;
+  border: 1px solid var(--border-color, #374151);
+  border-radius: 6px;
+  background: var(--input-bg, #1f2937);
+  color: var(--text-muted, #9ca3af);
+  box-sizing: border-box;
 }
 
-.status-urgente {
-  background-color: #FEE2E2;
-  color: #B91C1C;
+.pesquisa-processos input {
+  width: 100%;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 0.8rem;
+  color: var(--text-dark, #ffffff);
 }
 
-.status-concluido {
-  background-color: #DCFCE7;
-  color: #166534;
+.pesquisa-processos input:focus-visible {
+  outline: 2px solid var(--accent-gold, #d97706);
+  outline-offset: 2px;
 }
 
-/* Próximos prazos */
+/* ===== TABELA COMPACTA ===== */
+
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.custom-table th,
+.custom-table td {
+  padding: 8px 10px;
+  text-align: left;
+  font-size: 0.8rem;
+}
+
+.custom-table th {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  color: var(--text-muted, #9ca3af);
+  border-bottom: 1px solid var(--border-color, #1f2937);
+  white-space: nowrap;
+}
+
+.custom-table td {
+  border-bottom: 1px solid var(--border-color, #1f2937);
+}
+
+/* ===== PRAZOS ===== */
+
 .card-header-flex {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   gap: 12px;
-
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .card-header-flex h3 {
   margin: 0;
-  color: var(--navy);
-  font-size: 17px;
-}
-
-.urgentes-label {
-  color: #D97706;
-  font-size: 13px;
-  font-weight: 700;
+  font-size: 0.95rem;
 }
 
 .deadlines-list {
   display: flex;
   flex-direction: column;
-  gap: 18px;
-
-  margin: 0;
+  gap: 10px;
   padding: 0;
+  margin: 0;
   list-style: none;
 }
 
 .deadlines-list li {
   display: flex;
   align-items: flex-start;
-  gap: 12px;
-  min-width: 0;
-}
-
-.deadlines-list li > div {
-  min-width: 0;
+  gap: 8px;
+  font-size: 0.8rem;
 }
 
 .deadlines-list strong {
-  color: var(--navy);
-  font-size: 14px;
-  overflow-wrap: anywhere;
+  font-size: 0.82rem;
 }
 
-.deadlines-list p {
-  margin: 5px 0 0;
-  color: var(--text-muted);
-  font-size: 13px;
+.deadlines-list li p {
+  margin: 2px 0 0;
+  font-size: 0.75rem;
+  color: var(--text-muted, #9ca3af);
 }
 
-/* Indicadores dos prazos */
 .dot {
-  width: 9px;
-  height: 9px;
-  margin-top: 5px;
+  width: 6px;
+  height: 6px;
   flex-shrink: 0;
   border-radius: 50%;
+  margin-top: 5px;
 }
 
 .dot.orange {
-  background-color: #F59E0B;
+  background: #f59e0b;
 }
 
-.dot.red {
-  background-color: #EF4444;
+/* ===== CARREGAMENTO (SKELETON) ===== */
+
+.skeleton {
+  height: 14px;
+  border-radius: 4px;
+  background: linear-gradient(
+    90deg,
+    var(--border-color, #1f2937) 25%,
+    var(--table-hover-bg, #374151) 50%,
+    var(--border-color, #1f2937) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-pulse 1.4s ease-in-out infinite;
 }
 
-.dot.blue {
-  background-color: #3B82F6;
+.skeleton-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px 0;
 }
 
-/* Transição suave entre temas */
-.dashboard-container,
-.dashboard-content,
-.metric-card,
-.section-box,
-.deadlines-card,
-.custom-table,
-.custom-table th,
-.custom-table td {
-  transition:
-    background-color 0.2s ease,
-    color 0.2s ease,
-    border-color 0.2s ease;
+.skeleton-row {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border-color, #1f2937);
 }
 
-/* Ajustes para telas médias */
-@media (max-width: 1100px) {
-  .dashboard-content {
-    padding: 24px;
+.skeleton-deadline {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px 0;
+}
+
+@keyframes skeleton-pulse {
+  from {
+    background-position: 100% 0;
   }
+  to {
+    background-position: -100% 0;
+  }
+}
 
+/* ===== RESPONSIVIDADE ===== */
+
+@media (max-width: 1024px) {
+  .dash-content-grid {
+    grid-template-columns: 1fr;
+  }
+  
   .metrics-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-
-  .dash-content-grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
 }
 
-/* Ajustes para celulares */
 @media (max-width: 600px) {
-  .dashboard-content {
-    padding: 16px;
-    gap: 18px;
-  }
-
   .welcome-card {
-    align-items: flex-start;
     flex-direction: column;
+    align-items: flex-start;
   }
 
-  .welcome-card h1 {
-    font-size: 23px;
+  .welcome-actions {
+    margin-top: 12px;
+    width: 100%;
+    justify-content: flex-start;
   }
 
   .metrics-grid {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 14px;
+    grid-template-columns: 1fr;
   }
 
-  .metric-card {
-    min-height: 110px;
-    padding: 18px;
+  .skeleton-row {
+    grid-template-columns: 1fr 1fr;
   }
+}
 
-  .dash-content-grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .section-box,
-  .deadlines-card {
-    padding: 16px;
-  }
-
-  .section-box {
-    overflow-x: auto;
-  }
-
-  .custom-table {
-    min-width: 500px;
+@media (prefers-reduced-motion: reduce) {
+  .skeleton {
+    animation: none;
   }
 }

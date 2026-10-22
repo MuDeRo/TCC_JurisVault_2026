@@ -1,0 +1,26 @@
+
+.botao-tema {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background-color: var(--bg-card);
+  color: var(--text-dark);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease,
+              color 0.2s ease;
+}
+
+.botao-tema:hover {
+  background-color: var(--table-hover-bg);
+}
+
+.botao-tema:focus-visible {
+  outline: 2px solid var(--accent-gold);
+  outline-offset: 3px;
+}

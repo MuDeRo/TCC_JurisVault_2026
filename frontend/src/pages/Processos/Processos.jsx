@@ -1,13 +1,19 @@
+
 import React, { useState, useEffect } from 'react';
 import './Processos.css';
 import axios from 'axios';
+import { Sun, Moon } from 'lucide-react';
+import { useTema } from '../../context/ThemeContext.jsx';
 
 export default function Processos() {
+  const { tema, alternarTema } = useTema();
+
   const [processos, setProcessos] = useState([]);
+  const [documentosEmitidos, setDocumentosEmitidos] = useState(0);
   const [filtro, setFiltro] = useState('');
   const [loading, setLoading] = useState(true);
 
-  // Formata o número do processo no padrão CNJ
+  // Formata o número CNJ
   const formatarCNJ = (cnj) => {
     if (!cnj) return '';
 
@@ -21,32 +27,41 @@ export default function Processos() {
     );
   };
 
-  // Filtra os processos pelo número, cliente ou descrição
+  // Filtra os processos pela pesquisa
   const processosFiltrados = processos.filter((item) => {
     const pesquisa = filtro.toLowerCase().trim();
 
     if (!pesquisa) return true;
 
     return (
-      String(item.numeroProcesso || '').toLowerCase().includes(pesquisa) ||
-      String(item.cliente || '').toLowerCase().includes(pesquisa) ||
-      String(item.acao || '').toLowerCase().includes(pesquisa)
+      String(item.numeroProcesso || '')
+        .toLowerCase()
+        .includes(pesquisa) ||
+      String(item.cliente || '')
+        .toLowerCase()
+        .includes(pesquisa) ||
+      String(item.acao || '')
+        .toLowerCase()
+        .includes(pesquisa)
     );
   });
 
-  // Busca os processos cadastrados no backend
+  // Carrega os processos e documentos do backend
   useEffect(() => {
+    let ativo = true;
+
     async function carregarDados() {
+      const token = localStorage.getItem('token');
+
+      const idAdvogado =
+        Number(localStorage.getItem('id_advogado')) || 1;
+
+      const headers = {
+        'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      };
+
       try {
-        const token = localStorage.getItem('token');
-        const idAdvogado =
-          Number(localStorage.getItem('id_advogado')) || 1;
-
-        const headers = {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + token,
-        };
-
         const response = await axios.get(
           `http://localhost:8080/casos/advogado/${idAdvogado}`,
           { headers }
@@ -59,140 +74,188 @@ export default function Processos() {
         const dadosFormatados = dados.map((item) => ({
           id: item.id,
           numeroProcesso: formatarCNJ(item.numero_cnj),
-          cliente: item.nome_requerente || 'Cliente não informado',
+          cliente:
+            item.nome_requerente || 'Cliente não informado',
           acao: item.descricao_caso || 'Sem descrição',
           ramo: 'Cível',
           tribunal: 'TJ-SP',
           status: 'Em Andamento',
         }));
 
-        setProcessos(dadosFormatados);
+        if (ativo) {
+          setProcessos(dadosFormatados);
+        }
       } catch (error) {
         console.error(
           'Erro ao carregar os processos do backend:',
           error
         );
 
-        setProcessos([]);
+        if (ativo) {
+          setProcessos([]);
+        }
+      }
+
+      try {
+        const responseArquivos = await axios.get(
+          'http://localhost:8080/arquivos/',
+          { headers }
+        );
+
+        const resposta = responseArquivos.data;
+
+        const arquivos = Array.isArray(resposta)
+          ? resposta
+          : Array.isArray(resposta?.arquivos)
+            ? resposta.arquivos
+            : Array.isArray(resposta?.data)
+              ? resposta.data
+              : [];
+
+        if (ativo) {
+          setDocumentosEmitidos(arquivos.length);
+        }
+      } catch (error) {
+        console.error(
+          'Erro ao carregar documentos:',
+          error
+        );
+
+        if (ativo) {
+          setDocumentosEmitidos(0);
+        }
       } finally {
-        setLoading(false);
+        if (ativo) {
+          setLoading(false);
+        }
       }
     }
 
     carregarDados();
+
+    return () => {
+      ativo = false;
+    };
   }, []);
 
+  // Abre a página de cadastro de processo
+  const abrirNovoProcesso = () => {
+    window.location.href = '/processos/novo';
+  };
+
   return (
-    <div style={{ padding: '20px' }}>
-      <h2>Olá, Dr. Advogado Teste! 👋</h2>
+    <div className="processos-container">
+      {/* Cabeçalho */}
+      <header className="processos-header">
+        <div>
+          <h1>Processos ⚖️</h1>
 
-      <p style={{ color: '#666' }}>
-        Aqui está o resumo das atividades jurídicas do seu escritório.
-      </p>
+          <p>
+            Gerencie e acompanhe os processos jurídicos do seu escritório.
+          </p>
+        </div>
 
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: '20px',
-          margin: '20px 0',
-        }}
-      >
-        <div
-          style={{
-            background: '#fff',
-            padding: '20px',
-            borderRadius: '8px',
-            border: '1px solid #ddd',
-          }}
-        >
+        <div className="header-actions">
+          {/* Botão de tema */}
+          <button
+            type="button"
+            className="btn-tema"
+            onClick={alternarTema}
+            aria-label={
+              tema === 'escuro'
+                ? 'Ativar tema claro'
+                : 'Ativar tema escuro'
+            }
+            title={
+              tema === 'escuro'
+                ? 'Ativar tema claro'
+                : 'Ativar tema escuro'
+            }
+          >
+            {tema === 'escuro' ? (
+              <>
+                <Sun size={18} />
+                <span>Tema claro</span>
+              </>
+            ) : (
+              <>
+                <Moon size={18} />
+                <span>Tema escuro</span>
+              </>
+            )}
+          </button>
+
+          {/* Botão de novo processo */}
+          <button
+            type="button"
+            className="btn-novo-caso"
+            onClick={abrirNovoProcesso}
+          >
+            + Novo Processo
+          </button>
+        </div>
+      </header>
+
+      {/* Indicadores */}
+      <div className="processos-metricas">
+        <div className="processo-metrica">
           <span>PROCESSOS ATIVOS</span>
-          <h3>{processos.length}</h3>
+          <h2>{processos.length}</h2>
         </div>
 
-        <div
-          style={{
-            background: '#fff',
-            padding: '20px',
-            borderRadius: '8px',
-            border: '1px solid #ddd',
-          }}
-        >
-          <span>PRAZOS NA SEMANA</span>
-          <h3 style={{ color: 'orange' }}>5</h3>
+        <div className="processo-metrica">
+          <span>PROCESSOS ENCONTRADOS</span>
+          <h2>{processosFiltrados.length}</h2>
         </div>
 
-        <div
-          style={{
-            background: '#fff',
-            padding: '20px',
-            borderRadius: '8px',
-            border: '1px solid #ddd',
-          }}
-        >
+        <div className="processo-metrica">
           <span>DOCUMENTOS EMITIDOS</span>
-          <h3>114</h3>
+          <h2>{documentosEmitidos}</h2>
         </div>
       </div>
 
-      <div
-        style={{
-          background: '#fff',
-          padding: '20px',
-          borderRadius: '8px',
-          border: '1px solid #ddd',
-        }}
-      >
-        <h3>Processos Recentes</h3>
-
-        <input
-          type="text"
-          placeholder="Pesquisar por processo, cliente ou descrição..."
-          value={filtro}
-          onChange={(e) => setFiltro(e.target.value)}
-          style={{
-            width: '100%',
-            padding: '10px',
-            margin: '10px 0',
-            border: '1px solid #ddd',
-            borderRadius: '6px',
-            boxSizing: 'border-box',
-          }}
-        />
-
-        {loading ? (
+      {/* Lista de processos */}
+      <section className="processos-card">
+        <div className="processos-card-header">
           <div>
-            {Array.from({ length: 3 }).map((_, index) => (
-              <div
-                key={index}
-                style={{
-                  height: '42px',
-                  margin: '8px 0',
-                  borderRadius: '6px',
-                  background: '#eeeeee',
-                  animation: 'pulse 1.5s infinite',
-                }}
-              />
-            ))}
+            <h2>Processos cadastrados</h2>
+
+            <p className="card-subtitle">
+              Pesquise e consulte os processos registrados.
+            </p>
+          </div>
+        </div>
+
+        {/* Campo de pesquisa */}
+        <div className="search-bar">
+          <input
+            type="text"
+            placeholder="Pesquisar por processo, cliente ou descrição..."
+            value={filtro}
+            onChange={(e) => setFiltro(e.target.value)}
+            aria-label="Pesquisar processos"
+          />
+        </div>
+
+        {/* Carregamento e tabela */}
+        {loading ? (
+          <div className="processos-carregando">
+            <div className="processos-loading-bar" />
+            <div className="processos-loading-bar" />
+            <div className="processos-loading-bar" />
+
             <p>Carregando processos...</p>
           </div>
         ) : (
-          <div style={{ overflowX: 'auto' }}>
-            <table
-              style={{
-                width: '100%',
-                marginTop: '10px',
-                textAlign: 'left',
-                borderCollapse: 'collapse',
-              }}
-            >
+          <div className="processos-tabela-wrapper">
+            <table className="processos-table">
               <thead>
-                <tr style={{ borderBottom: '1px solid #ccc' }}>
-                  <th>PROCESSO</th>
-                  <th>CLIENTE</th>
-                  <th>AÇÃO</th>
-                  <th>TRIBUNAL</th>
-                  <th>STATUS</th>
+                <tr>
+                  <th>Processo</th>
+                  <th>Cliente</th>
+                  <th>Ação</th>
+                  <th>Tribunal</th>
+                  <th>Status</th>
                 </tr>
               </thead>
 
@@ -200,31 +263,27 @@ export default function Processos() {
                 {processosFiltrados.length > 0 ? (
                   processosFiltrados.map((item) => (
                     <tr
-                      key={item.id || item.numeroProcesso}
-                      style={{ borderBottom: '1px solid #eee' }}
+                      key={
+                        item.id ||
+                        item.numeroProcesso ||
+                        `${item.cliente}-${item.acao}`
+                      }
                     >
-                      <td style={{ fontWeight: '700', padding: '12px 4px' }}>
-                        {item.numeroProcesso}
+                      <td className="numero-processo">
+                        {item.numeroProcesso || '-'}
                       </td>
 
-                      <td style={{ padding: '12px 4px' }}>
-                        {item.cliente}
-                      </td>
+                      <td>{item.cliente}</td>
 
-                      <td
-                        title={item.acao}
-                        style={{ padding: '12px 4px' }}
-                      >
+                      <td title={item.acao}>
                         {item.acao.length > 30
-                          ? item.acao.substring(0, 30) + '...'
+                          ? `${item.acao.substring(0, 30)}...`
                           : item.acao}
                       </td>
 
-                      <td style={{ padding: '12px 4px' }}>
-                        {item.tribunal}
-                      </td>
+                      <td>{item.tribunal}</td>
 
-                      <td style={{ padding: '12px 4px' }}>
+                      <td>
                         <span
                           className={`status-badge ${
                             item.status === 'Urgente'
@@ -243,13 +302,11 @@ export default function Processos() {
                   <tr>
                     <td
                       colSpan="5"
-                      style={{
-                        textAlign: 'center',
-                        padding: '32px',
-                        color: '#94a3b8',
-                      }}
+                      className="processos-vazio"
                     >
-                      Nenhum processo encontrado.
+                      {filtro
+                        ? 'Nenhum processo corresponde à pesquisa.'
+                        : 'Nenhum processo encontrado.'}
                     </td>
                   </tr>
                 )}
@@ -257,7 +314,7 @@ export default function Processos() {
             </table>
           </div>
         )}
-      </div>
+      </section>
     </div>
   );
 }

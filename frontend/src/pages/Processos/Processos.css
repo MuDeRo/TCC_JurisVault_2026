@@ -1,21 +1,24 @@
 
 /* =========================================
-   JURISVAULT - PÁGINA DE PROCESSOS
+   JURISVAULT — PÁGINA DE PROCESSOS
    TEMA CLARO E ESCURO
    ========================================= */
 
 /* Container principal */
 
 .processos-container {
+  width: 100%;
+  min-height: 100%;
   padding: 32px;
   box-sizing: border-box;
-  min-height: 100%;
   background-color: var(--bg-main, #FAF8F5);
   color: var(--text-dark, #102542);
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-/* Cabeçalho */
+/* =========================================
+   CABEÇALHO
+   ========================================= */
 
 .processos-header {
   display: flex;
@@ -26,80 +29,251 @@
 }
 
 .processos-header h1 {
+  margin: 0 0 6px;
   font-size: 1.8rem;
   font-weight: 800;
   color: var(--text-dark, #102542);
-  margin: 0 0 4px 0;
 }
 
 .processos-header p {
-  color: var(--text-muted, #536278);
   margin: 0;
   font-size: 0.9rem;
+  color: var(--text-muted, #536278);
 }
 
-/* Botão novo processo */
+/* Área dos botões */
+
+.processos-header .header-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+/* =========================================
+   BOTÃO DE TEMA
+   Mesmo padrão visual do Layout.css
+   ========================================= */
+
+.processos-header .btn-tema {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  width: auto;
+  margin: 0;
+  padding: 12px 16px;
+  box-sizing: border-box;
+  border: 1px solid #D4A359;
+  border-radius: 8px;
+  background-color: transparent;
+  color: var(--text-dark, #102542);
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.processos-header .btn-tema:hover {
+  background-color: #203D60;
+  color: #FFFFFF;
+}
+
+.processos-header .btn-tema:focus-visible {
+  outline: 2px solid #D4A359;
+  outline-offset: 3px;
+}
+
+:root[data-tema="escuro"] .processos-header .btn-tema {
+  color: #FFFFFF;
+}
+
+:root[data-tema="escuro"] .processos-header .btn-tema:hover {
+  background-color: #203D60;
+  color: #FFFFFF;
+}
+
+/* =========================================
+   BOTÃO NOVO PROCESSO
+   ========================================= */
 
 .btn-novo-caso {
-  background: #D97706;
-  color: #FFFFFF;
+  flex-shrink: 0;
+  background: #D6A75D;
+  color: #102542;
   border: none;
   padding: 12px 24px;
   border-radius: 10px;
   font-weight: 700;
   font-size: 0.9rem;
   cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 4px 12px rgba(217, 119, 6, 0.3);
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
 
 .btn-novo-caso:hover {
-  background: #B45309;
+  background: #E5B96F;
   transform: translateY(-2px);
 }
 
-/* Cartão de processos */
+:root[data-tema="escuro"] .btn-novo-caso {
+  background: #D6A75D;
+  color: #111827;
+}
+
+:root[data-tema="escuro"] .btn-novo-caso:hover {
+  background: #E5B96F;
+}
+
+/* =========================================
+   CARTÕES DE INDICADORES
+   ========================================= */
+
+.processos-metricas {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  width: 100%;
+  margin: 24px 0;
+  box-sizing: border-box;
+}
+
+.processo-metrica {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+  min-width: 0;
+  min-height: 125px;
+  padding: 24px;
+  box-sizing: border-box;
+  background: var(--bg-card, #FFFFFF);
+  border: 1px solid var(--border-color, #E2E8F0);
+  border-radius: 12px;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.processo-metrica span {
+  display: block;
+  color: var(--text-muted, #64748B);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.processo-metrica h2 {
+  margin: 0;
+  color: var(--text-dark, #102542);
+  font-size: 1.9rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+/* Indicadores no tema escuro */
+
+:root[data-tema="escuro"] .processo-metrica {
+  background: #172235;
+  border-color: #29364B;
+}
+
+:root[data-tema="escuro"] .processo-metrica span {
+  color: #A8B8CC;
+}
+
+:root[data-tema="escuro"] .processo-metrica h2 {
+  color: #F1F5F9;
+}
+
+/* =========================================
+   CARTÃO PRINCIPAL
+   ========================================= */
 
 .processos-card {
+  width: 100%;
+  margin-top: 24px;
+  padding: 28px;
+  box-sizing: border-box;
+  overflow: hidden;
   background: var(--bg-card, #FFFFFF);
   color: var(--text-dark, #102542);
-  border-radius: 16px;
-  padding: 28px;
   border: 1px solid var(--border-color, #E2E8F0);
+  border-radius: 16px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
-  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.processos-card-header {
+  margin-bottom: 8px;
 }
 
 .processos-card h2 {
+  margin: 0 0 6px;
+  color: var(--text-dark, #102542);
   font-size: 1.2rem;
   font-weight: 700;
-  color: var(--text-dark, #102542);
-  margin: 0 0 4px 0;
 }
 
 .card-subtitle {
+  margin: 0 0 20px;
   color: var(--text-muted, #536278);
   font-size: 0.85rem;
-  margin: 0 0 20px 0;
 }
 
-/* Barra de pesquisa */
+/* Cartão no tema escuro */
+
+:root[data-tema="escuro"] .processos-card {
+  background: #111827;
+  color: #F1F5F9;
+  border-color: #29364B;
+  box-shadow: none;
+}
+
+:root[data-tema="escuro"] .processos-header h1,
+:root[data-tema="escuro"] .processos-card h2 {
+  color: #F1F5F9;
+}
+
+:root[data-tema="escuro"] .processos-header p,
+:root[data-tema="escuro"] .card-subtitle {
+  color: #A8B8CC;
+}
+
+/* =========================================
+   CAMPO DE PESQUISA
+   ========================================= */
 
 .search-bar {
-  margin-bottom: 24px;
+  width: 100%;
+  margin: 20px 0 24px;
+  box-sizing: border-box;
 }
 
 .search-bar input {
+  display: block;
   width: 100%;
+  min-width: 0;
   padding: 12px 16px;
-  background-color: var(--input-bg, #FFFFFF);
+  box-sizing: border-box;
+  background: var(--input-bg, #FFFFFF);
   color: var(--text-dark, #102542);
   border: 1px solid var(--border-color, #CBD5E1);
   border-radius: 8px;
-  font-size: 0.9rem;
-  box-sizing: border-box;
   outline: none;
-  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  font-size: 0.9rem;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .search-bar input::placeholder {
@@ -107,63 +281,121 @@
 }
 
 .search-bar input:focus {
-  border-color: var(--accent-gold, #D97706);
+  border-color: var(--accent-gold, #D6A75D);
 }
 
-/* Tabela */
+/* Pesquisa no tema escuro */
+
+:root[data-tema="escuro"] .search-bar input {
+  background: #263449;
+  color: #F1F5F9;
+  border-color: #35445B;
+}
+
+:root[data-tema="escuro"] .search-bar input::placeholder {
+  color: #A8B8CC;
+}
+
+:root[data-tema="escuro"] .search-bar input:focus {
+  border-color: #D6A75D;
+}
+
+/* =========================================
+   TABELA DE PROCESSOS
+   ========================================= */
+
+.processos-tabela-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 8px;
+}
 
 .processos-table {
   width: 100%;
+  min-width: 650px;
   border-collapse: collapse;
-  background-color: var(--bg-card, #FFFFFF);
+  background: var(--bg-card, #FFFFFF);
   color: var(--text-dark, #102542);
 }
 
 .processos-table th {
+  padding: 14px 12px;
   text-align: left;
   font-size: 0.75rem;
+  font-weight: 700;
   text-transform: uppercase;
+  white-space: nowrap;
   color: var(--text-muted, #64748B);
-  padding: 12px 10px;
+  background: var(--table-header-bg, #F2EADF);
   border-bottom: 1px solid var(--border-color, #E2E8F0);
-  background-color: var(--table-header-bg, #F2EADF);
 }
 
 .processos-table td {
-  padding: 16px 10px;
-  border-bottom: 1px solid var(--border-color, #F1F5F9);
+  padding: 16px 12px;
+  text-align: left;
   font-size: 0.88rem;
   color: var(--text-dark, #102542);
-  background-color: var(--bg-card, #FFFFFF);
+  background: var(--bg-card, #FFFFFF);
+  border-bottom: 1px solid var(--border-color, #E2E8F0);
 }
 
-.processos-table tbody tr:hover td {
-  background-color: var(--table-hover-bg, #F8F4EE);
-}
-
-/* Mensagens quando não existem processos */
-
-.processos-table td[colspan] {
-  text-align: center;
-  color: var(--text-muted, #64748B);
-  padding: 32px 16px;
-}
-
-/* Status dos processos */
-
-.status-badge {
-  display: inline-block;
-  padding: 4px 12px;
-  border-radius: 20px;
-  font-size: 0.75rem;
+.processos-table .numero-processo {
   font-weight: 700;
 }
 
-/* As cores dos status permanecem identificáveis nos dois temas */
+.processos-table tbody tr:hover td {
+  background: var(--table-hover-bg, #F8F4EE);
+}
+
+.processos-table .processos-vazio {
+  padding: 32px 16px;
+  text-align: center;
+  color: var(--text-muted, #64748B);
+}
+
+/* Tabela no tema escuro */
+
+:root[data-tema="escuro"] .processos-table {
+  background: #111827;
+  color: #F1F5F9;
+}
+
+:root[data-tema="escuro"] .processos-table th {
+  background: #263449;
+  color: #D7E0EC;
+  border-color: #35445B;
+}
+
+:root[data-tema="escuro"] .processos-table td {
+  background: #1F2A3B;
+  color: #F1F5F9;
+  border-color: #35445B;
+}
+
+:root[data-tema="escuro"] .processos-table tbody tr:hover td {
+  background: #29374B;
+}
+
+:root[data-tema="escuro"] .processos-table .processos-vazio {
+  color: #A8B8CC;
+}
+
+/* =========================================
+   STATUS DOS PROCESSOS
+   ========================================= */
+
+.status-badge {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
 
 .status-andamento {
   background: #FEF3C7;
-  color: #D97706;
+  color: #92400E;
 }
 
 .status-urgente {
@@ -173,63 +405,68 @@
 
 .status-concluido {
   background: #DCFCE7;
-  color: #15803D;
+  color: #166534;
 }
 
 /* =========================================
-   AJUSTES EXCLUSIVOS DO TEMA ESCURO
+   CARREGAMENTO
+   ========================================= */
+
+.processos-carregando {
+  padding: 12px 0;
+  color: var(--text-muted, #64748B);
+}
+
+.processos-loading-bar {
+  height: 42px;
+  margin: 10px 0;
+  border-radius: 8px;
+  background: var(--table-hover-bg, #F1F5F9);
+  animation: processos-pulse 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes processos-pulse {
+  from {
+    opacity: 0.55;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+:root[data-tema="escuro"] .processos-loading-bar {
+  background: #263449;
+}
+
+/* =========================================
+   TEMA ESCURO — VARIÁVEIS DA PÁGINA
    ========================================= */
 
 :root[data-tema="escuro"] .processos-container {
-  background-color: var(--bg-main, #111827);
-  color: var(--text-dark, #F3F4F6);
-}
+  --bg-main: #111827;
+  --bg-card: #111827;
+  --text-dark: #F1F5F9;
+  --text-muted: #A8B8CC;
+  --border-color: #29364B;
+  --input-bg: #263449;
+  --table-header-bg: #263449;
+  --table-hover-bg: #29374B;
+  --accent-gold: #D6A75D;
 
-:root[data-tema="escuro"] .processos-card {
-  background-color: var(--bg-card, #1F2937);
-  border-color: var(--border-color, #374151);
-  color: var(--text-dark, #F3F4F6);
-}
-
-:root[data-tema="escuro"] .processos-header h1,
-:root[data-tema="escuro"] .processos-card h2,
-:root[data-tema="escuro"] .processos-table td {
-  color: var(--text-dark, #F3F4F6);
-}
-
-:root[data-tema="escuro"] .processos-header p,
-:root[data-tema="escuro"] .card-subtitle,
-:root[data-tema="escuro"] .processos-table th {
-  color: var(--text-muted, #CBD5E1);
-}
-
-:root[data-tema="escuro"] .search-bar input {
-  background-color: var(--input-bg, #273449);
-  color: var(--text-dark, #F3F4F6);
-  border-color: var(--border-color, #374151);
-}
-
-:root[data-tema="escuro"] .processos-table {
-  background-color: var(--bg-card, #1F2937);
-}
-
-:root[data-tema="escuro"] .processos-table th {
-  background-color: var(--table-header-bg, #273449);
-  border-color: var(--border-color, #374151);
-}
-
-:root[data-tema="escuro"] .processos-table td {
-  background-color: var(--bg-card, #1F2937);
-  border-color: var(--border-color, #374151);
-}
-
-:root[data-tema="escuro"] .processos-table tbody tr:hover td {
-  background-color: var(--table-hover-bg, #2B3749);
+  background-color: #111827;
+  color: #F1F5F9;
 }
 
 /* =========================================
    RESPONSIVIDADE
    ========================================= */
+
+@media (max-width: 900px) {
+  .processos-metricas {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
 
 @media (max-width: 768px) {
   .processos-container {
@@ -245,16 +482,54 @@
     font-size: 1.5rem;
   }
 
-  .processos-card {
-    padding: 18px;
-    overflow-x: auto;
+  .processos-header .header-actions {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: flex-start;
   }
 
-  .processos-table {
-    min-width: 600px;
+  .processos-header .btn-tema,
+  .processos-header .btn-novo-caso {
+    max-width: 100%;
+  }
+
+  .processos-card {
+    padding: 18px;
   }
 
   .btn-novo-caso {
     width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .processos-metricas {
+    grid-template-columns: 1fr;
+  }
+
+  .processos-header .header-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .processos-header .btn-tema,
+  .processos-header .btn-novo-caso {
+    width: 100%;
+  }
+}
+
+/* Respeitar preferência por menos animações */
+
+@media (prefers-reduced-motion: reduce) {
+  .processos-container,
+  .processos-card,
+  .search-bar input,
+  .btn-novo-caso,
+  .processos-header .btn-tema {
+    transition: none;
+  }
+
+  .processos-loading-bar {
+    animation: none;
   }
 }

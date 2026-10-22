@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { UploadCloud, FileText, Trash2, Download, Paperclip } from 'lucide-react';
 import './Documentos.css';
+import BotaoTema from '../../components/BotaoTema/BotaoTema.jsx';
 
 export default function Documentos() {
   const fileInputRef = useRef(null);
@@ -58,7 +59,6 @@ export default function Documentos() {
   }, [idCasoSelecionado]);
 
   // 3. Busca os arquivos vinculados à Etapa selecionada
-  // 3. Busca os arquivos vinculados à Etapa selecionada
   const carregarDocumentosEtapa = async (idEtapa) => {
     if (!idEtapa) return;
     setLoading(true);
@@ -72,7 +72,6 @@ export default function Documentos() {
         axios.get('http://localhost:8080/arquivos', { headers })
       ]);
 
-      // Trata tanto respostas diretas em array quanto respostas encapsuladas em .data
       const vinculos = Array.isArray(resVinculos.data) 
         ? resVinculos.data 
         : (resVinculos.data?.data || []);
@@ -81,15 +80,10 @@ export default function Documentos() {
         ? resArquivos.data 
         : (resArquivos.data?.data || []);
 
-      console.log('Vínculos:', vinculos);
-      console.log('Todos os Arquivos:', todosArquivos);
-
-      // Filtra vínculos aceitando 'id_etapa' ou 'id_etapa_fk'
       const vinculosDaEtapa = vinculos.filter(
         v => String(v.id_etapa ?? v.id_etapa_fk) === String(idEtapa)
       );
 
-      // Mapeia os arquivos correspondentes aceitando 'id_arquivo' ou 'id_arquivo_fk'
       const arquivosFiltrados = vinculosDaEtapa.map(vinc => {
         const idArq = vinc.id_arquivo ?? vinc.id_arquivo_fk;
         const arq = todosArquivos.find(a => Number(a.id) === Number(idArq));
@@ -120,7 +114,7 @@ export default function Documentos() {
     }
   };
 
-  // 4. Fluxo de Upload em 2 passos (POST /arquivos -> POST /etapas-arquivos)
+  // 4. Fluxo de Upload
   const handleFileUpload = async (event) => {
     const file = event.target.files?.[0];
     if (!file) return;
@@ -136,17 +130,14 @@ export default function Documentos() {
       const token = localStorage.getItem('token');
       const headers = { Authorization: `Bearer ${token}` };
 
-      // PASSO 1: Envia o arquivo para a tabela 'arquivos'
       const formData = new FormData();
-      formData.append('arquivos', file); // Nome do campo esperado pelo uploadFiles
+      formData.append('arquivos', file);
       formData.append('descricao_arquivo', descricao || file.name);
 
       const resArquivo = await axios.post('http://localhost:8080/arquivos', formData, {
         headers: { ...headers, 'Content-Type': 'multipart/form-data' }
       });
 
-
-      // Obtém o ID a partir de resArquivo.data.data.insertId
       const idNovoArquivo =
         resArquivo.data?.data?.insertId ||
         resArquivo.data?.id ||
@@ -156,7 +147,6 @@ export default function Documentos() {
         throw new Error('Não foi possível obter o ID do arquivo retornado pelo servidor.');
       }
 
-      // PASSO 2: Cria o vínculo na tabela 'etapas_arquivos'
       await axios.post('http://localhost:8080/etapasArquivos', {
         id_etapa_fk: Number(idEtapaSelecionada),
         id_arquivo_fk: Number(idNovoArquivo)
@@ -183,12 +173,10 @@ export default function Documentos() {
       const token = localStorage.getItem('token');
       const headers = { Authorization: `Bearer ${token}` };
 
-      // Remove da tabela 'etapas_arquivos'
       if (doc.idVinculo) {
         await axios.delete(`http://localhost:8080/etapasArquivos/${doc.idVinculo}`, { headers });
       }
 
-      // Remove do cadastro de 'arquivos'
       if (doc.idArquivo) {
         await axios.delete(`http://localhost:8080/arquivos/${doc.idArquivo}`, { headers });
       }
@@ -202,9 +190,20 @@ export default function Documentos() {
 
   return (
     <div className="docs-container">
-      <div className="docs-header">
-        <h1>Gestão de Documentos e Arquivos</h1>
-        <p>Anexe e vincule arquivos às etapas dos processos do seu sistema.</p>
+      {/* Cabeçalho alinhado com o botão de tema */}
+      <div className="docs-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px' }}>
+        <div>
+          <h1 style={{ color: 'var(--text-dark, #ffffff)', margin: '0 0 4px 0', fontSize: '22px' }}>
+            Gestão de Documentos e Arquivos
+          </h1>
+          <p style={{ color: 'var(--text-muted, #9ca3af)', margin: 0, fontSize: '13px' }}>
+            Anexe e vincule arquivos às etapas dos processos do seu sistema.
+          </p>
+        </div>
+
+        <div className="header-actions">
+          <BotaoTema />
+        </div>
       </div>
 
       {/* Seletores de Caso e Etapa */}

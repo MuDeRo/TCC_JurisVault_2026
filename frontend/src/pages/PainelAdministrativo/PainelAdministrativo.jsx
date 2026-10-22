@@ -1,8 +1,43 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Clock, Folder, UserRound, FileText } from 'lucide-react';
+import {
+  Clock,
+  Folder,
+  UserRound,
+  FileText,
+  Search,
+} from 'lucide-react';
+
 import './PainelAdministrativo.css';
 import api from '../../services/api.js';
+import BotaoTema from '../../components/BotaoTema/BotaoTema.jsx';
+
+// Componente reutilizável para o carregamento
+function Skeleton({ largura = '100%' }) {
+  return (
+    <div
+      className="skeleton"
+      style={{ width: largura }}
+      aria-hidden="true"
+    />
+  );
+}
+
+// Componente reutilizável para os indicadores
+function CardMetrica({ titulo, valor, icone: Icone, cor, loading }) {
+  return (
+    <div className="metric-card">
+      <div className="metric-top">
+        <span className="metric-label">{titulo}</span>
+        <Icone size={20} color={cor} />
+      </div>
+
+      <div className="metric-value">
+        {loading ? <Skeleton largura="65px" /> : valor}
+      </div>
+    </div>
+  );
+}
 
 export default function PainelAdministrativo() {
   const navigate = useNavigate();
@@ -16,6 +51,7 @@ export default function PainelAdministrativo() {
 
   const [processosRecentes, setProcessosRecentes] = useState([]);
   const [proximosPrazos, setProximosPrazos] = useState([]);
+  const [pesquisa, setPesquisa] = useState('');
   const [loading, setLoading] = useState(true);
 
   const nomeAdvogado =
@@ -58,123 +94,120 @@ export default function PainelAdministrativo() {
     carregarDadosDashboard();
   }, []);
 
+  // Filtra os processos conforme o usuário digita
+  const processosFiltrados = processosRecentes.filter((item) => {
+    const numero =
+      item.numero_cnj || item.numeroProcesso || item.id || '';
+
+    const cliente =
+      item.cliente ||
+      item.requerente?.nome ||
+      item.requerenteNome ||
+      item.nome_requerente ||
+      '';
+
+    const area = item.area || item.tipo || '';
+
+    const texto = `${numero} ${cliente} ${area} ${item.status || ''}`;
+
+    return texto.toLowerCase().includes(pesquisa.toLowerCase());
+  });
+
   return (
     <div className="dashboard-content">
-      {/* Boas-vindas */}
       <div className="welcome-card">
         <div>
           <h1>Olá, {nomeAdvogado}! 👋</h1>
-
           <p>
             Aqui está o resumo das atividades jurídicas
             do seu escritório.
           </p>
         </div>
 
-        <button
-          type="button"
-          className="btn-primary"
-          onClick={() => navigate('/processos/novo')}
-        >
-          + Novo Processo
-        </button>
+        <div className="welcome-actions">
+          <BotaoTema />
+
+          <button
+            type="button"
+            className="btn-primary"
+            onClick={() => navigate('/processos/novo')}
+          >
+            + Novo Processo
+          </button>
+        </div>
       </div>
 
-      {/* Cards de estatísticas */}
       <div className="metrics-grid">
-        <div className="metric-card">
-          <div className="metric-top">
-            <span className="metric-label">
-              Processos Ativos
-            </span>
+        <CardMetrica
+          titulo="Processos Ativos"
+          valor={metricas.processosAtivos}
+          icone={Folder}
+          cor="#3b82f6"
+          loading={loading}
+        />
 
-            <Folder
-              size={20}
-              color="#3b82f6"
-              className="metric-icon"
-            />
-          </div>
+        <CardMetrica
+          titulo="Prazos Registrados"
+          valor={metricas.prazosSemana}
+          icone={Clock}
+          cor="#d97706"
+          loading={loading}
+        />
 
-          <div className="metric-value">
-            {loading ? '...' : metricas.processosAtivos}
-          </div>
-        </div>
+        <CardMetrica
+          titulo="Clientes Atendidos"
+          valor={metricas.clientesAtendidos}
+          icone={UserRound}
+          cor="#16a34a"
+          loading={loading}
+        />
 
-        <div className="metric-card">
-          <div className="metric-top">
-            <span className="metric-label">
-              Prazos Registrados
-            </span>
-
-            <Clock
-              size={20}
-              color="#d97706"
-              className="metric-icon"
-            />
-          </div>
-
-          <div className="metric-value">
-            {loading ? '...' : metricas.prazosSemana}
-          </div>
-        </div>
-
-        <div className="metric-card">
-          <div className="metric-top">
-            <span className="metric-label">
-              Clientes Atendidos
-            </span>
-
-            <UserRound
-              size={20}
-              color="#16a34a"
-              className="metric-icon"
-            />
-          </div>
-
-          <div className="metric-value">
-            {metricas.clientesAtendidos}
-          </div>
-        </div>
-
-        <div className="metric-card">
-          <div className="metric-top">
-            <span className="metric-label">
-              Documentos Emitidos
-            </span>
-
-            <FileText
-              size={20}
-              color="#6b7280"
-              className="metric-icon"
-            />
-          </div>
-
-          <div className="metric-value">
-            {metricas.documentosEmitidos}
-          </div>
-        </div>
+        <CardMetrica
+          titulo="Documentos Emitidos"
+          valor={metricas.documentosEmitidos}
+          icone={FileText}
+          cor="#6b7280"
+          loading={loading}
+        />
       </div>
 
-      {/* Processos recentes e próximos prazos */}
       <div className="dash-content-grid">
         <div className="section-box">
           <div className="section-title">
             <span>Processos Recentes</span>
 
-            <span
-              style={{
-                fontSize: '0.8rem',
-                color: '#3b82f6',
-                cursor: 'pointer',
-              }}
+            <button
+              type="button"
+              className="link-processos"
               onClick={() => navigate('/processos')}
             >
               Ver Todos →
-            </span>
+            </button>
+          </div>
+
+          <div className="pesquisa-processos">
+            <Search size={18} />
+
+            <input
+              type="text"
+              placeholder="Pesquisar processo, cliente ou área..."
+              value={pesquisa}
+              onChange={(event) => setPesquisa(event.target.value)}
+              aria-label="Pesquisar processos"
+            />
           </div>
 
           {loading ? (
-            <p>Carregando processos...</p>
+            <div className="skeleton-list" aria-label="Carregando processos">
+              {Array.from({ length: 4 }).map((_, index) => (
+                <div className="skeleton-row" key={index}>
+                  <Skeleton largura="80%" />
+                  <Skeleton largura="60%" />
+                  <Skeleton largura="70%" />
+                  <Skeleton largura="55%" />
+                </div>
+              ))}
+            </div>
           ) : (
             <table className="custom-table">
               <thead>
@@ -187,8 +220,8 @@ export default function PainelAdministrativo() {
               </thead>
 
               <tbody>
-                {processosRecentes.length > 0 ? (
-                  processosRecentes.map((item, idx) => (
+                {processosFiltrados.length > 0 ? (
+                  processosFiltrados.map((item, idx) => (
                     <tr key={item.id || idx}>
                       <td>
                         {item.numero_cnj ||
@@ -205,9 +238,7 @@ export default function PainelAdministrativo() {
                           '-'}
                       </td>
 
-                      <td>
-                        {item.area || item.tipo || '-'}
-                      </td>
+                      <td>{item.area || item.tipo || '-'}</td>
 
                       <td>
                         <span
@@ -227,7 +258,9 @@ export default function PainelAdministrativo() {
                 ) : (
                   <tr>
                     <td colSpan="4">
-                      Nenhum processo encontrado.
+                      {pesquisa
+                        ? 'Nenhum processo corresponde à pesquisa.'
+                        : 'Nenhum processo encontrado.'}
                     </td>
                   </tr>
                 )}
@@ -236,23 +269,26 @@ export default function PainelAdministrativo() {
           )}
         </div>
 
-        {/* Próximos prazos */}
         <div className="deadlines-card">
           <div className="card-header-flex">
             <h3>Próximos Prazos</h3>
-
-            <span className="urgentes-label">
-              Prazos
-            </span>
+            <span className="urgentes-label">Prazos</span>
           </div>
 
           {loading ? (
-            <p>Carregando prazos...</p>
+            <div className="skeleton-list">
+              {Array.from({ length: 3 }).map((_, index) => (
+                <div className="skeleton-deadline" key={index}>
+                  <Skeleton largura="90%" />
+                  <Skeleton largura="55%" />
+                </div>
+              ))}
+            </div>
           ) : proximosPrazos.length > 0 ? (
             <ul className="deadlines-list">
               {proximosPrazos.map((tarefa, idx) => (
                 <li key={tarefa.id || idx}>
-                  <span className="dot orange"></span>
+                  <span className="dot orange" />
 
                   <div>
                     <strong>

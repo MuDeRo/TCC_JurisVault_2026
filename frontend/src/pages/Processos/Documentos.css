@@ -1,41 +1,69 @@
+/* =========================================
+   GESTÃO DE DOCUMENTOS - TEMA LIGHT / DARK
+   ========================================= */
+
 .docs-container {
-  padding: 32px;
+  padding: 24px 32px;
   box-sizing: border-box;
+  width: 100%;
 }
 
 /* Header */
 .docs-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
   margin-bottom: 24px;
 }
 
 .docs-header h1 {
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   font-weight: 800;
-  color: #0f172a;
+  color: var(--text-dark, #0f172a);
   margin: 0 0 4px 0;
 }
 
 .docs-header p {
-  color: #64748b;
+  color: var(--text-muted, #64748b);
   margin: 0;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
+}
+
+/* Suporte para Labels e Inputs/Selects no Tema Escuro */
+.docs-container label {
+  color: var(--text-dark, #0f172a);
+  font-size: 0.88rem;
+}
+
+.docs-container select,
+.docs-container input[type="text"] {
+  background-color: var(--input-bg, #ffffff) !important;
+  color: var(--text-dark, #0f172a) !important;
+  border: 1px solid var(--border-color, #cbd5e1) !important;
+  outline: none;
+  font-size: 0.88rem;
+}
+
+.docs-container select:focus,
+.docs-container input[type="text"]:focus {
+  border-color: #d97706 !important;
 }
 
 /* Área de Upload / Arrastar Ficheiro */
 .upload-dropzone {
-  border: 2px dashed #cbd5e1;
-  background-color: #ffffff;
+  border: 2px dashed var(--border-color, #cbd5e1);
+  background-color: var(--card-bg, #ffffff);
   border-radius: 16px;
-  padding: 36px;
+  padding: 32px;
   text-align: center;
-  margin-bottom: 32px;
+  margin-bottom: 24px;
   transition: all 0.2s ease;
   cursor: pointer;
 }
 
 .upload-dropzone:hover {
   border-color: #d97706;
-  background-color: #fffbeb;
+  background-color: var(--table-hover-bg, rgba(217, 119, 6, 0.05));
 }
 
 .upload-icon {
@@ -44,15 +72,15 @@
 }
 
 .upload-title {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   font-weight: 700;
-  color: #0f172a;
+  color: var(--text-dark, #0f172a);
   margin: 0 0 4px 0;
 }
 
 .upload-subtitle {
   font-size: 0.85rem;
-  color: #64748b;
+  color: var(--text-muted, #64748b);
   margin: 0 0 16px 0;
 }
 
@@ -85,38 +113,50 @@
   max-width: 360px;
   padding: 10px 14px;
   border-radius: 8px;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--border-color, #cbd5e1);
+  background-color: var(--input-bg, #ffffff);
+  color: var(--text-dark, #0f172a);
   font-size: 0.9rem;
 }
 
-/* Tabela de Ficheiros */
-.docs-card {
-  background: #ffffff;
+/* Tabela de Ficheiros e Card de Processos */
+.docs-card,
+.processos-card {
+  background: var(--card-bg, #ffffff);
   border-radius: 16px;
-  padding: 24px;
-  border: 1px solid #e2e8f0;
+  padding: 20px 24px;
+  border: 1px solid var(--border-color, #e2e8f0);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
 }
 
-.docs-table {
+.processos-card h2 {
+  color: var(--text-dark, #0f172a);
+  font-size: 1.1rem;
+  margin-top: 0;
+}
+
+.docs-table,
+.processos-table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.docs-table th {
+.docs-table th,
+.processos-table th {
   text-align: left;
   font-size: 0.75rem;
   text-transform: uppercase;
-  color: #64748b;
-  padding-bottom: 12px;
-  border-bottom: 1px solid #e2e8f0;
+  color: var(--text-muted, #64748b);
+  padding: 10px;
+  border-bottom: 1px solid var(--border-color, #e2e8f0);
 }
 
-.docs-table td {
-  padding: 14px 0;
-  border-bottom: 1px solid #e2e8f0;
+.docs-table td,
+.processos-table td {
+  padding: 12px 10px;
+  border-bottom: 1px solid var(--border-color, #e2e8f0);
   font-size: 0.88rem;
-  color: #0f172a;
+  color: var(--text-dark, #0f172a);
 }
 
 .file-name-cell {
@@ -138,8 +178,34 @@
   padding: 6px 10px;
   border-radius: 6px;
   transition: background 0.2s ease;
+  color: var(--text-dark, #0f172a);
 }
 
 .btn-action:hover {
-  background: #f1f5f9;
+  background: var(--table-hover-bg, #f1f5f9);
+}
+
+/* Ajustes Específicos para o Tema Escuro */
+:root[data-tema="escuro"] .docs-header h1,
+:root[data-tema="escuro"] .upload-title,
+:root[data-tema="escuro"] .processos-card h2,
+:root[data-tema="escuro"] .docs-container label {
+  color: #ffffff !important;
+}
+
+:root[data-tema="escuro"] .docs-header p,
+:root[data-tema="escuro"] .upload-subtitle {
+  color: #9ca3af !important;
+}
+
+:root[data-tema="escuro"] .upload-dropzone {
+  background-color: #111827;
+  border-color: #374151;
+}
+
+:root[data-tema="escuro"] .docs-container select,
+:root[data-tema="escuro"] .docs-container input[type="text"] {
+  background-color: #1f2937 !important;
+  color: #ffffff !important;
+  border-color: #374151 !important;
 }

@@ -51,13 +51,7 @@ export default function Layout() {
             📂 Processos
           </Link>
 
-          <Link
-            to="/clientes"
-            className={`nav-item ${isAtivo('/clientes') ? 'active' : ''}`}
-          >
-            👥 Clientes
-          </Link>
-
+        
           <Link
             to="/documentos"
             className={`nav-item ${isAtivo('/documentos') ? 'active' : ''}`}
@@ -80,14 +74,7 @@ export default function Layout() {
           </Link>
         </nav>
 
-        <button
-          className="btn-tema"
-          type="button"
-          onClick={alternarTema}
-        >
-          {tema === 'claro' ? '🌙 Tema escuro' : '☀️ Tema claro'}
-        </button>
-
+       
         <button
           className="btn-sair"
           type="button"
