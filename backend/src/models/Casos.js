@@ -1,24 +1,43 @@
-export class Casos{
+import { validarPadraoCnj } from "../utils/padraoCnj.js";
+export class Casos {
     #id;
     #descricao_caso;
+    #numero_cnj;
+    #data_prazo
 
-    constructor(pDescricao_caso, pId){
+    constructor(pDescricao_caso, pNumeroCnj, pDataPrazo, pId) {
         this.descricao_caso = pDescricao_caso;
+        this.numero_cnj = pNumeroCnj;
+        this.data_prazo = pDataPrazo;
         this.id = pId;
     }
 
-    get descricao_caso(){
+    get descricao_caso() {
         return this.#descricao_caso
     }
-    set descricao_caso(value){
+    set descricao_caso(value) {
         this.#validarDescricao_caso(value);
         this.#descricao_caso = value;
     }
 
-    get id(){
+    get numero_cnj() {
+        return this.#numero_cnj
+    }
+    set numero_cnj(value) {
+        this.#numero_cnj = this.#validarNumeroCnj(value);
+    }
+
+    get data_prazo() {
+        return this.#data_prazo
+    }
+    set data_prazo(value) {
+        this.#data_prazo = this.#validarPrazo(value);
+    }
+
+    get id() {
         return this.#id;
     }
-    set id(value){
+    set id(value) {
         this.#validarId(value);
         this.#id = value;
     }
@@ -35,11 +54,22 @@ export class Casos{
         }
     }
 
-
-    static criarCaso(dados){
-        return new Casos(dados.descricao_caso, null);
+    #validarNumeroCnj(value) {
+        if (value.length != 20) {
+            throw new Error('O número do CNJ não corresponde ao padrão esperado');
+        }
+        return validarPadraoCnj(value);
     }
-    static editarCaso(dados){
-        return new Casos(dados.descricao_caso, dados.id);
+    #validarPrazo(value) {
+        if (value && isNaN(new Date(value).getTime())) {
+            throw new Error('O prazo deve ser uma data válida');
+        }
+    }
+
+    static criarCaso(dados) {
+        return new Casos(dados.descricao_caso, dados.numero_cnj, dados.data_prazo, null);
+    }
+    static editarCaso(dados) {
+        return new Casos(dados.descricao_caso, dados.numero_cnj, dados.data_prazo, dados.id);
     }
 }

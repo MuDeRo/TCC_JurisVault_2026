@@ -9,15 +9,15 @@ const casosRepository = {
     },
 
     criar: async (caso) => {
-        const sql = 'INSERT INTO casos(descricao_caso) VALUES (?);';
-        const values = [caso.descricao_caso];
+        const sql = 'INSERT INTO casos(descricao_caso, numero_cnj, data_prazo) VALUES (?,?);';
+        const values = [caso.descricao_caso, caso.numero_cnj, caso.data_prazo];
         const [rows] = await db.execute(sql, values);
         return rows;
     },
 
     editar: async (caso) => {
-        const sql = 'UPDATE casos SET descricao_caso=? WHERE id=?';
-        const values = [caso.descricao_caso, caso.id];
+        const sql = 'UPDATE casos SET descricao_caso=?, numero_cnj=?, data_prazo=? WHERE id=?';
+        const values = [caso.descricao_caso, caso.numero_cnj, caso.data_prazo,caso.id];
         const [rows] = await db.execute(sql, values);
         return rows;
     },
