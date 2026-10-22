@@ -6,7 +6,6 @@ const CasosController = {
     async criar(req, res) {
         try {
 
-            
             // O frontend deve enviar um JSON com essas 4 chaves
             const { caso, requerente, requerido, advogadoCaso } = req.body;
 

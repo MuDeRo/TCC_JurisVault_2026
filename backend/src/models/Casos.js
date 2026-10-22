@@ -4,10 +4,12 @@ export class Casos {
     #id;
     #descricao_caso;
     #numero_cnj;
+    #data_prazo;
 
-    constructor(pDescricao_caso, pNumeroCnj, pId) {
+    constructor(pDescricao_caso, pNumeroCnj, pDataPrazo, pId) {
         this.descricao_caso = pDescricao_caso;
         this.numero_cnj = pNumeroCnj;
+        this.#data_prazo = pDataPrazo;
         this.id = pId;
     }
 
@@ -28,6 +30,14 @@ export class Casos {
         // O setter recebe o CNJ limpo (apenas números) retornado pelo validador
         this.#numero_cnj = this.#validarNumeroCnj(value);
         return this.#numero_cnj;
+    }
+
+    get data_prazo() {
+        return this.#data_prazo
+    }
+    set data_prazo(value) {
+        this.#data_prazo = this.#validarPrazo(value);
+        return this.#data_prazo;
     }
 
     get id() {
@@ -76,13 +86,19 @@ export class Casos {
         return cnjLimpo;
     }
 
+    #validarPrazo(value) {
+        if (value && isNaN(new Date(value).getTime())) {
+            throw new Error('O prazo deve ser uma data válida');
+        }
+    }
+
     
 
     static criarCaso(dados) {
-        return new Casos(dados.descricao_caso, dados.numero_cnj, null);
+        return new Casos(dados.descricao_caso, dados.numero_cnj, dados.data_prazo, null);
     }
     
     static editarCaso(dados) {
-        return new Casos(dados.descricao_caso, dados.numero_cnj, dados.id);
+        return new Casos(dados.descricao_caso, dados.numero_cnj, dados.data_prazo, dados.id);
     }
 }

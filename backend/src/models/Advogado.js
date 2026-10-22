@@ -22,33 +22,33 @@ export class Advogado {
         this.uf_oab = pUf_oab;
     }
 
-    get id() { 
-        return this.#id; 
+    get id() {
+        return this.#id;
     }
 
-    get nome_advogado() { 
-        return this.#nome_advogado; 
+    get nome_advogado() {
+        return this.#nome_advogado;
     }
-    get email_advogado() { 
-        return this.#email_advogado; 
+    get email_advogado() {
+        return this.#email_advogado;
     }
-    get senha_advogado() { 
-        return this.#senha_advogado; 
+    get senha_advogado() {
+        return this.#senha_advogado;
     }
-    get status_advogado() { 
-        return this.#status_advogado; 
+    get status_advogado() {
+        return this.#status_advogado;
     }
-    get cpf_advogado() { 
-        return this.#cpf_advogado; 
+    get cpf_advogado() {
+        return this.#cpf_advogado;
     }
-    get registro_oab() { 
-        return this.#registro_oab; 
+    get registro_oab() {
+        return this.#registro_oab;
     }
-    get telefone_advogado() { 
-        return this.#telefone_advogado; 
+    get telefone_advogado() {
+        return this.#telefone_advogado;
     }
-    get uf_oab() { 
-        return this.#uf_oab; 
+    get uf_oab() {
+        return this.#uf_oab;
     }
 
     set id(value) {
@@ -121,9 +121,11 @@ export class Advogado {
     }
 
     #validarSenha(value) {
-        // Caso a senha já chegue como hash, o tamanho será maior que 7. Ajustado para tratar a senha original.
-        if (!value || value.length < 7) {
-            throw new Error('Senha do advogado é obrigatória e deve conter no mínimo 7 caracteres');
+        // Regex: Mínimo 7 caracteres, pelo menos 1 maiúscula e pelo menos 1 caractere especial
+        const regexSenhaValida = /^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>_\-])(?=.{7,}).*$/;
+
+        if (!value || !regexSenhaValida.test(value)) {
+            throw new Error('Senha do advogado é obrigatória, deve conter no mínimo 7 caracteres, uma letra maiúscula e um caractere especial');
         }
     }
 
@@ -136,8 +138,8 @@ export class Advogado {
 
     #validarCPF(value) {
         if (!value) throw new Error('CPF é obrigatório');
-        
-        let cpf = value.replace(/[^\d]/g, ''); 
+
+        let cpf = value.replace(/[^\d]/g, '');
 
         if (cpf.length !== 11) throw new Error('CPF deve ter 11 dígitos numéricos');
         if (/^(\d)\1+$/.test(cpf)) throw new Error('CPF inválido');
@@ -159,7 +161,7 @@ export class Advogado {
         if (resto !== parseInt(cpf.charAt(10))) throw new Error('Dígito verificador do CPF inválido');
 
         // Retorna o CPF LIMPO para o setter salvar no banco
-        return cpf; 
+        return cpf;
     }
 
     #validarOAB(oab) {
@@ -176,7 +178,7 @@ export class Advogado {
         if (!(apenasNumeros.length >= 10 && apenasNumeros.length <= 11)) {
             throw new Error('Telefone deve conter o DDD e o número válido');
         }
-        
+
         // Retorna o Telefone LIMPO para o setter salvar no banco
         return apenasNumeros;
     }

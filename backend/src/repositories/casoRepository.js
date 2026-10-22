@@ -14,8 +14,8 @@ const CasoRepository = {
             const casoValidado = Casos.criarCaso(caso);
 
             // 2. Usamos os dados limpos (casoValidado) para inserir no banco
-            const sqlCaso = 'INSERT INTO casos (descricao_caso, numero_cnj) VALUES (?, ?)';
-            const [resultCaso] = await conn.execute(sqlCaso, [casoValidado.descricao_caso, casoValidado.numero_cnj]);
+            const sqlCaso = 'INSERT INTO casos (descricao_caso, numero_cnj, data_prazo) VALUES (?, ?, ?)';
+            const [resultCaso] = await conn.execute(sqlCaso, [casoValidado.descricao_caso, casoValidado.numero_cnj, casoValidado.data_prazo]);
             const idCaso = resultCaso.insertId;
 
             const sqlRequerente = 'INSERT INTO requerentes (id_caso, nome, idade_anos, cpf) VALUES (?, ?, ?, ?)';
