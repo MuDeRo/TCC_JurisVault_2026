@@ -16,8 +16,7 @@ export default function ListaProcessos({ setPaginaAtual }) {
   useEffect(() => {
     const buscarProcessos = async () => {
       try {
-        // ATENÇÃO: Estou usando o ID 1 fixo aqui, igual fizemos no cadastro.
-        // Futuramente, pegue o ID do advogado logado (ex: do localStorage).
+        setCarregando(true);
         const idAdvogado = localStorage.getItem('id_advogado') || 1; 
         
         const response = await axios.get(`http://localhost:8080/casos/advogado/${idAdvogado}`);

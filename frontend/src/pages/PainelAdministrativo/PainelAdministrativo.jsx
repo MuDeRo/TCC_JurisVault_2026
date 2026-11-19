@@ -31,18 +31,19 @@ export default function PainelAdministrativo() {
       try {
         setLoading(true);
 
+
         // Busca os Casos e as Tarefas do advogado logado
         const [resCasos, resTarefas] = await Promise.all([
           api.get('/casos/'),
           api.get('/tarefas/')
         ]);
 
-        const casos = resCasos.data;
-        const tarefas = resTarefas.data;
+        const casos = Array.isArray(resCasos.data) ? resCasos.data : [];
+        const tarefas = Array.isArray(resTarefas.data) ? resTarefas.data : [];
 
         // Calcula as métricas no Frontend
-        const processosAtivos = casos.length; 
-        const prazosNaSemana = tarefas.length; 
+        const processosAtivos = casos.length;
+        const prazosNaSemana = tarefas.length;
 
         setMetricas({
           processosAtivos: processosAtivos,
@@ -150,7 +151,7 @@ export default function PainelAdministrativo() {
                     <td>{item.area || item.tipo}</td>
                     <td>
                       <span className={`status-badge ${item.status === 'Urgente' ? 'status-urgente' :
-                          item.status === 'Concluído' ? 'status-concluido' : 'status-andamento'
+                        item.status === 'Concluído' ? 'status-concluido' : 'status-andamento'
                         }`}>
                         {item.status}
                       </span>

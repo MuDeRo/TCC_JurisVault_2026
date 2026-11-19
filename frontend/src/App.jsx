@@ -15,9 +15,9 @@ import Administradores from './pages/Administradores/Administradores';
 import PainelAdministrativo from './pages/PainelAdministrativo/PainelAdministrativo';
 import Processos from './pages/Processos/Processos';
 import CadastroProcesso from './pages/Processos/CadastroProcesso';
-import Clientes from './pages/Processos/Clientes';
+
 import Documentos from './pages/Processos/Documentos';
-import Prazos from './pages/Processos/Prazos';
+
 import EtapasCasos from './pages/Etapas/EtapasCasos';
 import EtapasLista from './pages/Etapas/EtapasLista';
 import KanbanTarefas from './pages/Etapas/KanbanTarefas';
@@ -37,9 +37,9 @@ export default function App() {
         <Route path="/painel" element={<PainelAdministrativo />} />
         <Route path="/processos" element={<Processos />} />
         <Route path="/processos/novo" element={<CadastroProcesso />} />
-        <Route path="/clientes" element={<Clientes />} />
+        
         <Route path="/documentos" element={<Documentos />} />
-        <Route path="/prazos" element={<Prazos />} />
+        
         <Route path="/etapas" element={<EtapasCasos />} />
         <Route path="/etapas/caso/:idCaso" element={<EtapasLista />} />
         <Route path="/etapas/caso/:idCaso/kanban/:idEtapa" element={<KanbanTarefas />} />

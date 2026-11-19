@@ -1,9 +1,9 @@
 import { db } from '../config/Database.js';
 // ATENÇÃO: Verifique se o caminho da importação abaixo bate com a estrutura das suas pastas!
-import { Casos } from '../models/Casos.js'; 
+import { Casos } from '../models/Casos.js';
 
 const CasoRepository = {
-    
+
     // 1. CREATE 
     criarCasoCompleto: async (caso, requerente, requerido, advogadoCaso) => {
         const conn = await db.getConnection();
@@ -12,7 +12,13 @@ const CasoRepository = {
 
             // 1. Passamos o objeto 'caso' pela classe para limpar o CNJ e validar as regras!
             const casoValidado = Casos.criarCaso(caso);
-
+            console.log(casoValidado);
+            
+             console.log("Dados para inserir no banco:", {
+                descricao_caso: casoValidado.descricao_caso,
+                numero_cnj: casoValidado.numero_cnj,
+                data_prazo: casoValidado.data_prazo
+            });
             // 2. Usamos os dados limpos (casoValidado) para inserir no banco
             const sqlCaso = 'INSERT INTO casos (descricao_caso, numero_cnj, data_prazo) VALUES (?, ?, ?)';
             const [resultCaso] = await conn.execute(sqlCaso, [casoValidado.descricao_caso, casoValidado.numero_cnj, casoValidado.data_prazo]);
@@ -26,6 +32,8 @@ const CasoRepository = {
 
             const sqlAdvogadoCaso = 'INSERT INTO advogados_casos (id_advogado_fk, id_caso_fk, cep_caso, rua_caso) VALUES (?, ?, ?, ?)';
             await conn.execute(sqlAdvogadoCaso, [advogadoCaso.id_advogado, idCaso, advogadoCaso.cep, advogadoCaso.rua]);
+
+            console.log("ID do Caso Gerado:", idCaso); // Log do ID gerado
 
             await conn.commit();
             return { sucesso: true, idCasoGerado: idCaso };
@@ -42,7 +50,7 @@ const CasoRepository = {
         const conn = await db.getConnection();
         try {
             const [casos] = await conn.execute('SELECT * FROM casos WHERE id = ?', [idCaso]);
-            if (casos.length === 0) return null; 
+            if (casos.length === 0) return null;
 
             const [requerentes] = await conn.execute('SELECT * FROM requerentes WHERE id_caso = ?', [idCaso]);
             const [requiridos] = await conn.execute('SELECT * FROM requiridos WHERE id_caso = ?', [idCaso]);
@@ -50,7 +58,7 @@ const CasoRepository = {
 
             return {
                 caso: casos[0],
-                requerentes: requerentes, 
+                requerentes: requerentes,
                 requiridos: requiridos,
                 dadosAdvogado: advogadosCasos[0]
             };
@@ -124,7 +132,7 @@ const CasoRepository = {
 
             await conn.execute('DELETE FROM requerentes WHERE id_caso = ?', [idCaso]);
             await conn.execute('DELETE FROM requiridos WHERE id_caso = ?', [idCaso]);
-            await conn.execute('DELETE FROM etapas WHERE id_caso_fk = ?', [idCaso]); 
+            await conn.execute('DELETE FROM etapas WHERE id_caso_fk = ?', [idCaso]);
             await conn.execute('DELETE FROM advogados_casos WHERE id_caso_fk = ?', [idCaso]);
             await conn.execute('DELETE FROM casos WHERE id = ?', [idCaso]);
 

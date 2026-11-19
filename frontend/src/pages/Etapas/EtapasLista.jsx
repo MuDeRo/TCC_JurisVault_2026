@@ -6,11 +6,11 @@ import './EtapasCasos.css';
 export default function EtapasLista() {
   const { idCaso } = useParams();
   const navigate = useNavigate();
-  
+
   // Estados da página
   const [etapas, setEtapas] = useState([]);
   const [loading, setLoading] = useState(true);
-  
+
   // Estados do formulário de nova etapa
   const [mostrarFormEtapa, setMostrarFormEtapa] = useState(false);
   const [nomeNovaEtapa, setNomeNovaEtapa] = useState('');
@@ -18,6 +18,8 @@ export default function EtapasLista() {
 
   //Função para buscar as etapas do banco
   async function carregarEtapas() {
+    setLoading(true);
+    setEtapas([]);
     try {
       const token = localStorage.getItem('token');
       const headers = {
@@ -41,11 +43,11 @@ export default function EtapasLista() {
   // Função para salvar a nova etapa
   const handleCriarEtapa = async () => {
     if (!nomeNovaEtapa.trim()) return alert('Digite o nome da etapa!');
-    
+
     try {
       const token = localStorage.getItem('token');
       const headers = { Authorization: `Bearer ${token}` };
-      
+
       const payload = {
         id_caso_fk: idCaso,
         etapa: nomeNovaEtapa, // nome corrigido para o banco
@@ -53,10 +55,10 @@ export default function EtapasLista() {
       };
 
       await axios.post('http://localhost:8080/etapas', payload, { headers });
-      
+
       // Recarrega a tabela automaticamente do banco de dados
-      await carregarEtapas(); 
-      
+      await carregarEtapas();
+
       // Fecha o formulário e limpa os campos
       setMostrarFormEtapa(false);
       setNomeNovaEtapa('');
@@ -88,16 +90,16 @@ export default function EtapasLista() {
       {mostrarFormEtapa && (
         <div style={{ padding: '15px', backgroundColor: '#f8fafc', borderRadius: '8px', marginBottom: '20px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
           <div style={{ display: 'flex', gap: '10px' }}>
-            <input 
-              type="text" 
-              placeholder="Nome da etapa (Ex: Fase Inicial)" 
+            <input
+              type="text"
+              placeholder="Nome da etapa (Ex: Fase Inicial)"
               value={nomeNovaEtapa}
               onChange={(e) => setNomeNovaEtapa(e.target.value)}
               style={{ padding: '8px', borderRadius: '4px', border: '1px solid #cbd5e1', flex: 1 }}
             />
-            <input 
-              type="text" 
-              placeholder="Descrição da etapa (Opcional)..." 
+            <input
+              type="text"
+              placeholder="Descrição da etapa (Opcional)..."
               value={descricaoNovaEtapa}
               onChange={(e) => setDescricaoNovaEtapa(e.target.value)}
               style={{ padding: '8px', borderRadius: '4px', border: '1px solid #cbd5e1', flex: 2 }}
@@ -130,8 +132,8 @@ export default function EtapasLista() {
                   <td style={{ fontWeight: '700' }}>{etapa.etapa || `Etapa ${etapa.id}`}</td>
                   <td>{etapa.descricao || 'Sem detalhes informados.'}</td>
                   <td style={{ textAlign: 'center' }}>
-                    <button 
-                      className="btn-novo-caso" 
+                    <button
+                      className="btn-novo-caso"
                       onClick={() => navigate(`/etapas/caso/${idCaso}/kanban/${etapa.id}`)}
                     >
                       Acessar Quadro ➔

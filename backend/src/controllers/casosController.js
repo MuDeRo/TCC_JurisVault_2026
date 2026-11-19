@@ -1,24 +1,27 @@
 import CasoRepository from '../repositories/casoRepository.js';
 
 const CasosController = {
-    
-    
+
+
     async criar(req, res) {
         try {
 
             // O frontend deve enviar um JSON com essas 4 chaves
             const { caso, requerente, requerido, advogadoCaso } = req.body;
 
+            const idAdvogadoFinal = req.user?.id || req.usuario?.id || advogadoCaso?.id_advogado;
+            const dadosAdvogado = { ...advogadoCaso, id_advogado: idAdvogadoFinal };
+
             // Validação básica para evitar estourar erro no banco
             if (!caso || !requerente || !requerido || !advogadoCaso) {
-                return res.status(400).json({ 
-                    erro: "Dados incompletos. Certifique-se de enviar caso, requerente, requerido e advogadoCaso." 
+                return res.status(400).json({
+                    erro: "Dados incompletos. Certifique-se de enviar caso, requerente, requerido e advogadoCaso."
                 });
             }
 
-            
+
             const resultado = await CasoRepository.criarCasoCompleto(caso, requerente, requerido, advogadoCaso);
-            
+
             return res.status(201).json({
                 mensagem: "Caso cadastrado com sucesso!",
                 dados: resultado
@@ -30,7 +33,7 @@ const CasosController = {
         }
     },
 
-    
+
     async buscarPorId(req, res) {
         try {
             const { id } = req.params; // Pega o ID da URL
@@ -49,7 +52,7 @@ const CasosController = {
         }
     },
 
-    
+
     async listarPorAdvogado(req, res) {
         try {
             const { idAdvogado } = req.params;
@@ -64,15 +67,15 @@ const CasosController = {
         }
     },
 
-    
+
     async atualizar(req, res) {
         try {
             const { id } = req.params;
             const { caso, requerente, requerido, advogadoCaso } = req.body;
 
             if (!caso || !requerente || !requerido || !advogadoCaso) {
-                return res.status(400).json({ 
-                    erro: "Dados incompletos para atualização." 
+                return res.status(400).json({
+                    erro: "Dados incompletos para atualização."
                 });
             }
 
@@ -86,7 +89,7 @@ const CasosController = {
         }
     },
 
-    
+
     async deletar(req, res) {
         try {
             const { id } = req.params;

@@ -17,47 +17,65 @@ export default function Processos() {
   };
 
   useEffect(() => {
-    async function carregarProcessos() {
+    async function carregarProcessosDoAdvogado() {
       try {
         const token = localStorage.getItem('token');
-        const headers = {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        };
+        let idAdvogado = localStorage.getItem('id_advogado');
 
-        const idAdvogado = localStorage.getItem('id_advogado') || 1; // Pega o ID do advogado logado ou usa 1 como fallback
-        // 1. Chamada via axios.get buscando os casos do advogado (ID 1 para testes)
-        const response = await axios.get(`http://localhost:8080/casos/advogado/${idAdvogado}`, { headers });
+        // Se não houver 'id_advogado' salvo isoladamente, extrai do payload do token JWT
+        if (!idAdvogado && token) {
+          const payload = JSON.parse(atob(token.split('.')[1]));
+          idAdvogado = payload.id;
+        }
 
-        // 2. Mapeia os campos vindos do banco de dados para a estrutura da sua tabela
-        const dadosFormatados = response.data.map((item) => ({
+        if (!idAdvogado) {
+          console.warn('ID do advogado não encontrado no localStorage nem no token.');
+          setLoading(false);
+          return;
+        }
+
+        const response = await axios.get(`http://localhost:8080/casos/advogado/${idAdvogado}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const listaBruta = Array.isArray(response.data)
+          ? response.data
+          : (response.data?.data || []);
+
+        // Mapeia os campos do banco para o formato esperado pela tabela e pelo filtro
+        const dadosFormatados = listaBruta.map((item) => ({
           id: item.id,
-          numeroProcesso: formatarCNJ(item.numero_cnj),
+          numeroProcesso: formatarCNJ(item.numero_cnj) || 'Não informado',
           cliente: item.nome_requerente || 'Cliente não informado',
           acao: item.descricao_caso || 'Sem descrição',
-          ramo: 'Cível',           // Valor padrão até existir coluna no banco
-          tribunal: 'TJ-SP',       // Valor padrão até existir coluna no banco
-          status: 'Em Andamento'   // Valor padrão até existir coluna no banco
+          ramo: 'Cível',
+          tribunal: 'TJ-SP',
+          status: 'Em Andamento',
         }));
 
         setProcessos(dadosFormatados);
-
       } catch (error) {
-        console.error('Erro ao carregar os processos do backend:', error);
+        console.error('Erro ao buscar processos do advogado:', error);
       } finally {
         setLoading(false);
       }
     }
 
-    carregarProcessos();
+    carregarProcessosDoAdvogado();
   }, []);
 
   // Filtragem dinâmica por número do processo ou cliente
-  const processosFiltrados = processos.filter(
-    (item) =>
-      item.numeroProcesso?.toLowerCase().includes(filtro.toLowerCase()) ||
-      item.cliente?.toLowerCase().includes(filtro.toLowerCase())
-  );
+  const processosFiltrados = processos.filter((item) => {
+    if (!filtro.trim()) return true;
+    const termo = filtro.toLowerCase();
+    return (
+      item.numeroProcesso?.toLowerCase().includes(termo) ||
+      item.cliente?.toLowerCase().includes(termo)
+    );
+  });
 
   return (
     <div className="processos-container">
@@ -109,10 +127,9 @@ export default function Processos() {
                   </td>
                   <td>{item.tribunal}</td>
                   <td>
-                    <span className={`status-badge ${
-                      item.status === 'Urgente' ? 'status-urgente' :
-                      item.status === 'Concluído' ? 'status-concluido' : 'status-andamento'
-                    }`}>
+                    <span className={`status-badge ${item.status === 'Urgente' ? 'status-urgente' :
+                        item.status === 'Concluído' ? 'status-concluido' : 'status-andamento'
+                      }`}>
                       {item.status}
                     </span>
                   </td>

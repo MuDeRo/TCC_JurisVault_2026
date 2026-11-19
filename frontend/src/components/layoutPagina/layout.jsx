@@ -57,17 +57,7 @@ export default function Layout() {
               Processos
             </Link>
 
-            <Link to="/clientes" style={{
-              display: 'block',
-              padding: '10px 16px',
-              borderRadius: '8px',
-              textDecoration: 'none',
-              fontSize: '0.9rem',
-              background: isAtivo('/clientes') ? '#c49a45' : 'transparent',
-              color: isAtivo('/clientes') ? '#fff' : '#94a3b8'
-            }}>
-              Clientes
-            </Link>
+            
 
             <Link to="/documentos" style={{
               display: 'block',
@@ -81,17 +71,7 @@ export default function Layout() {
               Documentos
             </Link>
 
-            <Link to="/prazos" style={{
-              display: 'block',
-              padding: '10px 16px',
-              borderRadius: '8px',
-              textDecoration: 'none',
-              fontSize: '0.9rem',
-              background: isAtivo('/prazos') ? '#c49a45' : 'transparent',
-              color: isAtivo('/prazos') ? '#fff' : '#94a3b8'
-            }}>
-              Prazos
-            </Link>
+            
 
             <Link to="/etapas" style={{
               display: 'block',

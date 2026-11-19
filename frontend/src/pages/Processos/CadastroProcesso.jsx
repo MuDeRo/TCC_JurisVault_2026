@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './CadastroProcesso.css';
+import { data } from 'react-router-dom';
 
 export default function CadastroProcesso() {
   const [formData, setFormData] = useState({
     numeroCnj: '',
     descricaoCaso: '',
+    dataPrazos: '',
     nomeRequerente: '',
     cpfRequerente: '',
     idadeRequerente: '',
@@ -29,17 +31,42 @@ export default function CadastroProcesso() {
     setMensagem({ tipo: '', texto: '' });
     setCarregando(true);
 
-    // 1. Mapeando os dados do estado para o formato aninhado exigido pelo Controller
+    // Extrai o ID do advogado logado de dentro do token JWT
+    const token = localStorage.getItem('token');
+    let idAdvogadoLogado = localStorage.getItem('id_advogado_fk');
+
+    if (!idAdvogadoLogado && token) {
+      try {
+        const payloadToken = JSON.parse(atob(token.split('.')[1]));
+        idAdvogadoLogado = payloadToken.id;
+      } catch (err) {
+        console.error('Erro ao decodificar token:', err);
+      }
+    }
+
+    if (!idAdvogadoLogado) {
+      setMensagem({ tipo: 'erro', texto: 'Sessão inválida. Faça login novamente.' });
+      setCarregando(false);
+      return;
+    }
+
+    // Converte DD/MM/AAAA para AAAA-MM-DD (caso a coluna no MySQL seja DATE)
+    const formatarDataParaMySQL = (dataBr) => {
+      if (!dataBr || !dataBr.includes('/')) return dataBr;
+      const [dia, mes, ano] = dataBr.split('/');
+      return `${ano}-${mes}-${dia}`;
+    };
+
     const payloadParaBackend = {
       caso: {
         numero_cnj: formData.numeroCnj,
-        descricao_caso: formData.descricaoCaso
+        descricao_caso: formData.descricaoCaso,
+        data_prazo: formatarDataParaMySQL(formData.dataPrazos) || null
       },
       requerente: {
         nome: formData.nomeRequerente,
         cpf: formData.cpfRequerente,
-        // Convertendo para número para bater com o banco de dados
-        idade_anos: formData.idadeRequerente ? Number(formData.idadeRequerente) : null 
+        idade_anos: formData.idadeRequerente ? Number(formData.idadeRequerente) : null
       },
       requerido: {
         nome: formData.nomeRequerido,
@@ -47,23 +74,23 @@ export default function CadastroProcesso() {
         idade_anos: formData.idadeRequerido ? Number(formData.idadeRequerido) : null
       },
       advogadoCaso: {
-        
-        id_advogado: localStorage.getItem('id_advogado') || 1, 
+        id_advogado: Number(idAdvogadoLogado),
         cep: formData.cepLocal,
         rua: formData.enderecoRua
       }
     };
 
     try {
-      // Enviando o payload formatado em vez do formData bruto
-      await axios.post('http://localhost:8080/casos', payloadParaBackend);
-      
+      await axios.post('http://localhost:8080/casos', payloadParaBackend, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
       setMensagem({ tipo: 'sucesso', texto: 'Caso cadastrado com sucesso!' });
-      
-      // Limpa o formulário
+
       setFormData({
         numeroCnj: '',
         descricaoCaso: '',
+        dataPrazos: '',
         nomeRequerente: '',
         cpfRequerente: '',
         idadeRequerente: '',
@@ -120,6 +147,19 @@ export default function CadastroProcesso() {
               name="descricaoCaso"
               placeholder="Breve resumo da causa"
               value={formData.descricaoCaso}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Prazo *</label>
+            <input
+              type="text"
+              name="dataPrazos"
+              placeholder="DD/MM/AAAA"
+              regex="\d{2}/\d{2}/\d{4}"
+              value={formData.dataPrazos}
               onChange={handleChange}
               required
             />
